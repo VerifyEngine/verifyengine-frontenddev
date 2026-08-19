@@ -97,14 +97,14 @@ export default function PricingPage() {
                   className="pointer-events-none absolute -right-4 bottom-2 size-40 text-white/[0.04]"
                   strokeWidth={1}
                 />
-                <h2 className="relative text-lg font-bold text-white">
+                <h2 className="relative text-xl font-bold text-white sm:text-2xl">
                   Why Organizations Choose Verify Engine
                 </h2>
-                <ul className="relative mt-5 space-y-3.5">
+                <ul className="relative mt-7 space-y-5">
                   {reasons.map((reason) => (
-                    <li key={reason} className="flex items-start gap-3 text-sm text-white/85">
+                    <li key={reason} className="flex items-start gap-4 text-base text-white/90">
                       <CheckCircle2
-                        className="mt-0.5 size-4.5 shrink-0 text-mint-200"
+                        className="mt-0.5 size-6 shrink-0 text-mint-200"
                         strokeWidth={2}
                       />
                       {reason}
