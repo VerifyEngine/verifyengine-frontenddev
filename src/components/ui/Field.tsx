@@ -1,5 +1,7 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { ChevronDown } from "lucide-react";
+"use client";
+
+import { useState, type ComponentPropsWithoutRef, type ReactNode } from "react";
+import { ChevronDown, Eye, EyeOff } from "lucide-react";
 
 /**
  * Form primitives shared by every form on the site and, later, the platform.
@@ -104,6 +106,37 @@ export function Select({
         className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-slate-400"
         strokeWidth={2}
       />
+    </div>
+  );
+}
+
+/** Password field with a show/hide toggle. */
+export function PasswordInput({
+  invalid,
+  className = "",
+  ...rest
+}: { invalid?: boolean } & Omit<ComponentPropsWithoutRef<"input">, "type">) {
+  const [visible, setVisible] = useState(false);
+  return (
+    <div className="relative">
+      <input
+        type={visible ? "text" : "password"}
+        aria-invalid={invalid || undefined}
+        className={`${controlBase} pr-11 ${toneFor(invalid)} ${className}`}
+        {...rest}
+      />
+      <button
+        type="button"
+        onClick={() => setVisible((v) => !v)}
+        aria-label={visible ? "Hide password" : "Show password"}
+        className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer p-1 text-slate-400 transition-colors hover:text-slate-600"
+      >
+        {visible ? (
+          <EyeOff className="size-4" strokeWidth={1.75} />
+        ) : (
+          <Eye className="size-4" strokeWidth={1.75} />
+        )}
+      </button>
     </div>
   );
 }

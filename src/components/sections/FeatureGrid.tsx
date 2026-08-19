@@ -15,12 +15,14 @@ export function FeatureGrid({
   subtitle,
   features,
   columns = 5,
+  background = "white",
 }: {
   eyebrow: string;
   title: string;
   subtitle?: string;
   features: Feature[];
   columns?: 3 | 4 | 5 | 6;
+  background?: "white" | "muted";
 }) {
   const colsClass: Record<number, string> = {
     3: "sm:grid-cols-2 lg:grid-cols-3",
@@ -30,7 +32,7 @@ export function FeatureGrid({
   };
 
   return (
-    <Section>
+    <Section background={background}>
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <Eyebrow>{eyebrow}</Eyebrow>
@@ -52,6 +54,16 @@ export function FeatureGrid({
   );
 }
 
-function Section({ children }: { children: React.ReactNode }) {
-  return <section className="bg-white py-20 sm:py-24">{children}</section>;
+function Section({
+  background,
+  children,
+}: {
+  background: "white" | "muted";
+  children: React.ReactNode;
+}) {
+  return (
+    <section className={`py-20 sm:py-24 ${background === "muted" ? "bg-bg-muted" : "bg-white"}`}>
+      {children}
+    </section>
+  );
 }

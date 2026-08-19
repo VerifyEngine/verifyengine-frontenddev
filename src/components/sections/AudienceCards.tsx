@@ -12,26 +12,45 @@ export type Audience = {
 };
 
 /** Grid of sub-audience cards, e.g. the five landlord segments. */
+const columnsClass: Record<number, string> = {
+  3: "lg:grid-cols-3",
+  4: "lg:grid-cols-4",
+  5: "lg:grid-cols-5",
+  6: "lg:grid-cols-6",
+};
+
 export function AudienceCards({
   eyebrow,
   title,
+  subtitle,
   audiences,
+  columns,
+  background = "white",
 }: {
   eyebrow: string;
   title: string;
+  subtitle?: string;
   audiences: Audience[];
+  /** Defaults to one column per audience. */
+  columns?: 3 | 4 | 5 | 6;
+  background?: "white" | "muted";
 }) {
+  const cols = columnsClass[columns ?? audiences.length] ?? "lg:grid-cols-5";
+
   return (
-    <section className="bg-white py-20 sm:py-24">
+    <section
+      className={`py-20 sm:py-24 ${background === "muted" ? "bg-bg-muted" : "bg-white"}`}
+    >
       <Container>
         <Reveal className="mx-auto max-w-2xl text-center">
           <Eyebrow>{eyebrow}</Eyebrow>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
             {title}
           </h2>
+          {subtitle && <p className="mt-4 text-base text-slate-600">{subtitle}</p>}
         </Reveal>
 
-        <RevealGroup className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+        <RevealGroup className={`mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 ${cols}`}>
           {audiences.map((item) => {
             const card = (
               <>
