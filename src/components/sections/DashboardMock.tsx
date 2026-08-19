@@ -17,13 +17,14 @@ import {
 import { useRef, useState } from "react";
 import { ShieldMark } from "@/components/layout/Logo";
 import { AnalyticsBody } from "./DashboardAnalytics";
+import { IndustriesBody } from "./DashboardIndustries";
 
 /**
  * The two product views the marketing pages screenshot. Both share the same
  * app chrome (navy rail + top bar); only the sidebar's active item and the
  * body content differ, so the shell is written once here.
  */
-export type DashboardVariant = "verifications" | "analytics";
+export type DashboardVariant = "verifications" | "analytics" | "industries";
 
 const sidebarByVariant: Record<
   DashboardVariant,
@@ -45,6 +46,15 @@ const sidebarByVariant: Record<
     { icon: FileBarChart2, label: "Reports" },
     { icon: Building2, label: "Properties" },
     { icon: Contact, label: "Team" },
+    { icon: Settings, label: "Settings" },
+  ],
+  industries: [
+    { icon: ShieldCheck, label: "Overview", active: true },
+    { icon: LayoutGrid, label: "Dashboard" },
+    { icon: Users, label: "Applicants" },
+    { icon: FileBarChart2, label: "Reports" },
+    { icon: Building2, label: "Industries" },
+    { icon: Contact, label: "Clients" },
     { icon: Settings, label: "Settings" },
   ],
 };
@@ -136,6 +146,8 @@ export function DashboardMock({ variant = "verifications" }: { variant?: Dashboa
 
           {variant === "analytics" ? (
             <AnalyticsBody />
+          ) : variant === "industries" ? (
+            <IndustriesBody />
           ) : (
           <div className="flex flex-col gap-5 p-4 sm:p-5 xl:flex-row">
             {/* table */}
