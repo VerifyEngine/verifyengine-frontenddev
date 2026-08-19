@@ -1,4 +1,4 @@
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Briefcase, Wallet, Home, Fingerprint, ShieldCheck } from "lucide-react";
 import { Button, ArrowRight, PlayIcon } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
@@ -8,6 +8,14 @@ const highlights = [
   "Verify applicants faster",
   "Reduce costly fraud",
   "Drive better tenant outcomes",
+];
+
+const verificationChecks = [
+  { icon: Briefcase, label: "Employment", value: "Verified" },
+  { icon: Wallet, label: "Income", value: "Verified" },
+  { icon: Home, label: "Rental History", value: "Verified" },
+  { icon: Fingerprint, label: "Identity", value: "Verified" },
+  { icon: ShieldCheck, label: "Fraud Check", value: "Clear" },
 ];
 
 export function HeroLandlord() {
@@ -57,7 +65,7 @@ export function HeroLandlord() {
         </Reveal>
 
         <Reveal delay={0.12}>
-          <ApplicantOverviewCard />
+          <ApplicantOverviewCard details={verificationChecks} />
         </Reveal>
       </div>
     </section>
