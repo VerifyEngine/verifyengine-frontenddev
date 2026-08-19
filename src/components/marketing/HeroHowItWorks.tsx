@@ -1,0 +1,175 @@
+"use client";
+
+import { motion, useAnimationFrame } from "motion/react";
+import { Headset, Cpu, UserCheck, FileText } from "lucide-react";
+import { useRef, useState } from "react";
+import { Button, ArrowRight, PlayIcon, Container } from "@/components/ui/Button";
+import { PillBadge } from "@/components/ui/Badge";
+import { Reveal } from "@/components/ui/Reveal";
+
+const steps = [
+  { icon: Headset, title: "AI Voice Agents", desc: "Make Contact" },
+  { icon: Cpu, title: "AI Gathers & Validates", desc: "Information" },
+  { icon: UserCheck, title: "Human QA Review", desc: "Ensures Accuracy" },
+  { icon: FileText, title: "Report Delivered", desc: "Instantly" },
+];
+
+const STEP_DURATION = 2400;
+
+export function HeroHowItWorks() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const elapsed = useRef(0);
+  const lastTick = useRef<number | null>(null);
+
+  useAnimationFrame((t) => {
+    if (paused) {
+      lastTick.current = null;
+      return;
+    }
+    if (lastTick.current === null) lastTick.current = t;
+    elapsed.current += t - lastTick.current;
+    lastTick.current = t;
+    if (elapsed.current >= STEP_DURATION) {
+      elapsed.current = 0;
+      setActive((v) => (v + 1) % steps.length);
+    }
+  });
+
+  function selectStep(i: number) {
+    setActive(i);
+    elapsed.current = 0;
+    setPaused(true);
+    window.setTimeout(() => setPaused(false), 4000);
+  }
+
+  return (
+    <section className="relative overflow-hidden bg-navy-900 pt-14 pb-20 sm:pt-20 sm:pb-28">
+      <div
+        className="pointer-events-none absolute top-8 right-0 h-72 w-72 opacity-[0.13]"
+        style={{
+          backgroundImage: "radial-gradient(circle, var(--color-mint-200) 1.5px, transparent 1.5px)",
+          backgroundSize: "18px 18px",
+        }}
+      />
+
+      <Container>
+        <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.85fr_1fr] lg:gap-14">
+          <Reveal>
+            <PillBadge>How It Works</PillBadge>
+            <h1 className="mt-5 text-4xl leading-[1.08] font-bold tracking-tight text-white sm:text-5xl">
+              A Smarter Verification Process from{" "}
+              <span className="text-mint-200">Start to Finish</span>
+            </h1>
+            <p className="mt-6 max-w-lg text-base text-white/70 sm:text-lg">
+              Verify Engine combines AI voice agents, intelligent automation, and human expertise
+              to deliver accurate verification reports faster—so you can screen with confidence
+              and lease faster.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Button href="/book-demo" size="lg">
+                Book Demo <ArrowRight />
+              </Button>
+              <Button href="#experience" variant="outline-dark" size="lg">
+                <PlayIcon /> Watch Overview
+              </Button>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.12} className="grid grid-cols-1 gap-6 sm:grid-cols-[1fr_1.05fr]">
+            <LiveCallCard />
+
+            {/* Step rail — white circles + pill cards, matching the design. */}
+            <div className="relative flex flex-col justify-center gap-3">
+              <div className="absolute top-8 bottom-8 left-7 w-px bg-white/15" />
+              <motion.div
+                className="absolute top-8 left-7 w-px bg-mint-200"
+                animate={{ height: `${(active / (steps.length - 1)) * 100}%` }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              />
+
+              {steps.map((step, i) => {
+                const isActive = i === active;
+                return (
+                  <button
+                    key={step.title}
+                    type="button"
+                    onClick={() => selectStep(i)}
+                    className="relative flex cursor-pointer items-center gap-4 text-left"
+                  >
+                    <motion.span
+                      animate={{ scale: isActive ? 1.06 : 1 }}
+                      transition={{ duration: 0.3 }}
+                      className={`relative z-10 flex size-14 shrink-0 items-center justify-center rounded-full transition-colors ${
+                        isActive ? "bg-white text-teal-600" : "bg-white/90 text-slate-400"
+                      }`}
+                    >
+                      <step.icon className="size-6" strokeWidth={1.75} />
+                    </motion.span>
+                    <motion.span
+                      animate={{
+                        backgroundColor: isActive ? "rgb(255,255,255)" : "rgba(255,255,255,0.92)",
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className="min-w-0 flex-1 rounded-xl px-4 py-3 shadow-lg"
+                    >
+                      <span className="block text-sm font-bold text-ink-900">{step.title}</span>
+                      <span className="block text-xs text-slate-500">{step.desc}</span>
+                    </motion.span>
+                  </button>
+                );
+              })}
+            </div>
+          </Reveal>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/** The tall "AI VOICE AGENT" transcript card on the left of the hero visual. */
+function LiveCallCard() {
+  const bars = [
+    6, 10, 16, 22, 14, 26, 18, 30, 12, 24, 20, 34, 16, 28, 10, 20, 14, 24, 8, 18, 12, 22, 16, 10,
+  ];
+
+  return (
+    <div className="flex flex-col rounded-2xl bg-bg-muted p-6 shadow-2xl">
+      <p className="text-xs font-bold tracking-wide text-slate-500 uppercase">AI Voice Agent</p>
+
+      <div className="mt-6 flex items-center gap-3">
+        <span className="text-sm font-medium text-slate-500">00:45</span>
+        <div className="flex flex-1 items-center justify-center gap-0.5">
+          {bars.map((h, i) => (
+            <motion.span
+              key={i}
+              className="w-0.5 rounded-full bg-teal-400"
+              animate={{ height: [h, Math.max(4, h * 0.35), h] }}
+              transition={{ duration: 1.3, repeat: Infinity, delay: i * 0.045, ease: "easeInOut" }}
+            />
+          ))}
+        </div>
+        <span className="text-sm font-medium text-slate-500">00:45</span>
+      </div>
+
+      <p className="mt-7 text-base leading-relaxed text-ink-900">
+        Hi, this is Ava calling on behalf of Verify Engine. I&apos;m conducting a rental history
+        verification for one of our clients. Do you have a few minutes to answer some questions?
+      </p>
+
+      <p className="mt-auto flex items-center gap-2 pt-8 text-base font-bold text-ink-900">
+        Listening...
+        <span className="flex gap-1">
+          {[0, 1, 2].map((i) => (
+            <motion.span
+              key={i}
+              className="size-1.5 rounded-full bg-teal-500"
+              animate={{ opacity: [0.25, 1, 0.25] }}
+              transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
+            />
+          ))}
+        </span>
+      </p>
+    </div>
+  );
+}

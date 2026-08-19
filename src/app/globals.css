@@ -2,25 +2,46 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0b1220;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-public-sans);
+  --font-display: var(--font-poppins);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* VerifyEngine brand palette — sampled from the final design PNGs. */
+  --color-navy-950: #05122b;
+  --color-navy-900: #071d45;
+  --color-navy-800: #0b2a5c;
+  --color-navy-700: #123a72;
+
+  --color-mint-100: #c7f5ea;
+  --color-mint-200: #8fe9d9;
+  --color-mint-300: #6ddfca;
+
+  --color-teal-400: #3fdcc6;
+  --color-teal-500: #2dd4bf;
+  --color-teal-600: #14b8a6;
+
+  --color-ink-900: #0b1220;
+  --color-slate-600: #4b5567;
+  --color-slate-400: #8892a4;
+
+  --color-bg-muted: #f7f9fb;
+  --color-bg-mint-50: #eefbf7;
+
+  --shadow-card: 0 1px 2px rgba(11, 18, 32, 0.04), 0 8px 24px rgba(11, 18, 32, 0.06);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
 }

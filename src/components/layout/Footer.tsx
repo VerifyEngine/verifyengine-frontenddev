@@ -1,0 +1,76 @@
+import Link from "next/link";
+import { Container } from "@/components/ui/Button";
+import { footerNav } from "@/lib/nav";
+import { Logo } from "./Logo";
+
+const socials = [
+  { label: "LinkedIn", href: "#", path: "M4.98 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-1 1.83-2 3.77-2 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V21h-4V9Z" },
+  { label: "X", href: "#", path: "M4 4l16 16M20 4 4 20" },
+  { label: "Facebook", href: "#", path: "M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v6h3v-6h3l1-3h-4v-2c0-.6.4-1 1-1Z" },
+  { label: "YouTube", href: "#", path: "M21 8.5s-.2-1.6-.9-2.3c-.8-.9-1.8-.9-2.2-1C15 5 12 5 12 5h0s-3 0-5.9.2c-.4 0-1.4.1-2.2 1-.7.7-.9 2.3-.9 2.3S2.8 10.4 2.8 12.3v1.4C2.8 15.6 3 17.5 3 17.5s.2 1.6.9 2.3c.8.9 1.9.9 2.4 1 1.7.2 7.7.2 7.7.2s3 0 5.9-.2c.4 0 1.4-.1 2.2-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.9-.2-3.8-.2-3.8ZM10 15V9.5l5 2.8-5 2.7Z" },
+];
+
+function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+  return (
+    <div>
+      <h3 className="text-sm font-semibold text-white">{title}</h3>
+      <ul className="mt-4 space-y-3">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link href={link.href} className="text-sm text-white/60 transition-colors hover:text-mint-200">
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export function Footer() {
+  return (
+    <footer className="bg-navy-950 pt-16">
+      <Container>
+        <div className="grid grid-cols-1 gap-10 pb-12 md:grid-cols-2 lg:grid-cols-6">
+          <div className="lg:col-span-2">
+            <Logo />
+            <p className="mt-4 max-w-xs text-sm text-white/60">
+              AI-powered verification platform for landlords, property managers, and businesses
+              across industries. Smarter decisions. Stronger communities.
+            </p>
+            <div className="mt-5 flex gap-3">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  aria-label={s.label}
+                  className="flex size-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors hover:border-mint-200/40 hover:text-mint-200"
+                >
+                  <svg viewBox="0 0 24 24" className="size-4" fill="none" aria-hidden="true">
+                    <path d={s.path} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill={s.label === "LinkedIn" || s.label === "Facebook" || s.label === "YouTube" ? "currentColor" : "none"} />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <FooterColumn title="Solutions" links={footerNav.solutions} />
+          <FooterColumn title="Resources" links={footerNav.resources} />
+          <FooterColumn title="Company" links={footerNav.company} />
+          <FooterColumn title="Legal" links={footerNav.legal} />
+        </div>
+
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 sm:flex-row">
+          <p className="text-xs text-white/50">© {new Date().getFullYear()} Verify Engine. All rights reserved.</p>
+          <div className="flex items-center gap-4 text-xs text-white/50">
+            <span>SOC 2 Ready</span>
+            <span className="text-white/20">|</span>
+            <Link href="/legal/privacy" className="hover:text-mint-200">Privacy</Link>
+            <span className="text-white/20">|</span>
+            <span>Security</span>
+          </div>
+        </div>
+      </Container>
+    </footer>
+  );
+}
