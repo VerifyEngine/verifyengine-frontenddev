@@ -1,18 +1,19 @@
-"use client";
-
-import { motion, useAnimationFrame, useInView } from "motion/react";
 import { CheckCircle2, type LucideIcon } from "lucide-react";
-import { useRef, useState } from "react";
+import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { SummaryStepper } from "./SummaryStepper";
+import { ScoreArc } from "./ScoreArc";
 
 export type SummaryStep = { icon: LucideIcon; label: string };
 export type SummaryCheck = { icon: LucideIcon; label: string; result: string };
 
-const STEP_DURATION = 2200;
-
 /**
- * The hero visual for every process page: a vertical stepper that cycles on
- * its own beside a live verification summary. Steps are clickable, matching
- * the interactivity level set by the homepage hero.
+ * Hero visual for every process page: an auto-cycling stage list beside a live
+ * verification summary.
+ *
+ * Deliberately a Server Component. Icons are rendered here and handed to the
+ * interactive stepper as nodes — passing the icon *components* into a client
+ * component emits a client reference for each, and reusing the same icon on
+ * both sides of that boundary trips an RSC streaming bug that hangs the route.
  */
 export function VerificationSummaryCard({
   steps,
@@ -27,72 +28,19 @@ export function VerificationSummaryCard({
   riskLabel?: string;
   resultLabel?: string;
 }) {
-  const [active, setActive] = useState(2);
-  const [paused, setPaused] = useState(false);
-  const elapsed = useRef(0);
-  const lastTick = useRef<number | null>(null);
-
-  useAnimationFrame((t) => {
-    if (paused) {
-      lastTick.current = null;
-      return;
-    }
-    if (lastTick.current === null) lastTick.current = t;
-    elapsed.current += t - lastTick.current;
-    lastTick.current = t;
-    if (elapsed.current >= STEP_DURATION) {
-      elapsed.current = 0;
-      setActive((v) => (v + 1) % steps.length);
-    }
-  });
-
-  function selectStep(i: number) {
-    setActive(i);
-    elapsed.current = 0;
-    setPaused(true);
-    window.setTimeout(() => setPaused(false), 4000);
-  }
+  const renderedSteps = steps.map((step) => ({
+    label: step.label,
+    icon: <step.icon className="size-4.5" strokeWidth={1.75} />,
+  }));
 
   return (
     <div className="overflow-hidden rounded-2xl bg-white shadow-2xl">
       <div className="grid grid-cols-1 gap-0 sm:grid-cols-[0.72fr_1fr]">
-        {/* stepper */}
         <div className="relative border-b border-slate-100 p-5 sm:border-r sm:border-b-0">
           <div className="absolute top-10 bottom-10 left-[38px] w-px border-l border-dashed border-slate-200" />
-          <ul className="relative space-y-1">
-            {steps.map((step, i) => {
-              const isActive = i === active;
-              return (
-                <li key={step.label}>
-                  <button
-                    type="button"
-                    onClick={() => selectStep(i)}
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-xl px-2 py-2.5 text-left transition-colors ${
-                      isActive ? "bg-bg-mint-50" : "hover:bg-bg-muted"
-                    }`}
-                  >
-                    <span
-                      className={`relative z-10 flex size-9 shrink-0 items-center justify-center rounded-full transition-colors ${
-                        isActive ? "bg-mint-100 text-teal-600" : "bg-white text-slate-400"
-                      }`}
-                    >
-                      <step.icon className="size-4.5" strokeWidth={1.75} />
-                    </span>
-                    <span
-                      className={`text-sm font-semibold ${
-                        isActive ? "text-teal-700" : "text-ink-900"
-                      }`}
-                    >
-                      {step.label}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+          <SummaryStepper steps={renderedSteps} />
         </div>
 
-        {/* summary */}
         <div className="p-5">
           <p className="text-sm font-bold text-ink-900">Applicant Verification Summary</p>
 
@@ -125,14 +73,10 @@ export function VerificationSummaryCard({
 
           <div className="mt-3 rounded-xl border border-slate-100 p-3.5">
             <p className="text-xs font-bold text-ink-900">Verification Breakdown</p>
-            <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-              {checks.map((check, i) => (
-                <motion.div
+            <RevealGroup className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+              {checks.map((check) => (
+                <RevealItem
                   key={check.label}
-                  initial={{ opacity: 0, y: 4 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.15 + i * 0.08 }}
                   className="flex items-center justify-between gap-2 rounded-lg bg-bg-muted px-2.5 py-2"
                 >
                   <span className="flex items-center gap-2">
@@ -145,55 +89,12 @@ export function VerificationSummaryCard({
                     </span>
                   </span>
                   <CheckCircle2 className="size-4 shrink-0 text-teal-500" strokeWidth={2} />
-                </motion.div>
+                </RevealItem>
               ))}
-            </div>
+            </RevealGroup>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function ScoreArc({ score }: { score: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
-
-  const r = 34;
-  const c = 2 * Math.PI * r;
-  const sweep = 0.6;
-  const track = c * sweep;
-
-  return (
-    <div ref={ref} className="relative mx-auto mt-1 w-fit">
-      <svg viewBox="0 0 88 88" className="size-20 rotate-[144deg]">
-        <circle
-          cx="44"
-          cy="44"
-          r={r}
-          fill="none"
-          stroke="#EEF2F6"
-          strokeWidth="7"
-          strokeLinecap="round"
-          strokeDasharray={`${track} ${c}`}
-        />
-        <motion.circle
-          cx="44"
-          cy="44"
-          r={r}
-          fill="none"
-          stroke="var(--color-teal-500)"
-          strokeWidth="7"
-          strokeLinecap="round"
-          strokeDasharray={`${track} ${c}`}
-          initial={{ strokeDashoffset: track }}
-          animate={{ strokeDashoffset: inView ? track * (1 - score / 100) : track }}
-          transition={{ duration: 1.1, ease: "easeOut" }}
-        />
-      </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-ink-900">
-        {score}
-      </span>
     </div>
   );
 }
