@@ -4,7 +4,7 @@ import { SplitFormHero } from "@/components/sections/SplitFormHero";
 import { LoginForm } from "@/components/marketing/LoginForm";
 import { PlatformVisibility } from "@/components/sections/PlatformVisibility";
 import { FeatureGrid } from "@/components/sections/FeatureGrid";
-import { FinalCta } from "@/components/sections/FinalCta";
+import { SupportBanner } from "@/components/sections/SupportBanner";
 
 export const metadata: Metadata = {
   title: "Client Login",
@@ -91,13 +91,13 @@ export default function LoginPage() {
         background="muted"
       />
 
-      <FinalCta
-        title="Ready to Transform Your Verification Process?"
-        subtitle="Join thousands of organizations using Verify Engine to automate verification and make confident decisions."
-        primaryLabel="Get Started"
-        primaryHref="/get-started"
-        secondaryLabel="Book Demo"
-        secondaryHref="/book-demo"
+      {/* Visitors here are existing customers, so the design closes with help
+          rather than the generic sales CTA. */}
+      <SupportBanner
+        title="Having Trouble Logging In?"
+        description="We're here to help you get back on track."
+        email="support@verifyengine.ai"
+        phone="(888) 987-5324"
       />
     </>
   );

@@ -99,6 +99,7 @@ export default function IndustriesPage() {
         features={features}
         columns={5}
         background="muted"
+        iconStyle="plain"
       />
 
       <FinalCta

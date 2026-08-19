@@ -67,6 +67,7 @@ export default function HowItWorksPage() {
         title="Built for Accuracy, Speed, and Scale"
         features={whyChooseFeatures}
         columns={5}
+        variant="cards"
       />
       <IntegrationsRow />
       <FinalCta

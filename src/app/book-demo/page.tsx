@@ -132,7 +132,7 @@ export default function BookDemoPage() {
         background="muted"
       />
 
-      <LogosRow label="Trusted by industry leaders" logos={logos} />
+      <LogosRow label="Trusted by industry leaders" logos={logos} arrows background="white" />
 
       <FinalCta
         title="Ready to Transform Your Verification Process?"
