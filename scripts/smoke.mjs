@@ -30,9 +30,13 @@ async function collectRoutes(dir, segments = []) {
   for (const entry of entries) {
     if (entry.isDirectory()) {
       const name = entry.name;
-      // Route groups don't appear in the URL; dynamic segments need real data.
-      if (name.startsWith("(") || name.startsWith("[") || name.startsWith("_")) continue;
-      routes.push(...(await collectRoutes(path.join(dir, name), [...segments, name])));
+      // Dynamic segments need real data; private folders hold no routes.
+      if (name.startsWith("[") || name.startsWith("_") || name.startsWith("@")) continue;
+      // A route group organises files without appearing in the URL, so walk
+      // into it but do not contribute a segment.
+      const isGroup = name.startsWith("(") && name.endsWith(")");
+      const nested = isGroup ? segments : [...segments, name];
+      routes.push(...(await collectRoutes(path.join(dir, name), nested)));
     } else if (entry.name === "page.tsx" || entry.name === "page.jsx") {
       routes.push("/" + segments.join("/"));
     }
