@@ -1,25 +1,15 @@
 import type { ReactNode } from "react";
-import { PlatformShell } from "@/components/platform/PlatformShell";
 import { ThemeScript } from "@/components/platform/ThemeScript";
 
 /*
- * Shell for the signed-in platform (Milestones 5-8).
- *
- * Organisation and user are hard-coded to the values in the design while the
- * backend is pending; they are already isolated as props so wiring the real
- * session later touches this file only.
+ * Root of the platform route group (Milestones 5-8): just the theme script,
+ * shared by both the (auth) screens and the (app) shell underneath it.
  */
 export default function PlatformLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <ThemeScript />
-      <PlatformShell
-        organizationName="CutRite Lawn Care"
-        userName="Account"
-        avatarSrc="/images/platform-avatar.png"
-      >
-        {children}
-      </PlatformShell>
+      {children}
     </>
   );
 }

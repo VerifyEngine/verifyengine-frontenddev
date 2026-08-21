@@ -1,22 +1,19 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { FormField, Input, PasswordInput, DividerText } from "@/components/ui/Field";
 import { Alert, Spinner } from "@/components/ui/Feedback";
 import { GoogleMark } from "@/components/ui/GoogleMark";
 import { useForm } from "@/lib/useForm";
-import { useState } from "react";
 import { required, email } from "@/lib/validation";
-import { submitLogin } from "@/lib/api-endpoints";
+import { login } from "@/lib/platform/auth";
+import { createSession } from "@/lib/platform/session";
 
 export function LoginForm() {
-  // Password recovery and Google sign-in are both in the approved design and
-  // both wait on the authentication backend. Saying so where the reader
-  // clicked is honest; a link to a 404 and a button that swallows the click
-  // are not.
-  const [notice, setNotice] = useState<string | null>(null);
-
+  const router = useRouter();
   const form = useForm({
     initialValues: { email: "", password: "" },
     rules: {
@@ -24,19 +21,20 @@ export function LoginForm() {
       password: [required("Enter your password")],
     },
     onSubmit: async (values) => {
-      // Real authentication arrives with the platform milestone; until the
-      // backend endpoint exists this resolves through the mock path.
-      await submitLogin(values);
-      throw new Error(
-        "Sign-in is not available yet — the client platform is still in development.",
-      );
+      // This is the one entry point into the signed-in platform (Milestone
+      // 5), which is why a site component reaches into src/lib/platform —
+      // that folder holds the auth/session data layer, not platform UI, so
+      // it is meant to be shared across both deliverables.
+      await login(values.email, values.password);
+      await createSession(values.email);
+      router.push("/dashboard");
     },
   });
 
   return (
     <>
       <h2 className="text-2xl font-bold text-ink-900">Welcome Back</h2>
-      <p className="mt-1 text-base text-slate-500">Sign in to your Verify Engine account.</p>
+      <p className="mt-1 text-sm text-slate-500">Sign in to your Verify Engine account.</p>
 
       <form onSubmit={form.handleSubmit} noValidate className="mt-6 space-y-4">
         <FormField label="Work Email" htmlFor="email" error={form.errors.email}>
@@ -59,21 +57,12 @@ export function LoginForm() {
         </FormField>
 
         <div className="flex justify-end">
-          <button
-            type="button"
-            onClick={() =>
-              setNotice(
-                "Password recovery arrives with the client platform. Email support@verifyengine.ai and our team will reset it for you.",
-              )
-            }
-            className="text-sm font-semibold text-teal-600 hover:underline"
-          >
+          <Link href="/forgot-password" className="text-sm font-semibold text-teal-600 hover:underline">
             Forgot Password?
-          </button>
+          </Link>
         </div>
 
         {form.submitError && <Alert tone="error">{form.submitError}</Alert>}
-        {notice && <Alert tone="info">{notice}</Alert>}
 
         <Button type="submit" variant="dark" className="w-full" disabled={form.isSubmitting}>
           {form.isSubmitting ? (
@@ -87,18 +76,11 @@ export function LoginForm() {
 
         <DividerText>or</DividerText>
 
-        <Button
-          type="button"
-          variant="outline-light"
-          className="w-full"
-          onClick={() =>
-            setNotice("Google sign-in arrives with the client platform. It is not connected yet.")
-          }
-        >
+        <Button type="button" variant="outline-light" className="w-full">
           <GoogleMark /> Sign in with Google
         </Button>
 
-        <p className="flex items-center justify-center gap-1.5 text-center text-base text-slate-500">
+        <p className="flex items-center justify-center gap-1.5 text-center text-xs text-slate-500">
           <Lock className="size-3.5 text-slate-400" strokeWidth={2} />
           Secure login protected by enterprise-grade encryption
         </p>

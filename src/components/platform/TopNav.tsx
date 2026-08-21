@@ -4,13 +4,17 @@ import {
   IconBell,
   IconChevronDown,
   IconHeadset,
+  IconLogout,
   IconMenu2,
   IconRefreshDot,
   IconSearch,
   IconX,
 } from "@tabler/icons-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { iconProps } from "./icon";
+import { destroySession } from "@/lib/platform/session";
 import { ThemeToggleButton } from "./ThemeToggleButton";
 import { Wordmark } from "./Wordmark";
 
@@ -43,6 +47,14 @@ export function TopNav({
   avatarSrc: string;
   onOpenMenu: () => void;
 }) {
+  const router = useRouter();
+  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
+
+  async function handleLogout() {
+    await destroySession();
+    router.push("/login");
+  }
+
   return (
     <header className="flex h-15 shrink-0 items-center gap-2 overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-2 backdrop-blur-[12px] lg:gap-8 xl:gap-40">
       {/* Menu button — exists only while the Side Menu is a drawer. */}
@@ -110,7 +122,7 @@ export function TopNav({
         </button>
 
         {/* Avatar and its chevron overlap by 13px, as drawn in the design. */}
-        <div className="flex items-end justify-end">
+        <div className="relative flex items-end justify-end">
           <span className="-mr-[13px] size-11 shrink-0 overflow-hidden rounded-app-12xl border-w-2xs border-app-line">
             <Image
               src={avatarSrc}
@@ -123,10 +135,34 @@ export function TopNav({
           <button
             type="button"
             aria-label="Account menu"
+            aria-expanded={isAccountMenuOpen}
+            onClick={() => setIsAccountMenuOpen((open) => !open)}
             className="flex shrink-0 items-center justify-center rounded-app-7xl border-w-2xs border-app-line bg-app-brand1 px-[0.5px] pt-px text-app-text-inverse"
           >
             <IconChevronDown {...iconProps(12)} />
           </button>
+
+          {isAccountMenuOpen ? (
+            <>
+              {/* Backdrop closes the menu on outside click without a ref/effect. */}
+              <button
+                type="button"
+                aria-label="Close account menu"
+                className="fixed inset-0 z-10 cursor-default"
+                onClick={() => setIsAccountMenuOpen(false)}
+              />
+              <div className="absolute right-0 top-13 z-20 flex min-w-40 flex-col overflow-hidden rounded-app-l border-w-2xs border-app-line bg-app-surface p-1 shadow-lg">
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 rounded-app-m px-3 py-2 text-left text-label-2xs text-app-text transition-colors hover:bg-app-fade-48"
+                >
+                  <IconLogout {...iconProps(16)} />
+                  Log out
+                </button>
+              </div>
+            </>
+          ) : null}
         </div>
       </nav>
     </header>
