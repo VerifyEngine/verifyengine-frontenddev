@@ -63,7 +63,7 @@ export function AudienceDashboardCard({
   return (
     <div
       data-ve-theme="light"
-      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 shadow-2xl backdrop-blur-[12px]"
+      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] p-4 shadow-2xl"
     >
       <div className="flex items-center justify-between gap-3">
         <p className="text-label-xs text-app-text">{title}</p>
@@ -76,7 +76,7 @@ export function AudienceDashboardCard({
 
       <div className="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-[0.85fr_1fr]">
         <div className="flex flex-col gap-3">
-          <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4 text-center">
+          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 text-center">
             <p className="text-body-2xs text-app-text-secondary">{scoreLabel}</p>
             <ScoreDial score={score} />
             {scoreCaption && (
@@ -89,7 +89,7 @@ export function AudienceDashboardCard({
               {stats.map((stat) => (
                 <div
                   key={stat.label}
-                  className="flex items-center gap-3 border-w-2xs border-app-line bg-app-fade-48 p-3"
+                  className="flex items-center gap-3 border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3"
                 >
                   {stat.icon && (
                     <stat.icon
@@ -109,7 +109,7 @@ export function AudienceDashboardCard({
         </div>
 
         <div className="flex flex-col gap-3">
-          <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4">
+          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4">
             <p className="text-label-2xs text-app-text">Verification Breakdown</p>
             <RevealGroup className="mt-3 flex flex-col gap-2.5">
               {breakdown.map((row) => (
@@ -125,7 +125,7 @@ export function AudienceDashboardCard({
             </RevealGroup>
           </div>
 
-          <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4">
+          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4">
             <p className="text-label-2xs text-app-text">{insightTitle}</p>
             <p className="mt-2 text-body-2xs leading-relaxed text-app-text-secondary">{insight}</p>
             <span className="mt-3 inline-block rounded-app-4xl bg-app-success px-2.5 py-1 text-body-2xs text-app-text-inverse">
@@ -140,7 +140,7 @@ export function AudienceDashboardCard({
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3.5"
+              className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5"
             >
               {stat.icon && (
                 <stat.icon className="size-4 text-app-text-tertiary" strokeWidth={1.6} />

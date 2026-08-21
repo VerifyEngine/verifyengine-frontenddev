@@ -53,7 +53,7 @@ export function ApplicantOverviewCard({
   return (
     <div
       data-ve-theme="light"
-      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 shadow-2xl backdrop-blur-[12px]"
+      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
     >
       <div className="flex items-center justify-between gap-4 border-b border-app-line px-5 py-4">
         <p className="text-label-xs text-app-text">{title}</p>
@@ -64,7 +64,7 @@ export function ApplicantOverviewCard({
       </div>
 
       <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-[0.8fr_1fr]">
-        <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4">
+        <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4">
           <p className="text-body-2xs text-app-text-secondary">
             VE Score<span className="align-super text-[8px]">™</span>
           </p>
@@ -87,7 +87,7 @@ export function ApplicantOverviewCard({
         </div>
 
         <div className="flex flex-col gap-3">
-          <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4">
+          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4">
             <p className="text-body-2xs text-app-text-secondary">{detailsTitle}</p>
             <RevealGroup className="mt-3 flex flex-col gap-2.5">
               {details.map((row) => (
@@ -111,7 +111,7 @@ export function ApplicantOverviewCard({
             </RevealGroup>
           </div>
 
-          <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4">
+          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4">
             <p className="text-body-2xs text-app-text-secondary">AI Summary</p>
             <p className="mt-2 text-body-2xs leading-relaxed text-app-text-secondary">{summary}</p>
             <span className="mt-3 inline-flex items-center gap-1 rounded-app-4xl bg-app-success px-2 py-0.5 text-body-2xs text-app-text-inverse">

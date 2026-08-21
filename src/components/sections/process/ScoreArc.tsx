@@ -25,7 +25,7 @@ export function ScoreArc({ score }: { score: number }) {
           cy="44"
           r={r}
           fill="none"
-          stroke="var(--ve-surface-fade-40, #EEF2F6)"
+          stroke="var(--ve-border-line, #EEF2F6)"
           strokeWidth="7"
           strokeLinecap="round"
           strokeDasharray={`${track} ${c}`}

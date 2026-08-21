@@ -46,7 +46,7 @@ export function VerificationSummaryCard({
   return (
     <div
       data-ve-theme="light"
-      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 shadow-2xl backdrop-blur-[12px]"
+      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
     >
       <div className="grid grid-cols-1 gap-0 sm:grid-cols-[0.72fr_1fr]">
         <div className="relative border-b border-app-line p-4 sm:border-r sm:border-b-0">
@@ -58,7 +58,7 @@ export function VerificationSummaryCard({
           <p className="text-label-xs text-app-text">Applicant Verification Summary</p>
 
           <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3.5 text-center">
+            <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5 text-center">
               <p className="text-body-2xs text-app-text-secondary">
                 VE Score<span className="align-super text-[8px]">™</span>
               </p>
@@ -66,7 +66,7 @@ export function VerificationSummaryCard({
               <p className="mt-1 text-body-2xs text-app-success">{riskLabel}</p>
             </div>
 
-            <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3.5">
+            <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5">
               <p className="text-body-2xs text-app-text-secondary">Overall Result</p>
               <span className="mt-1.5 inline-block rounded-app-4xl bg-app-success px-2.5 py-1 text-body-2xs text-app-text-inverse">
                 {resultLabel}
@@ -84,7 +84,7 @@ export function VerificationSummaryCard({
             </div>
           </div>
 
-          <div className="mt-2 rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3.5">
+          <div className="mt-2 rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5">
             <p className="text-label-2xs text-app-text">Verification Breakdown</p>
             <RevealGroup className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
               {checks.map((check) => (

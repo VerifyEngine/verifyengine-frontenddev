@@ -29,7 +29,7 @@ export function ScoreDial({
           cy="56"
           r={r}
           fill="none"
-          stroke="var(--ve-surface-fade-40, #EEF2F6)"
+          stroke="var(--ve-border-line, #EEF2F6)"
           strokeWidth="10"
         />
         <motion.circle

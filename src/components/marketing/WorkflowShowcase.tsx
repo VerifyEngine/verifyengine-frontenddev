@@ -166,7 +166,7 @@ export function WorkflowShowcase() {
       <motion.div
         animate={{ y: [0, -8, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-2 right-6 z-20 hidden items-center gap-2.5 rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 py-2.5 pr-4 pl-2.5 shadow-2xl backdrop-blur-[12px] sm:flex"
+        className="absolute -top-2 right-6 z-20 hidden items-center gap-2.5 rounded-app-l border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] py-2.5 pr-4 pl-2.5 shadow-2xl sm:flex"
       >
         <span className="flex size-7 items-center justify-center rounded-app-12xl bg-app-brand2-64 text-app-text-brand1">
           <IconShieldCheck size={16} stroke={1.6} aria-hidden />

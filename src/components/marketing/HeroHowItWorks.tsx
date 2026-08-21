@@ -109,17 +109,17 @@ export function HeroHowItWorks() {
                       transition={{ duration: 0.3 }}
                       className={`relative z-10 flex size-14 shrink-0 items-center justify-center rounded-app-12xl border-w-2xs transition-colors ${
                         isActive
-                          ? "border-app-line-brand2 bg-app-brand2-64 text-app-text-brand1"
-                          : "border-app-line bg-app-fade-48 text-app-text-tertiary"
+                          ? "border-app-line-brand2 bg-[var(--ve-canvas)] text-app-text-brand1"
+                          : "border-app-line bg-[var(--ve-canvas)] text-app-text-tertiary"
                       }`}
                     >
                       <step.icon className="size-6" strokeWidth={1.6} />
                     </motion.span>
                     <span
-                      className={`min-w-0 flex-1 rounded-app-l border-w-2xs px-4 py-3 shadow-lg backdrop-blur-[12px] transition-colors ${
+                      className={`min-w-0 flex-1 rounded-app-l border-w-2xs px-4 py-3 shadow-lg transition-colors ${
                         isActive
-                          ? "border-app-line-brand2 bg-app-brand2-16"
-                          : "border-app-line bg-app-fade-48"
+                          ? "border-app-line-brand2 bg-[var(--ve-canvas)]"
+                          : "border-app-line bg-[var(--ve-canvas)]"
                       }`}
                     >
                       <span className="block text-label-2xs text-app-text">{step.title}</span>
@@ -146,7 +146,7 @@ function LiveCallCard() {
   ];
 
   return (
-    <div className="flex flex-col rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-6 shadow-2xl backdrop-blur-[12px]">
+    <div className="flex flex-col rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] p-6 shadow-2xl">
       <p className="text-nav-heading text-app-text-secondary">AI Voice Agent</p>
 
       <div className="mt-6 flex items-center gap-3">

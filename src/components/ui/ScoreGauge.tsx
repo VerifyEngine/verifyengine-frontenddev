@@ -31,7 +31,7 @@ export function ScoreGauge({
           cy="56"
           r={r}
           fill="none"
-          stroke="var(--ve-surface-fade-40, #EEF2F6)"
+          stroke="var(--ve-border-line, #EEF2F6)"
           strokeWidth="9"
           strokeLinecap="round"
           strokeDasharray={`${track} ${c}`}
