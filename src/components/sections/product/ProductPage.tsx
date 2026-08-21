@@ -53,7 +53,7 @@ export function ProductPage({ config }: { config: ProductPageConfig }) {
           }}
         />
         <div
-          className="relative grid grid-cols-1 items-center gap-12 pr-6 lg:grid-cols-[0.8fr_1fr] lg:gap-14 lg:pr-12"
+          className="relative grid grid-cols-1 items-center gap-12 pr-6 lg:grid-cols-[0.65fr_1fr] lg:gap-14 lg:pr-12"
           style={{ paddingLeft: "max(1.5rem, calc((100vw - 1600px) / 2 + 3rem))" }}
         >
           <Reveal>

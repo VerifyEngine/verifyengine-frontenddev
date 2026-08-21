@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { CheckCircle2, type LucideIcon } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SummaryStepper } from "./SummaryStepper";
@@ -47,6 +48,11 @@ export function VerificationSummaryCard({
     <div
       data-ve-theme="light"
       className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
+      /* The platform ships type at 1.2x the Figma sizes; these hero cards are
+         shown much smaller than a 1920px screen, so they carry a little more
+         again to stay readable at hero scale. Every box sized from the same
+         token scales with it. */
+      style={{ "--ve-type-scale": "1.35" } as CSSProperties}
     >
       <div className="grid grid-cols-1 gap-0 sm:grid-cols-[0.72fr_1fr]">
         <div className="relative border-b border-app-line p-4 sm:border-r sm:border-b-0">

@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { motion, useAnimationFrame } from "motion/react";
 import { Headset, Cpu, UserCheck, FileText } from "lucide-react";
 import { useRef, useState } from "react";
@@ -54,7 +55,7 @@ export function HeroHowItWorks() {
       />
 
       <Container>
-        <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.85fr_1fr] lg:gap-14">
+        <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.7fr_1fr] lg:gap-14">
           <Reveal>
             <PillBadge>How It Works</PillBadge>
             <h1 className="mt-5 text-4xl leading-[1.08] font-bold tracking-tight text-white sm:text-5xl">
@@ -83,6 +84,9 @@ export function HeroHowItWorks() {
             <div
               data-ve-theme="light"
               className="font-app grid grid-cols-1 gap-4 sm:grid-cols-[1fr_1.05fr]"
+              /* Same reasoning as the other hero cards: shown far smaller than
+                 a 1920px screen, so the type carries a little more scale. */
+              style={{ "--ve-type-scale": "1.35" } as CSSProperties}
             >
             <LiveCallCard />
 
