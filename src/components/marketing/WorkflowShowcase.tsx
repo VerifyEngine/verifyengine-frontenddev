@@ -2,42 +2,62 @@
 
 import { motion, useAnimationFrame, useMotionValue, useSpring } from "motion/react";
 import {
-  IconUserPlus,
-  IconPhoneCall,
-  IconWaveSine,
-  IconClipboardCheck,
-  IconShieldExclamation,
-  IconUserCheck,
-  IconStarFilled,
-  IconFileCheck,
-  IconShieldCheck,
+  IconBell,
   IconChartDots3,
-  IconPhone,
-  IconClock,
-  IconFileText,
-  IconTools,
+  IconBuildingSkyscraper,
+  IconClipboardCheck,
+  IconFileAnalytics,
+  IconFileCheck,
+  IconHeadset,
+  IconPhoneCall,
+  IconRefreshDot,
+  IconSearch,
+  IconShieldCheck,
+  IconShieldExclamation,
+  IconSquareRoundedPlus,
+  IconStarFilled,
+  IconTablePlus,
+  IconUserCheck,
+  IconUserDollar,
+  IconUserPlus,
+  IconWaveSine,
+  IconX,
 } from "@tabler/icons-react";
 import { useRef, useState, type MouseEvent } from "react";
+import { ShieldMark } from "@/components/layout/Logo";
 
 /*
- * The homepage hero mock. Restyled 2026-08-21 to look like the platform's
- * own dark mode (Milestones 5-6) instead of an unrelated navy/teal palette:
- * same tokens (the `app-` Tailwind utilities from src/styles/platform.css),
- * same Satoshi font and Tabler icon set as the real Top Nav / Side Menu /
- * MetricCard. `data-ve-theme="dark"` is set on the wrapper (not <html>) so
- * those tokens resolve here without the platform's ThemeScript/session —
- * this is a static marketing snapshot, not the real app, and stays a
- * site-only component (no import from src/components/platform).
+ * The homepage hero mock, rebuilt 2026-08-21 to actually read as the
+ * signed-in platform (Milestones 5-6) rather than a generic app window.
+ *
+ * The platform's visual signature is structural, not just chromatic, so the
+ * old browser chrome (traffic-light dots, URL bar, icon rail) is gone and the
+ * real shell is reproduced instead: a full-width Top Nav panel above a
+ * separate Side Menu panel and content, each a mint-hairline glass panel
+ * floating on the navy canvas with 8px gaps — matching Figma node 18110:24716
+ * (Dashboard, Dark Mode).
+ *
+ * It uses the platform's own tokens (the `app-` Tailwind utilities from
+ * src/styles/platform.css, already global via globals.css), Satoshi, and the
+ * Tabler icon set. `data-ve-theme="dark"` sits on this component's own
+ * wrapper rather than <html>, so those tokens resolve without the platform's
+ * ThemeScript or session: this is a static marketing snapshot, and stays a
+ * site-only component (nothing is imported from src/components/platform).
+ *
+ * One deliberate divergence from the platform components: numbers here use
+ * `text-app-text`, not `text-app-text-brand1`. Brand 1 is navy in both
+ * themes, which on the dark canvas is navy-on-navy — see the note in
+ * PROGRESS.md.
  */
 
 const steps = [
   { icon: IconUserPlus, title: "Applicant Submitted", desc: "Information received and verification initiated" },
   { icon: IconPhoneCall, title: "AI Calls Previous Landlord", desc: "AI voice agent contacts the previous landlord" },
-  { icon: IconWaveSine, title: "Dynamic Interview", desc: "AI conducts natural conversation and gathers detailed rental history" },
+  { icon: IconWaveSine, title: "Dynamic Interview", desc: "Natural conversation gathers detailed rental history" },
   { icon: IconClipboardCheck, title: "Responses Validated", desc: "AI validates answers and cross-checks data" },
   { icon: IconShieldExclamation, title: "Fraud Detection", desc: "Advanced fraud and risk detection" },
   { icon: IconUserCheck, title: "Human QA Review", desc: "Experts review and ensure accuracy" },
-  { icon: IconFileCheck, title: "Verification Report Delivered", desc: "Complete, accurate report delivered instantly" },
+  { icon: IconFileCheck, title: "Report Delivered", desc: "Complete, accurate report delivered instantly" },
 ];
 
 // Split the way the design does: the tenancy facts first, then the assessed
@@ -55,7 +75,30 @@ const reportOutcomes = [
   { label: "Overall Rating", value: "stars", revealAt: 5 },
 ];
 
-const railIcons = [IconShieldCheck, IconChartDots3, IconPhone, IconClock, IconFileText, IconTools];
+/** Mirrors the real Side Menu's sections (Figma node 18105:4682). */
+const navSections = [
+  {
+    heading: "Workspace",
+    items: [
+      { label: "Dashboard", icon: IconChartDots3, active: true },
+      { label: "Analytics", icon: IconFileAnalytics },
+    ],
+  },
+  {
+    heading: "Order",
+    items: [
+      { label: "New Order", icon: IconSquareRoundedPlus },
+      { label: "Batch Order", icon: IconTablePlus },
+    ],
+  },
+  {
+    heading: "Admin",
+    items: [
+      { label: "Clients", icon: IconUserDollar },
+      { label: "Company", icon: IconBuildingSkyscraper },
+    ],
+  },
+];
 
 const STEP_DURATION = 2600;
 
@@ -65,8 +108,8 @@ export function WorkflowShowcase() {
   const elapsed = useRef(0);
   const lastTick = useRef<number | null>(null);
 
-  // Subtle cursor-driven 3D tilt on the window card — spring-smoothed so it
-  // settles instead of snapping straight to the pointer.
+  // Subtle cursor-driven 3D tilt on the shell — spring-smoothed so it settles
+  // instead of snapping straight to the pointer.
   const rotateX = useSpring(useMotionValue(0), { stiffness: 150, damping: 20 });
   const rotateY = useSpring(useMotionValue(0), { stiffness: 150, damping: 20 });
 
@@ -108,6 +151,9 @@ export function WorkflowShowcase() {
   const score = Math.round(((active + 1) / steps.length) * 92);
   const delivered = active === steps.length - 1;
 
+  // The metric band counts up with the workflow, so the mock reads as live.
+  const verified = 6210 + active * 3;
+
   return (
     <div
       data-ve-theme="dark"
@@ -116,23 +162,6 @@ export function WorkflowShowcase() {
     >
       {/* ambient glow */}
       <div className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-app-brand2-40 blur-[110px]" />
-
-      {/* floating mini chart card, peeking from behind bottom-left */}
-      <div className="absolute bottom-0 left-0 z-0 hidden w-44 rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 shadow-2xl backdrop-blur-[12px] sm:block">
-        <p className="text-label-2xs text-app-text-secondary">Payment History</p>
-        <div className="mt-3 flex h-14 items-end gap-1.5">
-          {[40, 65, 50, 80, 60, 90, 70].map((h, i) => (
-            <motion.span
-              key={i}
-              initial={{ height: 0 }}
-              whileInView={{ height: `${h}%` }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.06, ease: "easeOut" }}
-              className="flex-1 rounded-app-xs bg-app-brand2-64"
-            />
-          ))}
-        </div>
-      </div>
 
       {/* floating "live activity" toast, bobbing gently above the top-right corner */}
       <motion.div
@@ -144,181 +173,273 @@ export function WorkflowShowcase() {
           <IconShieldCheck size={16} stroke={1.6} aria-hidden />
         </span>
         <div>
-          <p className="text-label-2xs text-app-text">Verification completed</p>
+          <p className="text-body-2xs font-medium text-app-text">Verification completed</p>
           <p className="text-body-2xs text-app-text-tertiary">2 seconds ago</p>
         </div>
       </motion.div>
 
-      {/* main app window */}
+      {/* The platform shell: navy canvas, 8px gaps, floating glass panels. */}
       <motion.div
         onMouseMove={handleTiltMove}
         onMouseLeave={handleTiltLeave}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative z-10 overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-surface shadow-2xl backdrop-blur-[12px]"
+        className="relative z-10 flex flex-col gap-2 overflow-hidden rounded-app-xl bg-[var(--ve-canvas)] p-2 shadow-2xl"
       >
-        {/* Top Nav-style browser chrome */}
-        <div className="flex items-center gap-3 border-b border-app-line bg-app-brand2-16 px-4 py-3">
-          <div className="flex gap-1.5">
-            <span className="size-2.5 rounded-full bg-app-fade-48" />
-            <span className="size-2.5 rounded-full bg-app-fade-48" />
-            <span className="size-2.5 rounded-full bg-app-fade-48" />
-          </div>
-          <div className="ml-2 flex-1 truncate rounded-app-m bg-app-fade-40 px-3 py-1 text-body-2xs text-app-text-tertiary">
-            app.verifyengine.ai/workflow
-          </div>
-          <span className="hidden rounded-app-4xl bg-app-brand2-40 px-2.5 py-1 text-body-2xs font-semibold text-app-text-brand1 sm:inline">
-            Live
-          </span>
-        </div>
+        <TopNav />
 
-        <div className="flex">
-          {/* Side Menu-style icon rail */}
-          <div className="hidden w-14 shrink-0 flex-col items-center gap-5 border-r border-app-line py-6 sm:flex">
-            {railIcons.map((Icon, i) => (
-              <div
-                key={i}
-                className={`flex size-8 items-center justify-center rounded-app-m ${
-                  i === 0 ? "bg-app-brand1-16 text-app-nav-active" : "text-app-text-tertiary"
-                }`}
-              >
-                <Icon size={16} stroke={1.6} aria-hidden />
-              </div>
-            ))}
-          </div>
+        <div className="flex gap-2">
+          <SideMenu />
 
-          <div className="grid flex-1 grid-cols-1 lg:grid-cols-[1.15fr_1fr]">
-            {/* workflow steps */}
-            <div className="relative p-5 sm:p-6">
-              <p className="text-nav-heading text-app-text-secondary">
-                Landlord Verification Workflow
-              </p>
+          <div className="flex min-w-px flex-1 flex-col gap-2">
+            <MetricBand verified={verified} />
 
-              <div className="relative mt-4">
-                <div className="absolute top-1 bottom-1 left-[15px] w-px bg-app-line" />
-                <motion.div
-                  className="absolute top-1 left-[15px] w-px bg-app-brand2-64"
-                  animate={{ height: `${progress}%` }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                />
+            <div className="grid grid-cols-1 gap-2 lg:grid-cols-[1.1fr_1fr]">
+              {/* workflow steps */}
+              <section className="flex flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]">
+                <h3 className="text-label-xs text-app-text-brand2">
+                  Landlord Verification Workflow
+                </h3>
 
-                <ol className="space-y-1">
-                  {steps.map((step, i) => {
-                    const Icon = step.icon;
-                    const isActive = i === active;
-                    const isDone = i < active;
-                    return (
-                      <li key={step.title}>
-                        <motion.button
-                          type="button"
-                          onClick={() => selectStep(i)}
-                          animate={{
-                            backgroundColor: isActive ? "var(--ve-surface-brand2-16)" : "rgba(255,255,255,0)",
-                          }}
-                          whileHover={{
-                            backgroundColor: isActive ? "var(--ve-surface-brand2-40)" : "var(--ve-surface-fade-40)",
-                          }}
-                          transition={{ duration: 0.35 }}
-                          className="flex w-full cursor-pointer items-start gap-3 rounded-app-l px-3 py-2.5 text-left"
-                        >
-                          <span
-                            className={`relative z-10 mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-app-12xl text-body-2xs font-bold transition-colors ${
-                              isActive || isDone
-                                ? "bg-app-brand2-64 text-app-text-brand1"
-                                : "bg-app-fade-40 text-app-text-tertiary"
-                            }`}
+                <div className="relative">
+                  <div className="absolute top-1 bottom-1 left-[13px] w-px bg-app-line" />
+                  <motion.div
+                    className="absolute top-1 left-[13px] w-px bg-app-text-brand2"
+                    animate={{ height: `${progress}%` }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  />
+
+                  <ol className="flex flex-col gap-0.5">
+                    {steps.map((step, i) => {
+                      const Icon = step.icon;
+                      const isActive = i === active;
+                      const isDone = i < active;
+                      return (
+                        <li key={step.title}>
+                          <motion.button
+                            type="button"
+                            onClick={() => selectStep(i)}
+                            animate={{
+                              backgroundColor: isActive
+                                ? "var(--ve-surface-fade-48)"
+                                : "rgba(255,255,255,0)",
+                            }}
+                            whileHover={{ backgroundColor: "var(--ve-surface-fade-48)" }}
+                            transition={{ duration: 0.35 }}
+                            className="flex w-full cursor-pointer items-start gap-2.5 rounded-app-m px-2 py-2 text-left"
                           >
-                            {i + 1}
-                          </span>
-                          <Icon
-                            className={isActive ? "text-app-text-brand2 mt-0.5 shrink-0" : "text-app-text-tertiary mt-0.5 shrink-0"}
-                            size={16}
-                            stroke={1.6}
-                            aria-hidden
-                          />
-                          <div>
-                            <p className={`text-label-2xs ${isActive ? "text-app-text" : "text-app-text-secondary"}`}>
-                              {step.title}
-                            </p>
-                            <p className="text-body-2xs text-app-text-tertiary">{step.desc}</p>
-                          </div>
-                        </motion.button>
-                      </li>
-                    );
-                  })}
-                </ol>
-              </div>
-            </div>
-
-            {/* verification report */}
-            <div className="flex flex-col gap-4 border-t border-app-line bg-app-fade-40 p-5 sm:p-6 lg:border-t-0 lg:border-l">
-              <div className="flex items-center justify-between">
-                <p className="text-label-xs text-app-text">Verification Report</p>
-                <motion.span
-                  key={delivered ? "verified" : "progress"}
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`rounded-app-4xl px-2.5 py-1 text-body-2xs font-semibold ${
-                    delivered
-                      ? "bg-app-brand2-40 text-app-text-brand1"
-                      : "bg-app-fade-48 text-app-text-secondary"
-                  }`}
-                >
-                  {delivered ? "✓ Verified" : "In Progress"}
-                </motion.span>
-              </div>
-
-              <div className="flex items-center gap-3 rounded-app-l bg-app-fade-48 p-3">
-                <div className="size-9 shrink-0 rounded-app-12xl bg-gradient-to-br from-app-brand2-64 to-app-brand1" />
-                <div>
-                  <p className="text-label-2xs text-app-text">John Smith</p>
-                  <p className="text-body-2xs text-app-text-tertiary">Applicant ID #48213</p>
+                            <span
+                              className={`relative z-10 mt-0.5 flex size-[22px] shrink-0 items-center justify-center rounded-app-12xl text-body-2xs font-bold transition-colors ${
+                                isActive || isDone
+                                  ? "bg-app-text-brand2 text-app-text-brand1"
+                                  : "bg-app-fade-48 text-app-text-tertiary"
+                              }`}
+                            >
+                              {i + 1}
+                            </span>
+                            <Icon
+                              className={`mt-0.5 shrink-0 ${isActive ? "text-app-text-brand2" : "text-app-text-tertiary"}`}
+                              size={15}
+                              stroke={1.6}
+                              aria-hidden
+                            />
+                            <span className="min-w-px flex-1">
+                              <span
+                                className={`block text-label-2xs ${isActive ? "text-app-text" : "text-app-text-secondary"}`}
+                              >
+                                {step.title}
+                              </span>
+                              <span className="block text-body-2xs text-app-text-tertiary">
+                                {step.desc}
+                              </span>
+                            </span>
+                          </motion.button>
+                        </li>
+                      );
+                    })}
+                  </ol>
                 </div>
-              </div>
+              </section>
 
-              <div className="space-y-3 text-body-2xs">
-                {reportFacts.map((row) => (
-                  <ReportRow key={row.label} label={row.label} revealed={active >= row.revealAt}>
-                    <span className="font-medium text-app-text">{row.value}</span>
-                  </ReportRow>
-                ))}
-              </div>
-
-              <div className="h-px bg-app-line" />
-
-              <div className="space-y-3 text-body-2xs">
-                {reportOutcomes.map((row) => (
-                  <ReportRow key={row.label} label={row.label} revealed={active >= row.revealAt}>
-                    {row.value === "stars" ? (
-                      <span className="flex gap-0.5 text-app-text-brand2">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <IconStarFilled key={i} size={14} aria-hidden />
-                        ))}
-                      </span>
-                    ) : (
-                      <span className="font-medium text-app-text-brand2">{row.value}</span>
-                    )}
-                  </ReportRow>
-                ))}
-              </div>
-
-              <div className="h-px bg-app-line" />
-
-              <div className="mt-auto flex items-center justify-between rounded-app-l bg-app-fade-48 p-4">
-                <div>
-                  <p className="text-body-2xs text-app-text-tertiary">Verification Score</p>
-                  <p className="text-heading-s text-app-text">
-                    {score}
-                    <span className="text-label-2xs text-app-text-tertiary"> / 100</span>
-                  </p>
+              {/* verification report */}
+              <section className="flex flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="text-label-xs text-app-text-brand2">Verification Report</h3>
+                  <motion.span
+                    key={delivered ? "verified" : "progress"}
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`rounded-app-4xl px-2 py-1 text-body-2xs whitespace-nowrap ${
+                      delivered
+                        ? "bg-app-success text-app-text-inverse"
+                        : "bg-app-neutral text-app-text-inverse"
+                    }`}
+                  >
+                    {delivered ? "Verified" : "In Progress"}
+                  </motion.span>
                 </div>
-                <ScoreRing score={score} />
-              </div>
+
+                <div className="flex items-center gap-2.5 rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3">
+                  <div className="size-8 shrink-0 rounded-app-12xl bg-gradient-to-br from-app-brand2-64 to-app-brand1" />
+                  <div>
+                    <p className="text-label-2xs text-app-text">John Smith</p>
+                    <p className="text-body-2xs text-app-text-tertiary">Applicant ID #48213</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2.5">
+                  {reportFacts.map((row) => (
+                    <ReportRow key={row.label} label={row.label} revealed={active >= row.revealAt}>
+                      <span className="text-body-2xs text-app-text">{row.value}</span>
+                    </ReportRow>
+                  ))}
+                </div>
+
+                <div className="h-px bg-app-line" />
+
+                <div className="flex flex-col gap-2.5">
+                  {reportOutcomes.map((row) => (
+                    <ReportRow key={row.label} label={row.label} revealed={active >= row.revealAt}>
+                      {row.value === "stars" ? (
+                        <span className="flex gap-0.5 text-app-text-brand2">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <IconStarFilled key={i} size={12} aria-hidden />
+                          ))}
+                        </span>
+                      ) : (
+                        <span className="text-body-2xs text-app-text-brand2">{row.value}</span>
+                      )}
+                    </ReportRow>
+                  ))}
+                </div>
+
+                <div className="mt-auto flex items-center justify-between rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3">
+                  <div>
+                    <p className="text-body-2xs text-app-text-tertiary">Verification Score</p>
+                    <p className="text-heading-s text-app-text">
+                      {score}
+                      <span className="text-body-2xs text-app-text-tertiary"> / 100</span>
+                    </p>
+                  </div>
+                  <ScoreRing score={score} />
+                </div>
+              </section>
             </div>
           </div>
         </div>
       </motion.div>
+    </div>
+  );
+}
 
-      <NetworkDecoration />
+/** Full-width Top Nav panel, as the platform draws it (Figma node 18110:24717). */
+function TopNav() {
+  return (
+    <div className="flex items-center gap-2 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-2 backdrop-blur-[12px]">
+      <span className="flex shrink-0 items-center gap-1.5 px-2">
+        <ShieldMark className="size-5" />
+        <span className="text-label-xs whitespace-nowrap text-app-text">
+          <span className="text-app-text-brand2">Verify</span>Engine
+        </span>
+      </span>
+
+      <span className="flex min-w-px flex-1 items-center gap-2 rounded-app-l border-w-xs border-app-line bg-app-fade-48 px-3 py-2">
+        <IconSearch size={15} stroke={1.6} className="shrink-0 text-app-text" aria-hidden />
+        <span className="min-w-px flex-1 truncate text-body-2xs text-app-text-tertiary">
+          Search by keywords...
+        </span>
+        <IconX size={12} stroke={1.6} className="shrink-0 text-app-text" aria-hidden />
+      </span>
+
+      <span className="hidden shrink-0 items-center gap-1 sm:flex">
+        {[IconHeadset, IconBell].map((Icon, i) => (
+          <span
+            key={i}
+            className="flex size-8 items-center justify-center rounded-app-7xl border-w-2xs border-app-line bg-app-fade-48 text-app-text"
+          >
+            <Icon size={15} stroke={1.6} aria-hidden />
+          </span>
+        ))}
+        <span className="flex items-center gap-1.5 rounded-app-7xl border-w-2xs border-app-line bg-app-brand2-40 py-1.5 pr-3 pl-2">
+          <IconRefreshDot size={15} stroke={1.6} className="shrink-0 text-app-text" aria-hidden />
+          <span className="hidden lg:block">
+            <span className="block text-body-2xs whitespace-nowrap text-app-text">
+              CutRite Lawn Care
+            </span>
+            <span className="block text-body-2xs whitespace-nowrap text-app-text-secondary">
+              Switch Organization
+            </span>
+          </span>
+        </span>
+        <span className="size-8 shrink-0 rounded-app-12xl border-w-2xs border-app-line bg-gradient-to-br from-app-brand2-64 to-app-brand1" />
+      </span>
+    </div>
+  );
+}
+
+/** Side Menu panel — grouped rows under uppercase section headings. */
+function SideMenu() {
+  return (
+    <nav className="hidden w-40 shrink-0 flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 px-2 py-3 backdrop-blur-[12px] lg:flex">
+      {navSections.map((section) => (
+        <div key={section.heading} className="flex flex-col gap-1">
+          <p className="px-2 text-nav-heading text-app-text">{section.heading}</p>
+          <div className="flex flex-col overflow-hidden rounded-app-l border-w-2xs border-app-line">
+            {section.items.map((item) => (
+              <span
+                key={item.label}
+                className={`flex items-center gap-2 border-w-2xs border-app-line px-2.5 py-2 ${
+                  item.active
+                    ? "bg-app-brand1-16 text-app-nav-active"
+                    : "bg-app-fade-48 text-app-text"
+                }`}
+              >
+                <item.icon size={15} stroke={1.6} className="shrink-0" aria-hidden />
+                <span className="truncate text-body-2xs">{item.label}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </nav>
+  );
+}
+
+/**
+ * The metric band the real Dashboard opens with. Numbers use `text-app-text`
+ * rather than the platform MetricCard's Brand 1, which is navy in both themes
+ * and would be navy-on-navy here.
+ */
+function MetricBand({ verified }: { verified: number }) {
+  const metrics = [
+    { label: "Pending Verification", value: "1,248", delta: "+6.4%" },
+    { label: "In Progress", value: "781", delta: "+8.4%" },
+    { label: "Verified", value: verified.toLocaleString("en-US"), delta: "+6.4%" },
+    { label: "Avg. Completion", value: "14.2", unit: "hrs", delta: "-8.4%", down: true },
+  ];
+
+  return (
+    <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
+      {metrics.map((metric) => (
+        <div
+          key={metric.label}
+          className="flex flex-col justify-between gap-1.5 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3 backdrop-blur-[12px]"
+        >
+          <p className="truncate text-body-2xs text-app-text-secondary">{metric.label}</p>
+          <p className="flex items-end gap-1">
+            <span className="text-heading-s whitespace-nowrap text-app-text">{metric.value}</span>
+            {metric.unit ? (
+              <span className="pb-0.5 text-body-2xs text-app-text-secondary">{metric.unit}</span>
+            ) : null}
+            <span
+              className={`pb-0.5 text-body-2xs whitespace-nowrap ${
+                metric.down ? "text-app-warning" : "text-app-success"
+              }`}
+            >
+              {metric.delta}
+            </span>
+          </p>
+        </div>
+      ))}
     </div>
   );
 }
@@ -333,29 +454,29 @@ function ReportRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between">
-      <span className="text-app-text-tertiary">{label}</span>
+    <div className="flex items-center justify-between gap-2">
+      <span className="text-body-2xs text-app-text-tertiary">{label}</span>
       {revealed ? (
         <motion.span initial={{ opacity: 0, x: 6 }} animate={{ opacity: 1, x: 0 }}>
           {children}
         </motion.span>
       ) : (
-        <span className="h-3 w-20 rounded-app-4xl bg-app-fade-40" />
+        <span className="h-2.5 w-20 rounded-app-4xl bg-app-fade-48" />
       )}
     </div>
   );
 }
 
 function ScoreRing({ score }: { score: number }) {
-  const r = 20;
+  const r = 18;
   const c = 2 * Math.PI * r;
   const offset = c - (score / 100) * c;
   return (
-    <svg viewBox="0 0 48 48" className="size-12 -rotate-90">
-      <circle cx="24" cy="24" r={r} fill="none" stroke="var(--ve-surface-fade-40)" strokeWidth="5" />
+    <svg viewBox="0 0 44 44" className="size-11 -rotate-90">
+      <circle cx="22" cy="22" r={r} fill="none" stroke="var(--ve-surface-fade-40)" strokeWidth="5" />
       <motion.circle
-        cx="24"
-        cy="24"
+        cx="22"
+        cy="22"
         r={r}
         fill="none"
         stroke="var(--ve-text-brand2)"
@@ -366,33 +487,6 @@ function ScoreRing({ score }: { score: number }) {
         animate={{ strokeDashoffset: offset }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       />
-    </svg>
-  );
-}
-
-function NetworkDecoration() {
-  const nodes = [
-    [20, 6],
-    [70, 2],
-    [130, 10],
-    [190, 4],
-    [240, 12],
-  ];
-  return (
-    <svg
-      viewBox="0 0 260 16"
-      className="pointer-events-none absolute -bottom-2 left-8 hidden h-6 w-64 opacity-40 sm:block"
-      fill="none"
-    >
-      <path
-        d={`M${nodes.map((n) => n.join(",")).join(" L")}`}
-        stroke="var(--ve-text-brand2)"
-        strokeWidth="0.75"
-        strokeDasharray="2 3"
-      />
-      {nodes.map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r="2" fill="var(--ve-text-brand2)" />
-      ))}
     </svg>
   );
 }
