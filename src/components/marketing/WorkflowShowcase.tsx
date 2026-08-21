@@ -34,20 +34,19 @@ import { ShieldMark } from "@/components/layout/Logo";
  * old browser chrome (traffic-light dots, URL bar, icon rail) is gone and the
  * real shell is reproduced instead: a full-width Top Nav panel above a
  * separate Side Menu panel and content, each a mint-hairline glass panel
- * floating on the navy canvas with 8px gaps — matching Figma node 18110:24716
- * (Dashboard, Dark Mode).
+ * floating on the canvas with 8px gaps — matching Figma node 18045:1125
+ * (Dashboard, Light Mode).
+ *
+ * Light, not dark: the hero sits on bg-navy-900, so a light mock reads as a
+ * real product screenshot rather than decoration blending into the section,
+ * and light is the theme the platform actually boots into.
  *
  * It uses the platform's own tokens (the `app-` Tailwind utilities from
  * src/styles/platform.css, already global via globals.css), Satoshi, and the
- * Tabler icon set. `data-ve-theme="dark"` sits on this component's own
+ * Tabler icon set. `data-ve-theme="light"` sits on this component's own
  * wrapper rather than <html>, so those tokens resolve without the platform's
  * ThemeScript or session: this is a static marketing snapshot, and stays a
  * site-only component (nothing is imported from src/components/platform).
- *
- * One deliberate divergence from the platform components: numbers here use
- * `text-app-text`, not `text-app-text-brand1`. Brand 1 is navy in both
- * themes, which on the dark canvas is navy-on-navy — see the note in
- * PROGRESS.md.
  */
 
 const steps = [
@@ -156,7 +155,7 @@ export function WorkflowShowcase() {
 
   return (
     <div
-      data-ve-theme="dark"
+      data-ve-theme="light"
       className="font-app relative pt-8 pb-10 pl-6 sm:pt-10 sm:pb-14 sm:pl-10"
       style={{ perspective: 1400 }}
     >
@@ -169,7 +168,7 @@ export function WorkflowShowcase() {
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         className="absolute -top-2 right-6 z-20 hidden items-center gap-2.5 rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 py-2.5 pr-4 pl-2.5 shadow-2xl backdrop-blur-[12px] sm:flex"
       >
-        <span className="flex size-7 items-center justify-center rounded-app-12xl bg-app-brand2-40 text-app-text-brand2">
+        <span className="flex size-7 items-center justify-center rounded-app-12xl bg-app-brand2-64 text-app-text-brand1">
           <IconShieldCheck size={16} stroke={1.6} aria-hidden />
         </span>
         <div>
@@ -178,7 +177,7 @@ export function WorkflowShowcase() {
         </div>
       </motion.div>
 
-      {/* The platform shell: navy canvas, 8px gaps, floating glass panels. */}
+      {/* The platform shell: canvas, 8px gaps, floating glass panels. */}
       <motion.div
         onMouseMove={handleTiltMove}
         onMouseLeave={handleTiltLeave}
@@ -196,14 +195,14 @@ export function WorkflowShowcase() {
             <div className="grid grid-cols-1 gap-2 lg:grid-cols-[1.1fr_1fr]">
               {/* workflow steps */}
               <section className="flex flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]">
-                <h3 className="text-label-xs text-app-text-brand2">
+                <h3 className="text-label-xs text-app-text-brand1">
                   Landlord Verification Workflow
                 </h3>
 
                 <div className="relative">
                   <div className="absolute top-1 bottom-1 left-[13px] w-px bg-app-line" />
                   <motion.div
-                    className="absolute top-1 left-[13px] w-px bg-app-text-brand2"
+                    className="absolute top-1 left-[13px] w-px bg-app-brand1"
                     animate={{ height: `${progress}%` }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                   />
@@ -230,14 +229,14 @@ export function WorkflowShowcase() {
                             <span
                               className={`relative z-10 mt-0.5 flex size-[22px] shrink-0 items-center justify-center rounded-app-12xl text-body-2xs font-bold transition-colors ${
                                 isActive || isDone
-                                  ? "bg-app-text-brand2 text-app-text-brand1"
+                                  ? "bg-app-brand1 text-app-text-inverse"
                                   : "bg-app-fade-48 text-app-text-tertiary"
                               }`}
                             >
                               {i + 1}
                             </span>
                             <Icon
-                              className={`mt-0.5 shrink-0 ${isActive ? "text-app-text-brand2" : "text-app-text-tertiary"}`}
+                              className={`mt-0.5 shrink-0 ${isActive ? "text-app-text-brand1" : "text-app-text-tertiary"}`}
                               size={15}
                               stroke={1.6}
                               aria-hidden
@@ -263,7 +262,7 @@ export function WorkflowShowcase() {
               {/* verification report */}
               <section className="flex flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]">
                 <div className="flex items-center justify-between gap-2">
-                  <h3 className="text-label-xs text-app-text-brand2">Verification Report</h3>
+                  <h3 className="text-label-xs text-app-text-brand1">Verification Report</h3>
                   <motion.span
                     key={delivered ? "verified" : "progress"}
                     initial={{ opacity: 0, y: -4 }}
@@ -300,13 +299,13 @@ export function WorkflowShowcase() {
                   {reportOutcomes.map((row) => (
                     <ReportRow key={row.label} label={row.label} revealed={active >= row.revealAt}>
                       {row.value === "stars" ? (
-                        <span className="flex gap-0.5 text-app-text-brand2">
+                        <span className="flex gap-0.5 text-app-success">
                           {Array.from({ length: 5 }).map((_, i) => (
                             <IconStarFilled key={i} size={12} aria-hidden />
                           ))}
                         </span>
                       ) : (
-                        <span className="text-body-2xs text-app-text-brand2">{row.value}</span>
+                        <span className="text-body-2xs text-app-success">{row.value}</span>
                       )}
                     </ReportRow>
                   ))}
@@ -315,7 +314,7 @@ export function WorkflowShowcase() {
                 <div className="mt-auto flex items-center justify-between rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3">
                   <div>
                     <p className="text-body-2xs text-app-text-tertiary">Verification Score</p>
-                    <p className="text-heading-s text-app-text">
+                    <p className="text-heading-s text-app-text-brand1">
                       {score}
                       <span className="text-body-2xs text-app-text-tertiary"> / 100</span>
                     </p>
@@ -338,7 +337,7 @@ function TopNav() {
       <span className="flex shrink-0 items-center gap-1.5 px-2">
         <ShieldMark className="size-5" />
         <span className="text-label-xs whitespace-nowrap text-app-text">
-          <span className="text-app-text-brand2">Verify</span>Engine
+          <span className="text-app-text-brand1">Verify</span>Engine
         </span>
       </span>
 
@@ -405,9 +404,8 @@ function SideMenu() {
 }
 
 /**
- * The metric band the real Dashboard opens with. Numbers use `text-app-text`
- * rather than the platform MetricCard's Brand 1, which is navy in both themes
- * and would be navy-on-navy here.
+ * The metric band the real Dashboard opens with, figures in Text/Brand 1 as
+ * the light Figma frame draws them.
  */
 function MetricBand({ verified }: { verified: number }) {
   const metrics = [
@@ -426,7 +424,7 @@ function MetricBand({ verified }: { verified: number }) {
         >
           <p className="truncate text-body-2xs text-app-text-secondary">{metric.label}</p>
           <p className="flex items-end gap-1">
-            <span className="text-heading-s whitespace-nowrap text-app-text">{metric.value}</span>
+            <span className="text-heading-s whitespace-nowrap text-app-text-brand1">{metric.value}</span>
             {metric.unit ? (
               <span className="pb-0.5 text-body-2xs text-app-text-secondary">{metric.unit}</span>
             ) : null}
@@ -479,7 +477,7 @@ function ScoreRing({ score }: { score: number }) {
         cy="22"
         r={r}
         fill="none"
-        stroke="var(--ve-text-brand2)"
+        stroke="var(--ve-surface-brand1)"
         strokeWidth="5"
         strokeLinecap="round"
         strokeDasharray={c}

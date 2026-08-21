@@ -31,7 +31,7 @@ export function ScoreGauge({
           cy="56"
           r={r}
           fill="none"
-          stroke="#EEF2F6"
+          stroke="var(--ve-surface-fade-40, #EEF2F6)"
           strokeWidth="9"
           strokeLinecap="round"
           strokeDasharray={`${track} ${c}`}
@@ -41,7 +41,7 @@ export function ScoreGauge({
           cy="56"
           r={r}
           fill="none"
-          stroke="var(--color-teal-500)"
+          stroke="var(--ve-success, var(--color-teal-500))"
           strokeWidth="9"
           strokeLinecap="round"
           strokeDasharray={`${track} ${c}`}
@@ -51,8 +51,8 @@ export function ScoreGauge({
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-3xl font-bold text-ink-900">{score}</span>
-        <span className="text-[10px] font-medium text-slate-400">{caption}</span>
+        <span className="text-heading-m text-app-text">{score}</span>
+        <span className="text-body-2xs text-app-text-tertiary">{caption}</span>
       </div>
     </div>
   );

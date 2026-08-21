@@ -56,19 +56,21 @@ export function SummaryStepper({
             <button
               type="button"
               onClick={() => selectStep(i)}
-              className={`flex w-full cursor-pointer items-center gap-3 rounded-xl px-2 py-2.5 text-left transition-colors ${
-                isActive ? "bg-bg-mint-50" : "hover:bg-bg-muted"
+              className={`flex w-full cursor-pointer items-center gap-3 rounded-app-m px-2 py-2.5 text-left transition-colors ${
+                isActive ? "bg-app-fade-48" : "hover:bg-app-fade-40"
               }`}
             >
               <span
-                className={`relative z-10 flex size-9 shrink-0 items-center justify-center rounded-full transition-colors ${
-                  isActive ? "bg-mint-100 text-teal-600" : "bg-white text-slate-400"
+                className={`relative z-10 flex size-9 shrink-0 items-center justify-center rounded-app-12xl transition-colors ${
+                  isActive
+                    ? "bg-app-brand2-64 text-app-text-brand1"
+                    : "bg-app-fade-48 text-app-text-tertiary"
                 }`}
               >
                 {step.icon}
               </span>
               <span
-                className={`text-sm font-semibold ${isActive ? "text-teal-700" : "text-ink-900"}`}
+                className={`text-label-2xs ${isActive ? "text-app-text-brand1" : "text-app-text-secondary"}`}
               >
                 {step.label}
               </span>

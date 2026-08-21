@@ -58,9 +58,12 @@ export default function GuidesPage() {
                   </p>
                   <p className="mt-1 text-xs text-white/50">A Complete Guide</p>
 
-                  <div className="mt-5 grid grid-cols-[0.7fr_1fr] gap-4 rounded-xl bg-white p-4">
+                  <div
+                    data-ve-theme="light"
+                    className="font-app mt-5 grid grid-cols-[0.7fr_1fr] gap-4 rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] p-4"
+                  >
                     <div className="text-center">
-                      <p className="text-[10px] text-slate-500">
+                      <p className="text-body-2xs text-app-text-secondary">
                         VE Score<span className="align-super text-[7px]">™</span>
                       </p>
                       <ScoreGauge score={95} caption="Low Risk" />
@@ -69,9 +72,12 @@ export default function GuidesPage() {
                       {heroChecks.map((check) => (
                         <li
                           key={check}
-                          className="flex items-center gap-1.5 text-[11px] font-medium text-ink-900"
+                          className="flex items-center gap-1.5 text-body-2xs text-app-text"
                         >
-                          <CheckCircle2 className="size-3.5 shrink-0 text-teal-500" strokeWidth={2} />
+                          <CheckCircle2
+                            className="size-3.5 shrink-0 text-app-success"
+                            strokeWidth={1.8}
+                          />
                           {check}
                         </li>
                       ))}

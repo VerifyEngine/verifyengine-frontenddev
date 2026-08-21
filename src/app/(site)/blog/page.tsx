@@ -48,21 +48,21 @@ export default function BlogPage() {
 
             {/* Layered sample-report visual, matching the design's hero collage. */}
             <Reveal delay={0.12} className="hidden lg:block">
-              <div className="relative ml-auto w-full max-w-lg rounded-2xl bg-navy-800/60 p-6">
-                <div className="grid grid-cols-[0.7fr_1fr] gap-5 rounded-xl bg-white p-5 shadow-2xl">
+              <div
+                data-ve-theme="light"
+                className="font-app relative ml-auto w-full max-w-lg rounded-app-xl bg-[var(--ve-canvas)] p-6"
+              >
+                <div className="grid grid-cols-[0.7fr_1fr] gap-5 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-5 shadow-2xl backdrop-blur-[12px]">
                   <div className="text-center">
-                    <p className="text-[11px] text-slate-500">
+                    <p className="text-body-2xs text-app-text-secondary">
                       VE Score<span className="align-super text-[8px]">™</span>
                     </p>
                     <ScoreGauge score={94} caption="Low Risk" />
                   </div>
                   <ul className="flex flex-col justify-center gap-2.5">
                     {heroChecks.map((check) => (
-                      <li
-                        key={check}
-                        className="flex items-center gap-2 text-xs font-medium text-ink-900"
-                      >
-                        <CheckCircle2 className="size-4 shrink-0 text-teal-500" strokeWidth={2} />
+                      <li key={check} className="flex items-center gap-2 text-body-2xs text-app-text">
+                        <CheckCircle2 className="size-4 shrink-0 text-app-success" strokeWidth={1.8} />
                         {check}
                       </li>
                     ))}

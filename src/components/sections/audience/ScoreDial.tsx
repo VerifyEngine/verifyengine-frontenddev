@@ -24,13 +24,20 @@ export function ScoreDial({
   return (
     <div ref={ref} className="relative mx-auto mt-2 w-fit">
       <svg viewBox="0 0 112 112" className="size-32 -rotate-90">
-        <circle cx="56" cy="56" r={r} fill="none" stroke="#EEF2F6" strokeWidth="10" />
+        <circle
+          cx="56"
+          cy="56"
+          r={r}
+          fill="none"
+          stroke="var(--ve-surface-fade-40, #EEF2F6)"
+          strokeWidth="10"
+        />
         <motion.circle
           cx="56"
           cy="56"
           r={r}
           fill="none"
-          stroke="var(--color-teal-500)"
+          stroke="var(--ve-success, var(--color-teal-500))"
           strokeWidth="10"
           strokeLinecap="round"
           strokeDasharray={c}
@@ -40,8 +47,8 @@ export function ScoreDial({
         />
       </svg>
       <span className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-2xl font-bold text-ink-900">{score}%</span>
-        <span className="text-[10px] text-slate-400">{caption}</span>
+        <span className="text-heading-s text-app-text">{score}%</span>
+        <span className="text-body-2xs text-app-text-tertiary">{caption}</span>
       </span>
     </div>
   );

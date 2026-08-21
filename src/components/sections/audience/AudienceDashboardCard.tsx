@@ -15,6 +15,16 @@ export type AudienceStat = {
  * Hero card for the audience sub-pages: an overall-score dial beside a
  * verification breakdown, a strip of trend stats, and an AI insight note.
  *
+ * Restyled 2026-08-21 to read as the signed-in platform: platform design
+ * tokens (the `app-` Tailwind utilities from src/styles/platform.css, global
+ * via globals.css), Satoshi, and the glass-panel treatment the real screens
+ * use. `data-ve-theme="light"` sits on this component's own wrapper. Light,
+ * not dark: the hero behind it is bg-navy-900, so a light card reads as a real
+ * product screenshot instead of blending in, and light is the theme the
+ * platform actually boots into. The tokens resolve without the platform's
+ * ThemeScript. It stays a site-only component (nothing imported from
+ * src/components/platform).
+ *
  * Deliberately a Server Component. Icons are rendered here and handed to the
  * client wrappers as children — passing the icon *components* across the
  * server/client boundary makes React emit a client reference for each one,
@@ -51,34 +61,45 @@ export function AudienceDashboardCard({
   const isColumn = statsLayout === "column";
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-white p-5 shadow-2xl">
+    <div
+      data-ve-theme="light"
+      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 shadow-2xl backdrop-blur-[12px]"
+    >
       <div className="flex items-center justify-between gap-3">
-        <p className="text-base font-bold text-ink-900">{title}</p>
+        <p className="text-label-xs text-app-text">{title}</p>
         {rangeLabel && (
-          <span className="flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs text-slate-500">
-            {rangeLabel} <ChevronDown className="size-3.5" strokeWidth={2} />
+          <span className="flex shrink-0 items-center gap-1.5 rounded-app-l border-w-xs border-app-line bg-app-fade-40 px-2.5 py-1.5 text-body-2xs text-app-text-secondary">
+            {rangeLabel} <ChevronDown className="size-3.5" strokeWidth={1.6} />
           </span>
         )}
       </div>
 
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[0.85fr_1fr]">
-        <div className="space-y-4">
-          <div className="rounded-xl border border-slate-100 p-4 text-center">
-            <p className="text-xs font-semibold text-slate-500">{scoreLabel}</p>
+      <div className="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-[0.85fr_1fr]">
+        <div className="flex flex-col gap-3">
+          <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4 text-center">
+            <p className="text-body-2xs text-app-text-secondary">{scoreLabel}</p>
             <ScoreDial score={score} />
-            {scoreCaption && <p className="mt-2 text-[11px] text-slate-400">{scoreCaption}</p>}
+            {scoreCaption && (
+              <p className="mt-2 text-body-2xs text-app-text-tertiary">{scoreCaption}</p>
+            )}
           </div>
 
           {isColumn && (
-            <div className="divide-y divide-slate-100 rounded-xl border border-slate-100">
+            <div className="flex flex-col overflow-hidden rounded-app-l border-w-2xs border-app-line">
               {stats.map((stat) => (
-                <div key={stat.label} className="flex items-center gap-3 p-3">
+                <div
+                  key={stat.label}
+                  className="flex items-center gap-3 border-w-2xs border-app-line bg-app-fade-48 p-3"
+                >
                   {stat.icon && (
-                    <stat.icon className="size-4 shrink-0 text-slate-400" strokeWidth={1.75} />
+                    <stat.icon
+                      className="size-4 shrink-0 text-app-text-tertiary"
+                      strokeWidth={1.6}
+                    />
                   )}
                   <div className="min-w-0">
-                    <p className="truncate text-[10px] text-slate-400">{stat.label}</p>
-                    <p className="text-sm font-bold text-ink-900">{stat.value}</p>
+                    <p className="truncate text-body-2xs text-app-text-tertiary">{stat.label}</p>
+                    <p className="text-label-2xs text-app-text">{stat.value}</p>
                     <Delta delta={stat.delta} up={stat.up} />
                   </div>
                 </div>
@@ -87,27 +108,27 @@ export function AudienceDashboardCard({
           )}
         </div>
 
-        <div className="space-y-4">
-          <div className="rounded-xl border border-slate-100 p-4">
-            <p className="text-xs font-bold text-ink-900">Verification Breakdown</p>
-            <RevealGroup className="mt-3 space-y-2.5">
+        <div className="flex flex-col gap-3">
+          <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4">
+            <p className="text-label-2xs text-app-text">Verification Breakdown</p>
+            <RevealGroup className="mt-3 flex flex-col gap-2.5">
               {breakdown.map((row) => (
                 <RevealItem key={row.label} className="flex items-center gap-2.5">
-                  <row.icon className="size-4 shrink-0 text-slate-400" strokeWidth={1.75} />
-                  <span className="min-w-0 flex-1 truncate text-xs text-slate-600">
+                  <row.icon className="size-4 shrink-0 text-app-text-tertiary" strokeWidth={1.6} />
+                  <span className="min-w-0 flex-1 truncate text-body-2xs text-app-text-secondary">
                     {row.label}
                   </span>
-                  <span className="shrink-0 text-xs font-bold text-ink-900">{row.value}</span>
-                  <CheckCircle2 className="size-4 shrink-0 text-teal-500" strokeWidth={2} />
+                  <span className="shrink-0 text-body-2xs text-app-text">{row.value}</span>
+                  <CheckCircle2 className="size-4 shrink-0 text-app-success" strokeWidth={1.8} />
                 </RevealItem>
               ))}
             </RevealGroup>
           </div>
 
-          <div className="rounded-xl border border-slate-100 p-4">
-            <p className="text-xs font-bold text-ink-900">{insightTitle}</p>
-            <p className="mt-2 text-[11px] leading-relaxed text-slate-500">{insight}</p>
-            <span className="mt-3 inline-block rounded-md bg-mint-100 px-2.5 py-1 text-[11px] font-semibold text-teal-700">
+          <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4">
+            <p className="text-label-2xs text-app-text">{insightTitle}</p>
+            <p className="mt-2 text-body-2xs leading-relaxed text-app-text-secondary">{insight}</p>
+            <span className="mt-3 inline-block rounded-app-4xl bg-app-success px-2.5 py-1 text-body-2xs text-app-text-inverse">
               {insightTag}
             </span>
           </div>
@@ -115,12 +136,17 @@ export function AudienceDashboardCard({
       </div>
 
       {!isColumn && (
-        <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="rounded-xl border border-slate-100 p-3.5">
-              {stat.icon && <stat.icon className="size-4 text-slate-400" strokeWidth={1.75} />}
-              <p className="mt-2 text-[10px] text-slate-400">{stat.label}</p>
-              <p className="mt-0.5 text-lg font-bold text-ink-900">{stat.value}</p>
+            <div
+              key={stat.label}
+              className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3.5"
+            >
+              {stat.icon && (
+                <stat.icon className="size-4 text-app-text-tertiary" strokeWidth={1.6} />
+              )}
+              <p className="mt-2 text-body-2xs text-app-text-tertiary">{stat.label}</p>
+              <p className="mt-0.5 text-heading-s text-app-text">{stat.value}</p>
               <Delta delta={stat.delta} up={stat.up} />
             </div>
           ))}
@@ -133,17 +159,17 @@ export function AudienceDashboardCard({
 function Delta({ delta, up }: { delta: string; up: boolean }) {
   return (
     <p
-      className={`mt-0.5 flex items-center gap-1 text-[10px] font-medium ${
-        up ? "text-teal-600" : "text-rose-500"
+      className={`mt-0.5 flex items-center gap-1 text-body-2xs ${
+        up ? "text-app-success" : "text-app-warning"
       }`}
     >
       {up ? (
-        <ArrowUpRight className="size-3" strokeWidth={2.5} />
+        <ArrowUpRight className="size-3" strokeWidth={2} />
       ) : (
-        <ArrowDownRight className="size-3" strokeWidth={2.5} />
+        <ArrowDownRight className="size-3" strokeWidth={2} />
       )}
       {delta}
-      <span className="text-slate-400">vs last 30 days</span>
+      <span className="text-app-text-tertiary">vs last 30 days</span>
     </p>
   );
 }

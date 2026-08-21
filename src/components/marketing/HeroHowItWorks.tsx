@@ -76,14 +76,21 @@ export function HeroHowItWorks() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.12} className="grid grid-cols-1 gap-6 sm:grid-cols-[1fr_1.05fr]">
+          {/* The theme attribute goes on a plain element, not on Reveal —
+              Reveal takes a fixed prop list and silently drops anything else,
+              and TypeScript does not flag hyphenated JSX attributes. */}
+          <Reveal delay={0.12}>
+            <div
+              data-ve-theme="light"
+              className="font-app grid grid-cols-1 gap-4 sm:grid-cols-[1fr_1.05fr]"
+            >
             <LiveCallCard />
 
-            {/* Step rail — white circles + pill cards, matching the design. */}
-            <div className="relative flex flex-col justify-center gap-3">
-              <div className="absolute top-8 bottom-8 left-7 w-px bg-white/15" />
+            {/* Step rail — glass circles + pill panels, in the platform's language. */}
+            <div className="relative flex flex-col justify-center gap-2">
+              <div className="absolute top-8 bottom-8 left-7 w-px bg-app-line" />
               <motion.div
-                className="absolute top-8 left-7 w-px bg-mint-200"
+                className="absolute top-8 left-7 w-px bg-app-brand1"
                 animate={{ height: `${(active / (steps.length - 1)) * 100}%` }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
               />
@@ -100,25 +107,30 @@ export function HeroHowItWorks() {
                     <motion.span
                       animate={{ scale: isActive ? 1.06 : 1 }}
                       transition={{ duration: 0.3 }}
-                      className={`relative z-10 flex size-14 shrink-0 items-center justify-center rounded-full transition-colors ${
-                        isActive ? "bg-white text-teal-600" : "bg-white/90 text-slate-400"
+                      className={`relative z-10 flex size-14 shrink-0 items-center justify-center rounded-app-12xl border-w-2xs transition-colors ${
+                        isActive
+                          ? "border-app-line-brand2 bg-app-brand2-64 text-app-text-brand1"
+                          : "border-app-line bg-app-fade-48 text-app-text-tertiary"
                       }`}
                     >
-                      <step.icon className="size-6" strokeWidth={1.75} />
+                      <step.icon className="size-6" strokeWidth={1.6} />
                     </motion.span>
-                    <motion.span
-                      animate={{
-                        backgroundColor: isActive ? "rgb(255,255,255)" : "rgba(255,255,255,0.92)",
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className="min-w-0 flex-1 rounded-xl px-4 py-3 shadow-lg"
+                    <span
+                      className={`min-w-0 flex-1 rounded-app-l border-w-2xs px-4 py-3 shadow-lg backdrop-blur-[12px] transition-colors ${
+                        isActive
+                          ? "border-app-line-brand2 bg-app-brand2-16"
+                          : "border-app-line bg-app-fade-48"
+                      }`}
                     >
-                      <span className="block text-sm font-bold text-ink-900">{step.title}</span>
-                      <span className="block text-xs text-slate-500">{step.desc}</span>
-                    </motion.span>
+                      <span className="block text-label-2xs text-app-text">{step.title}</span>
+                      <span className="block text-body-2xs text-app-text-secondary">
+                        {step.desc}
+                      </span>
+                    </span>
                   </button>
                 );
               })}
+            </div>
             </div>
           </Reveal>
         </div>
@@ -134,36 +146,36 @@ function LiveCallCard() {
   ];
 
   return (
-    <div className="flex flex-col rounded-2xl bg-bg-muted p-6 shadow-2xl">
-      <p className="text-xs font-bold tracking-wide text-slate-500 uppercase">AI Voice Agent</p>
+    <div className="flex flex-col rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-6 shadow-2xl backdrop-blur-[12px]">
+      <p className="text-nav-heading text-app-text-secondary">AI Voice Agent</p>
 
       <div className="mt-6 flex items-center gap-3">
-        <span className="text-sm font-medium text-slate-500">00:45</span>
+        <span className="text-body-2xs text-app-text-secondary">00:45</span>
         <div className="flex flex-1 items-center justify-center gap-0.5">
           {bars.map((h, i) => (
             <motion.span
               key={i}
-              className="w-0.5 rounded-full bg-teal-400"
+              className="w-0.5 rounded-app-4xl bg-app-brand1"
               animate={{ height: [h, Math.max(4, h * 0.35), h] }}
               transition={{ duration: 1.3, repeat: Infinity, delay: i * 0.045, ease: "easeInOut" }}
             />
           ))}
         </div>
-        <span className="text-sm font-medium text-slate-500">00:45</span>
+        <span className="text-body-2xs text-app-text-secondary">00:45</span>
       </div>
 
-      <p className="mt-7 text-base leading-relaxed text-ink-900">
+      <p className="mt-7 text-body-xs leading-relaxed text-app-text">
         Hi, this is Ava calling on behalf of Verify Engine. I&apos;m conducting a rental history
         verification for one of our clients. Do you have a few minutes to answer some questions?
       </p>
 
-      <p className="mt-auto flex items-center gap-2 pt-8 text-base font-bold text-ink-900">
+      <p className="mt-auto flex items-center gap-2 pt-8 text-label-xs text-app-text">
         Listening...
         <span className="flex gap-1">
           {[0, 1, 2].map((i) => (
             <motion.span
               key={i}
-              className="size-1.5 rounded-full bg-teal-500"
+              className="size-1.5 rounded-app-12xl bg-app-success"
               animate={{ opacity: [0.25, 1, 0.25] }}
               transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
             />

@@ -14,6 +14,16 @@ const meta = [
 /**
  * Sample verification report shown in the hero of the product pages.
  *
+ * Restyled 2026-08-21 to read as the signed-in platform: platform design
+ * tokens (the `app-` Tailwind utilities from src/styles/platform.css, global
+ * via globals.css), Satoshi, and the glass-panel treatment the real screens
+ * use. `data-ve-theme="light"` sits on this component's own wrapper. Light,
+ * not dark: the hero behind it is bg-navy-900, so a light card reads as a real
+ * product screenshot instead of blending in, and light is the theme the
+ * platform actually boots into. The tokens resolve without the platform's
+ * ThemeScript. It stays a site-only component (nothing imported from
+ * src/components/platform).
+ *
  * A Server Component on purpose: it renders its own icons and delegates only
  * the animated dial to a client child. Passing icon components into a client
  * component emits a client reference for each, and reusing the same icon on
@@ -41,65 +51,71 @@ export function ApplicantOverviewCard({
   );
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-white shadow-2xl">
-      <div className="flex items-center justify-between gap-4 border-b border-slate-100 px-5 py-4">
-        <p className="text-base font-bold text-ink-900">{title}</p>
-        <span className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-          <Download className="size-3.5" strokeWidth={2} />
+    <div
+      data-ve-theme="light"
+      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 shadow-2xl backdrop-blur-[12px]"
+    >
+      <div className="flex items-center justify-between gap-4 border-b border-app-line px-5 py-4">
+        <p className="text-label-xs text-app-text">{title}</p>
+        <span className="flex items-center gap-1.5 text-body-2xs text-app-text-secondary">
+          <Download className="size-3.5" strokeWidth={1.6} />
           Download Report
         </span>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 p-5 sm:grid-cols-[0.8fr_1fr]">
-        <div className="rounded-xl border border-slate-100 p-4">
-          <p className="text-xs font-semibold text-slate-500">
+      <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-[0.8fr_1fr]">
+        <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4">
+          <p className="text-body-2xs text-app-text-secondary">
             VE Score<span className="align-super text-[8px]">™</span>
           </p>
           <ScoreGauge score={score} />
 
-          <div className="mt-4 space-y-2.5 border-t border-slate-100 pt-3">
+          <div className="mt-4 flex flex-col gap-2.5 border-t border-app-line pt-3">
             {metaRows.map((row) => (
               <div key={row.label} className="flex items-center justify-between gap-2">
-                <span className="text-[11px] text-slate-400">{row.label}</span>
+                <span className="text-body-2xs text-app-text-tertiary">{row.label}</span>
                 {row.pill ? (
-                  <span className="rounded-md bg-mint-100 px-2 py-0.5 text-[11px] font-semibold text-teal-700">
+                  <span className="rounded-app-4xl bg-app-success px-2 py-0.5 text-body-2xs text-app-text-inverse">
                     {row.value}
                   </span>
                 ) : (
-                  <span className="text-[11px] font-semibold text-ink-900">{row.value}</span>
+                  <span className="text-body-2xs text-app-text">{row.value}</span>
                 )}
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <div className="rounded-xl border border-slate-100 p-4">
-            <p className="text-xs font-semibold text-slate-500">{detailsTitle}</p>
-            <RevealGroup className="mt-3 space-y-2.5">
+        <div className="flex flex-col gap-3">
+          <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4">
+            <p className="text-body-2xs text-app-text-secondary">{detailsTitle}</p>
+            <RevealGroup className="mt-3 flex flex-col gap-2.5">
               {details.map((row) => (
                 <RevealItem
                   key={row.label}
-                  className="flex items-center justify-between gap-3 border-b border-slate-50 pb-2.5 last:border-0 last:pb-0"
+                  className="flex items-center justify-between gap-3 border-b border-app-line pb-2.5 last:border-0 last:pb-0"
                 >
-                  <span className="flex items-center gap-2 text-xs font-medium text-ink-900">
-                    <row.icon className="size-3.5 shrink-0 text-slate-400" strokeWidth={1.75} />
+                  <span className="flex items-center gap-2 text-body-2xs text-app-text">
+                    <row.icon
+                      className="size-3.5 shrink-0 text-app-text-tertiary"
+                      strokeWidth={1.6}
+                    />
                     {row.label}
                   </span>
-                  <span className="flex shrink-0 items-center gap-1.5 text-[11px] font-semibold text-slate-500">
+                  <span className="flex shrink-0 items-center gap-1.5 text-body-2xs text-app-text-secondary">
                     {row.value}
-                    <CheckCircle2 className="size-3.5 text-teal-500" strokeWidth={2} />
+                    <CheckCircle2 className="size-3.5 text-app-success" strokeWidth={1.8} />
                   </span>
                 </RevealItem>
               ))}
             </RevealGroup>
           </div>
 
-          <div className="rounded-xl border border-slate-100 p-4">
-            <p className="text-xs font-semibold text-slate-500">AI Summary</p>
-            <p className="mt-2 text-[11px] leading-relaxed text-slate-500">{summary}</p>
-            <span className="mt-3 inline-flex items-center gap-1 rounded-md bg-mint-100 px-2 py-0.5 text-[11px] font-semibold text-teal-700">
-              ↓ {riskTag}
+          <div className="rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-4">
+            <p className="text-body-2xs text-app-text-secondary">AI Summary</p>
+            <p className="mt-2 text-body-2xs leading-relaxed text-app-text-secondary">{summary}</p>
+            <span className="mt-3 inline-flex items-center gap-1 rounded-app-4xl bg-app-success px-2 py-0.5 text-body-2xs text-app-text-inverse">
+              {riskTag}
             </span>
           </div>
         </div>

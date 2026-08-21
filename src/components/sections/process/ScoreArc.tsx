@@ -25,7 +25,7 @@ export function ScoreArc({ score }: { score: number }) {
           cy="44"
           r={r}
           fill="none"
-          stroke="#EEF2F6"
+          stroke="var(--ve-surface-fade-40, #EEF2F6)"
           strokeWidth="7"
           strokeLinecap="round"
           strokeDasharray={`${track} ${c}`}
@@ -35,7 +35,7 @@ export function ScoreArc({ score }: { score: number }) {
           cy="44"
           r={r}
           fill="none"
-          stroke="var(--color-teal-500)"
+          stroke="var(--ve-success, var(--color-teal-500))"
           strokeWidth="7"
           strokeLinecap="round"
           strokeDasharray={`${track} ${c}`}
@@ -44,7 +44,7 @@ export function ScoreArc({ score }: { score: number }) {
           transition={{ duration: 1.1, ease: "easeOut" }}
         />
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-ink-900">
+      <span className="absolute inset-0 flex items-center justify-center text-heading-s text-app-text">
         {score}
       </span>
     </div>
