@@ -1,0 +1,239 @@
+/*
+ * Design tokens for the signed-in platform (Milestones 5-8).
+ *
+ * Every value here is read straight out of the Figma variables of
+ * "Verify-Engine (Copy)" (file GLLsNxilGHe1MIJEqAEXvu, page "Dashboard").
+ * The Figma names are kept in comments so a value can be traced back to the
+ * design without opening the file. Where Figma misspells a token
+ * ("Defualt", "Pading") the correct spelling is used here and the original is
+ * noted, so searching the design still finds it.
+ *
+ * Light and dark are the two sections of that page. They share the token
+ * *names*, which is why the platform can switch themes by swapping one
+ * data attribute rather than by branching in every component.
+ */
+
+/* ---- Light Mode ------------------------------------------------------- */
+[data-ve-theme="light"] {
+  /* Surface */
+  --ve-surface-default: #ffffff;          /* Surface/Defualt/Primary */
+  --ve-surface-fade-40: #ffffff66;        /* Surface/Fade/40% */
+  --ve-surface-fade-48: #ffffff7a;        /* Surface/Fade/48% */
+  --ve-surface-brand1: #233364;           /* Surface/Brand 1/Primary */
+  --ve-surface-brand1-16: #5026a229;      /* Surface/Fade (Brand 1)/16% */
+  --ve-surface-brand2-16: #a5f3d429;      /* Surface/Fade (Brand 2)/16% */
+  --ve-surface-brand2-40: #a5f3d466;      /* Surface/Fade (Brand 2)/40% */
+  --ve-surface-brand2-64: #a5f3d4a3;      /* Surface/Fade (Brand 2)/64% */
+
+  /* Text */
+  --ve-text-primary: #333333;             /* Text/Default/Primary */
+  --ve-text-secondary: #808080;           /* Text/Default/Secondary */
+  --ve-text-tertiary: #bfbfbf;            /* Text/Default/Tertiary */
+
+  /* Border */
+  --ve-border-line: #cccccc;              /* Border/Defualt/Primary */
+
+  /* Icon */
+  --ve-icon-primary: #333333;             /* Icon/Default/Primary */
+
+  /* The wordmark is navy on light and mint on dark. */
+  --ve-wordmark: #233364;
+
+  /* The active nav row is Text/Brand 1 on light. On dark that navy would be
+     unreadable on the lilac highlight, so dark uses Brand 2, as drawn. */
+  --ve-nav-active-text: #233364;
+
+  /* Page canvas — the frame fill the whole app sits on. */
+  --ve-canvas: #fcfcfc;
+  /* Off, like dark — see the note in the dark block. */
+  --ve-bg-layer-opacity: 0;
+}
+
+/* ---- Dark Mode -------------------------------------------------------- */
+[data-ve-theme="dark"] {
+  --ve-surface-default: #0b0f14;
+  --ve-surface-fade-40: #00000066;        /* Surface/Fade/40% */
+  --ve-surface-fade-48: #0000007a;        /* Surface/Fade/48% */
+  --ve-surface-brand1: #233364;           /* Surface/Brand 1/Primary */
+  --ve-surface-brand1-16: #5026a229;
+  --ve-surface-brand2-16: #a5f3d429;
+  --ve-surface-brand2-40: #a5f3d466;
+  --ve-surface-brand2-64: #a5f3d4a3;
+  --ve-surface-brand2-secondary: #63927f; /* Surface/Brand 2/Secondary */
+  --ve-surface-brand2-tertiary: #426155;  /* Surface/Brand 2/Tertiary */
+
+  --ve-text-primary: #ffffff;
+  --ve-text-secondary: #cccccc;
+  --ve-text-tertiary: #999999;
+
+  --ve-border-line: #333333;
+
+  --ve-icon-primary: #ffffff;
+
+  --ve-wordmark: #a5f3d4;
+  --ve-nav-active-text: #a5f3d4;
+
+  --ve-canvas: #071942;
+  /*
+   * Both themes ship with a flat canvas for now.
+   *
+   * Figma paints the background as the frame fill plus an image blended in
+   * `overlay`, but it does not expose that fill as a variable and it could not
+   * be derived from the rendered frame. Running the layer over a base we know
+   * is wrong produced a strong colour wash that bled through every panel —
+   * the design intentionally makes them semi-transparent — and left labels and
+   * placeholders unreadable.
+   *
+   * A flat canvas matches what the Figma light frame actually measures
+   * (#fcfcfc at the edges) and keeps the dark canvas at the reviewed value.
+   * Set this to 1 on dark and 0.5 on light once the real frame fill is known;
+   * PlatformBackground is kept ready for exactly that.
+   */
+  --ve-bg-layer-opacity: 0;
+}
+
+/* ---- Shared across both themes ---------------------------------------- */
+[data-ve-theme] {
+  --ve-surface-brand2-secondary: var(--ve-surface-brand2-secondary, #63927f);
+  --ve-border-brand2: #a5f3d4;            /* Border/Brand 2/Primary */
+  --ve-text-brand1: #233364;              /* Text/Brand 1/Primary */
+  --ve-text-brand2: #a5f3d4;              /* Text/Brand 2/Primary */
+  --ve-text-inverse: #ffffff;             /* Text/Inverse/Primary */
+  --ve-icon-brand1: #233364;              /* Icon/Brand 1/Primary */
+  --ve-icon-brand2: #a5f3d4;              /* Icon/Brand 2/Primary */
+
+  /* Functional colours do not change between themes. */
+  --ve-success: #2fcc71;                  /* Surface|Text/Functional/Success */
+  --ve-warning: #e74b3c;                  /* Surface|Text/Functional/Warning */
+  --ve-accent: #ff8a00;                   /* Surface/Functional/Accent */
+  --ve-neutral: #01a2ff;                  /* Surface/Functional/Neutral */
+  --ve-highlight: #edd501;                /* Surface/Functional/Highlight */
+  --ve-white: #ffffff;                    /* Flat/Plain/White */
+
+  /* Type scale. 1 reproduces the Figma sizes exactly; the platform ships at
+     1.2 because the drawn sizes are too small to read. */
+  --ve-type-scale: 1.2;
+}
+
+/* ---- Tailwind bindings ------------------------------------------------- */
+/*
+ * `inline` matters here: it makes Tailwind emit `var(--ve-*)` in the utility
+ * instead of the resolved colour, so every utility follows the theme that the
+ * closest [data-ve-theme] ancestor sets.
+ *
+ * Spacing is deliberately absent — Figma's Gap scale (0, 2, 4, 8, 12, 16, 20,
+ * 24, 64, 160) already lands exactly on Tailwind's default 4px steps, so
+ * `p-3` is 12px and matches Gap/M with nothing to configure.
+ */
+@theme inline {
+  --color-app-surface: var(--ve-surface-default);
+  --color-app-fade-40: var(--ve-surface-fade-40);
+  --color-app-fade-48: var(--ve-surface-fade-48);
+  --color-app-brand1: var(--ve-surface-brand1);
+  --color-app-brand1-16: var(--ve-surface-brand1-16);
+  --color-app-brand2-16: var(--ve-surface-brand2-16);
+  --color-app-brand2-40: var(--ve-surface-brand2-40);
+  --color-app-brand2-64: var(--ve-surface-brand2-64);
+
+  --color-app-text: var(--ve-text-primary);
+  --color-app-text-secondary: var(--ve-text-secondary);
+  --color-app-text-tertiary: var(--ve-text-tertiary);
+  --color-app-text-brand1: var(--ve-text-brand1);
+  --color-app-nav-active: var(--ve-nav-active-text);
+  --color-app-text-brand2: var(--ve-text-brand2);
+  --color-app-text-inverse: var(--ve-text-inverse);
+
+  --color-app-line: var(--ve-border-line);
+  --color-app-line-brand2: var(--ve-border-brand2);
+
+  --color-app-success: var(--ve-success);
+  --color-app-warning: var(--ve-warning);
+  --color-app-accent: var(--ve-accent);
+  --color-app-neutral: var(--ve-neutral);
+  --color-app-highlight: var(--ve-highlight);
+
+  --font-app: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+
+  /* Radius scale, straight from Figma's Radius/* variables. */
+  --radius-app-xs: 4px;
+  --radius-app-m: 12px;
+  --radius-app-l: 16px;
+  --radius-app-xl: 20px;
+  --radius-app-4xl: 40px;
+  --radius-app-7xl: 64px;
+  --radius-app-12xl: 160px;
+}
+
+/*
+ * Figma's Width/* scale for strokes. These are sub-pixel on purpose — the
+ * design uses 0.6px hairlines throughout, and rounding them to 1px visibly
+ * thickens every card and nav row.
+ */
+@utility border-w-2xs { border-width: 0.6px; }   /* Width/2XS */
+@utility border-w-xs  { border-width: 0.8px; }   /* Width/XS  */
+@utility border-w-m   { border-width: 1.2px; }   /* Width/M   */
+
+/*
+ * Text styles as named in Figma, scaled by --ve-type-scale.
+ *
+ * The design specifies 10px body text and 12px labels, which proved too small
+ * to read on a real screen — Label/2XS even sets a 10px line-height under a
+ * 12px font. Rather than hand-picking new sizes and losing the relationships
+ * between them, every size and line-height is multiplied by one factor, so the
+ * type keeps the exact proportions the design draws, just on a larger base.
+ *
+ * Anything that needs platform text must use these utilities. Writing
+ * text-[10px] inline opts that element out of the scale and it goes back to
+ * being unreadable.
+ */
+@utility text-body-2xs {
+  font-size: calc(10px * var(--ve-type-scale));
+  line-height: calc(12px * var(--ve-type-scale));
+  font-weight: 400;
+  letter-spacing: 0;
+}
+@utility text-body-xs {
+  font-size: calc(12px * var(--ve-type-scale));
+  line-height: calc(14px * var(--ve-type-scale));
+  font-weight: 400;
+  letter-spacing: 0;
+}
+@utility text-label-2xs {
+  font-size: calc(12px * var(--ve-type-scale));
+  /* Figma sets 10px here — under the font size. Kept proportional, but floored
+     at the font size so descenders are not clipped. */
+  line-height: calc(14px * var(--ve-type-scale));
+  font-weight: 500;
+  letter-spacing: 0;
+}
+@utility text-label-xs {
+  font-size: calc(14px * var(--ve-type-scale));
+  line-height: calc(16px * var(--ve-type-scale));
+  font-weight: 500;
+  letter-spacing: 0;
+}
+@utility text-nav-heading {
+  font-size: calc(10px * var(--ve-type-scale));
+  line-height: calc(12px * var(--ve-type-scale));
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+@utility text-table-heading {
+  font-size: calc(10px * var(--ve-type-scale));
+  line-height: calc(12px * var(--ve-type-scale));
+  font-weight: 700;
+  letter-spacing: 0;
+}
+@utility text-heading-s {
+  font-size: calc(20px * var(--ve-type-scale));
+  line-height: calc(24px * var(--ve-type-scale));
+  font-weight: 700;
+  letter-spacing: calc(-0.5px * var(--ve-type-scale));
+}
+@utility text-heading-m {
+  font-size: calc(24px * var(--ve-type-scale));
+  line-height: calc(28px * var(--ve-type-scale));
+  font-weight: 700;
+  letter-spacing: calc(-0.75px * var(--ve-type-scale));
+}
