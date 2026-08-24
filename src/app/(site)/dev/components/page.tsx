@@ -17,13 +17,16 @@ export const dynamic = "force-dynamic";
 
 /**
  * Internal gallery of every shared component, used to review them in isolation
- * and as living component documentation. Not linked from the site.
+ * and as living component documentation, and to walk a client through what a
+ * milestone delivered. Not linked from the site.
  *
- * The gate leads with NODE_ENV, which Next sets to "production" for any
- * production build. Relying on NEXT_PUBLIC_APP_ENV alone left the gallery
- * publicly reachable whenever that variable was simply unset — which is the
- * default. NEXT_PUBLIC_APP_ENV still hides it on a staging build that runs
- * with NODE_ENV=production but should behave like production.
+ * `next build` sets NODE_ENV to "production" for every deployed build alike —
+ * staging and production both — so it alone can't tell them apart. The gate
+ * fails closed: any deployed build (`NODE_ENV === "production"`) is blocked
+ * *unless* NEXT_PUBLIC_APP_ENV is explicitly "staging". That default-closed
+ * shape matters — if NEXT_PUBLIC_APP_ENV is simply left unset on the real
+ * production deployment (an easy mistake), it still blocks, rather than
+ * failing open the way checking only for "production" would.
  *
  * Verified in a production build: the gallery is not served, the not-found
  * page is rendered in its place. Note that the response still carries a 200
@@ -31,6 +34,8 @@ export const dynamic = "force-dynamic";
  * status code here. The route is also marked noindex above.
  */
 export default function ComponentsPage() {
-  if (process.env.NODE_ENV === "production" || env.appEnv === "production") notFound();
+  const isDeployedBuild = process.env.NODE_ENV === "production";
+  const isStagingDeploy = env.appEnv === "staging";
+  if (isDeployedBuild && !isStagingDeploy) notFound();
   return <ComponentGallery />;
 }
