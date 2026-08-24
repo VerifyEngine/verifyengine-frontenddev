@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, SearchX } from "lucide-react";
+import { Clock, Search, SearchX } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Container, ArrowRight } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Field";
@@ -38,14 +38,21 @@ export function GuideBrowser() {
     <>
       <div className="bg-navy-900 pb-16 sm:pb-20">
         <Container>
-          <div className="max-w-md">
+          <div className="relative max-w-md">
             <input
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search guides..."
               aria-label="Search guides"
-              className="w-full rounded-xl bg-white py-4 pr-4 pl-5 text-sm text-ink-900 placeholder:text-slate-400 focus:ring-2 focus:ring-mint-200 focus:outline-none"
+              className="w-full rounded-xl bg-white py-4 pr-14 pl-5 text-sm text-ink-900 placeholder:text-slate-400 focus:ring-2 focus:ring-mint-200 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+            />
+            {/* Trailing, like the design — decorative, since the field is
+                labelled and filtering happens as you type. */}
+            <Search
+              aria-hidden="true"
+              className="pointer-events-none absolute top-1/2 right-5 size-5 -translate-y-1/2 text-navy-900"
+              strokeWidth={2}
             />
           </div>
         </Container>
