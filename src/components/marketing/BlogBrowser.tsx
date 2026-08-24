@@ -51,7 +51,11 @@ export function BlogBrowser() {
 
   return (
     <>
-      <div className="bg-navy-900 pb-16 sm:pb-20">
+      {/* The search continues the hero's navy band, but it is a separate
+          element from it, so the space above has to be set here — otherwise the
+          field ends up sitting on the hero paragraph's last line. The design
+          leaves roughly this much room between the two. */}
+      <div className="bg-navy-900 pt-10 pb-16 sm:pb-20">
         <Container>
           <div className="relative max-w-md">
             <input
