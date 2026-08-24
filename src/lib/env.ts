@@ -12,8 +12,13 @@ export const env = {
   /** Base URL of the Verify Engine backend API. */
   apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL ?? "",
 
-  /** Public origin of the site itself, used for absolute URLs and metadata. */
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  /**
+   * Public origin of the site itself, used for absolute URLs and metadata.
+   * `||`, not `??`: a host env var that is set but left blank (e.g. an empty
+   * value in the Vercel dashboard) must fall back too, not reach `new URL("")`
+   * in the root layout and crash the entire build.
+   */
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
 
   /** "development" | "staging" | "production" — drives environment banners etc. */
   appEnv: (process.env.NEXT_PUBLIC_APP_ENV ?? "development") as
