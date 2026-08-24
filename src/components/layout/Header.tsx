@@ -134,7 +134,7 @@ export function Header() {
             Get Started
           </Button>
           <Button href="/book-demo" variant="primary" size="md">
-            Book DEMO
+            Book Demo
           </Button>
         </div>
 
@@ -195,7 +195,7 @@ export function Header() {
               Get Started
             </Button>
             <Button href="/book-demo" variant="primary" className="w-full">
-              Book DEMO
+              Book Demo
             </Button>
           </div>
         </div>

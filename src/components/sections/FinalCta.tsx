@@ -8,7 +8,7 @@ export function FinalCta({
   subtitle = "Join the leading companies transforming verification with AI.",
   primaryLabel = "Get Started",
   primaryHref = "/get-started",
-  secondaryLabel = "Book DEMO",
+  secondaryLabel = "Book Demo",
   secondaryHref = "/book-demo",
   inset = false,
 }: {

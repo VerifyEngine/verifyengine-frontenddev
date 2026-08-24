@@ -29,14 +29,34 @@ function FooterColumn({ title, links }: { title: string; links: { label: string;
 
 export function Footer() {
   return (
-    <footer className="bg-navy-950 pt-16">
-      <Container>
-        <div className="grid grid-cols-1 gap-10 pb-12 md:grid-cols-2 lg:grid-cols-6">
-          <div className="lg:col-span-2">
+    <footer className="relative overflow-hidden bg-navy-950 pt-16">
+      {/* Dotted wave the design tucks into the top-right corner. Built from a
+          repeating dot pattern masked by a soft radial falloff, so it fades out
+          instead of ending on a hard edge. Hidden on small screens, where the
+          columns stack into the space it would occupy. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 right-0 hidden h-64 w-96 opacity-40 lg:block"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, var(--color-mint-200) 1px, transparent 1px)",
+          backgroundSize: "10px 10px",
+          maskImage:
+            "radial-gradient(120% 90% at 88% 22%, #000 0%, rgba(0,0,0,0.55) 45%, transparent 72%)",
+          WebkitMaskImage:
+            "radial-gradient(120% 90% at 88% 22%, #000 0%, rgba(0,0,0,0.55) 45%, transparent 72%)",
+        }}
+      />
+      <Container className="relative">
+        {/* The brand block takes a narrower share than an even split would give
+            it, so the five link columns keep their labels on one line the way
+            the design does — "Property Management Companies" is the tightest. */}
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 pb-12 md:grid-cols-2 lg:grid-cols-[1.35fr_repeat(5,1fr)]">
+          <div>
             <Logo />
             <p className="mt-4 max-w-xs text-sm text-white/60">
               AI-powered verification platform for landlords, property managers, and businesses
-              across industries. Smarter decisions. Stronger communities.
+              across industries. Stronger communities. Smarter decisions.
             </p>
             <div className="mt-5 flex gap-3">
               {socials.map((s) => (
@@ -55,6 +75,7 @@ export function Footer() {
           </div>
 
           <FooterColumn title="Solutions" links={footerNav.solutions} />
+          <FooterColumn title="Industries" links={footerNav.industries} />
           <FooterColumn title="Resources" links={footerNav.resources} />
           <FooterColumn title="Company" links={footerNav.company} />
           <FooterColumn title="Legal" links={footerNav.legal} />

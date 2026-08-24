@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { SearchX } from "lucide-react";
+import { Search, SearchX } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Container, ArrowRight } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Field";
@@ -60,7 +60,14 @@ export function BlogBrowser() {
               onChange={(e) => updateFilter(() => setQuery(e.target.value))}
               placeholder="Search articles..."
               aria-label="Search articles"
-              className="w-full rounded-xl bg-white py-4 pr-4 pl-5 text-sm text-ink-900 placeholder:text-slate-400 focus:ring-2 focus:ring-mint-200 focus:outline-none"
+              className="w-full rounded-xl bg-white py-4 pr-14 pl-5 text-sm text-ink-900 placeholder:text-slate-400 focus:ring-2 focus:ring-mint-200 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+            />
+            {/* Decorative: the field is already labelled, and filtering happens
+                as you type, so there is nothing to click here. */}
+            <Search
+              aria-hidden="true"
+              className="pointer-events-none absolute top-1/2 right-5 size-5 -translate-y-1/2 text-navy-900"
+              strokeWidth={2}
             />
           </div>
         </Container>
@@ -110,10 +117,10 @@ export function BlogBrowser() {
                     >
                       <CoverArt category={post.category} />
                       <div className="flex flex-1 flex-col p-6">
-                        <p className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
+                        <p className="flex flex-wrap items-center gap-2 text-xs text-slate-400 uppercase">
                           {formatPostDate(post.date)}
                           <span className="text-slate-300">•</span>
-                          <span className="font-semibold tracking-wide text-teal-600 uppercase">
+                          <span className="font-semibold tracking-wide text-teal-600">
                             {post.category}
                           </span>
                         </p>
@@ -132,9 +139,13 @@ export function BlogBrowser() {
                 ))}
               </RevealGroup>
 
-              <div className="mt-12">
-                <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
-              </div>
+              {/* Pagination renders nothing on a single page of results, so the
+                  spacing has to go with it rather than leave a gap behind. */}
+              {totalPages > 1 && (
+                <div className="mt-12">
+                  <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
+                </div>
+              )}
             </>
           ) : (
             <div className="mt-10 rounded-2xl border border-slate-100">

@@ -50,12 +50,35 @@ export const primaryNav: NavLink[] = [
 ];
 
 export const footerNav = {
+  // Mirrors the six entries the footer carries in the approved design. Income
+  // and Mortgage have no /industries page of their own, so they point at their
+  // verification-process pages, which is where that content lives.
   solutions: [
     { label: "Landlord Verification", href: "/industries/landlord-verification" },
     { label: "Employment Verification", href: "/industries/employment-verification" },
-    { label: "Financial Services", href: "/industries/financial-services" },
+    { label: "Income Verification", href: "/how-it-works/income-verification" },
+    { label: "Mortgage Verification", href: "/how-it-works/mortgage-verification" },
     { label: "Healthcare Verification", href: "/industries/healthcare-verification" },
     { label: "Education Verification", href: "/industries/education-verification" },
+  ],
+  industries: [
+    {
+      label: "Tenant Screening Companies",
+      href: "/industries/landlord-verification/tenant-screening-companies",
+    },
+    {
+      label: "Property Management Companies",
+      href: "/industries/landlord-verification/property-management-companies",
+    },
+    {
+      label: "Independent Landlords",
+      href: "/industries/landlord-verification/independent-landlords",
+    },
+    {
+      label: "Multifamily Operators",
+      href: "/industries/landlord-verification/multifamily-operators",
+    },
+    { label: "Affordable Housing", href: "/industries/landlord-verification/affordable-housing" },
   ],
   resources: [
     { label: "Blog", href: "/blog" },

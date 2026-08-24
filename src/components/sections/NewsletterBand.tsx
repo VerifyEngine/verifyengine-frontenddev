@@ -31,7 +31,7 @@ export function NewsletterBand({
         <Reveal>
           <div className="flex flex-col items-center gap-7 rounded-2xl bg-navy-900 px-6 py-9 text-center lg:flex-row lg:justify-between lg:px-10 lg:text-left">
             <div className="flex items-center gap-5">
-              <span className="hidden size-16 shrink-0 items-center justify-center rounded-full border border-white/15 text-mint-200 sm:flex">
+              <span className="hidden size-16 shrink-0 items-center justify-center rounded-full border border-dashed border-white/25 text-mint-200 sm:flex">
                 <Mail className="size-7" strokeWidth={1.5} />
               </span>
               <div>
