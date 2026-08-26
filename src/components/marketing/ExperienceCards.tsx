@@ -1,11 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "motion/react";
 import { Headphones, FileText, Phone, Play } from "lucide-react";
 import { useState } from "react";
 import { Container } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Badge";
+import { Alert, Spinner } from "@/components/ui/Feedback";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { api } from "@/lib/api";
+import { useForm } from "@/lib/useForm";
+import { required, phone as phoneRule } from "@/lib/validation";
 
 export function ExperienceCards() {
   return (
@@ -104,15 +109,33 @@ function ReportCard() {
           ))}
         </div>
       </div>
-      <button className="mt-5 inline-flex items-center gap-2 self-start rounded-lg bg-mint-200 px-5 py-2.5 text-sm font-semibold text-navy-900 hover:bg-mint-300">
+      {/* The full sample report is the hero of the landlord process page —
+          the same VerificationSummaryCard, at full size. Sending the reader
+          there beats a button that did nothing, and needs no screen the
+          design package does not already contain. */}
+      <Link
+        href="/how-it-works/landlord-verification"
+        className="mt-5 inline-flex items-center gap-2 self-start rounded-lg bg-mint-200 px-5 py-2.5 text-sm font-semibold text-navy-900 hover:bg-mint-300"
+      >
         View Sample Report
-      </button>
+      </Link>
     </CardShell>
   );
 }
 
 function LiveDemoCard() {
-  const [phone, setPhone] = useState("");
+  // A real form, not a decorative field: the number is validated before
+  // anything is attempted, and the request goes through the same API client as
+  // every other form. With no backend configured it fails honestly in
+  // production rather than pretending a call is on its way.
+  const form = useForm({
+    initialValues: { phone: "" },
+    rules: { phone: [required("Enter your phone number"), phoneRule()] },
+    onSubmit: async (values) => {
+      await api.post("/demo-calls", values, { mock: { ok: true } });
+    },
+  });
+
   return (
     <CardShell>
       <div className="flex size-11 items-center justify-center rounded-full bg-mint-100 text-teal-600">
@@ -123,20 +146,46 @@ function LiveDemoCard() {
         Enter your phone number. Verify Engine calls you within seconds.
       </p>
       <div className="mt-5 flex-1" />
-      {/* The design pairs the number field and the call button on one row. */}
-      <div className="flex gap-2">
-        <input
-          type="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="(555) 123-4567"
-          className="min-w-0 flex-1 rounded-lg border border-slate-200 px-4 py-2.5 text-sm text-ink-900 placeholder:text-slate-400 focus:border-teal-500 focus:outline-none"
-        />
-        <button className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-mint-200 px-5 py-2.5 text-sm font-semibold text-navy-900 hover:bg-mint-300">
-          Call Me Now
-        </button>
-      </div>
-      <p className="mt-2 text-xs text-slate-400">Takes less than 60 seconds.</p>
+      {form.isSuccess ? (
+        <Alert tone="success">
+          We have your number. Our AI agent will call you in the next few moments.
+        </Alert>
+      ) : (
+        <form onSubmit={form.handleSubmit} noValidate>
+          {/* The design pairs the number field and the call button on one row. */}
+          <div className="flex gap-2">
+            <input
+              type="tel"
+              aria-label="Phone number"
+              aria-invalid={Boolean(form.errors.phone)}
+              placeholder="(555) 123-4567"
+              className={`min-w-0 flex-1 rounded-lg border px-4 py-2.5 text-sm text-ink-900 placeholder:text-slate-400 focus:outline-none ${
+                form.errors.phone
+                  ? "border-red-400 focus:border-red-500"
+                  : "border-slate-200 focus:border-teal-500"
+              }`}
+              name="phone"
+              value={form.values.phone}
+              onChange={(e) => form.setValue("phone", e.target.value)}
+              onBlur={() => form.field("phone").onBlur()}
+            />
+            <button
+              type="submit"
+              disabled={form.isSubmitting}
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-mint-200 px-5 py-2.5 text-sm font-semibold text-navy-900 hover:bg-mint-300 disabled:opacity-60"
+            >
+              {form.isSubmitting ? <Spinner className="size-4" /> : "Call Me Now"}
+            </button>
+          </div>
+          {form.errors.phone && <p className="mt-2 text-xs text-red-600">{form.errors.phone}</p>}
+          {form.submitError && (
+            <Alert tone="error" className="mt-3">
+              {form.submitError}
+            </Alert>
+          )}
+          <p className="mt-2 text-xs text-slate-400">Takes less than 60 seconds.</p>
+        </form>
+      )}
     </CardShell>
   );
 }

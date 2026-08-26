@@ -9,6 +9,7 @@ import { useToast } from "@/components/ui/Toast";
 import { useForm } from "@/lib/useForm";
 import { required, email, workEmail, phone } from "@/lib/validation";
 import { api } from "@/lib/api";
+import { useState } from "react";
 
 const industries = [
   "Landlord / Property Management",
@@ -22,6 +23,9 @@ const industries = [
 
 export function CreateAccountForm() {
   const { toast } = useToast();
+  // Google sign-up is in the approved design but waits on the authentication
+  // backend, so the button says so rather than swallowing the click.
+  const [notice, setNotice] = useState<string | null>(null);
 
   const form = useForm({
     initialValues: {
@@ -140,9 +144,18 @@ export function CreateAccountForm() {
 
         <DividerText>or</DividerText>
 
-        <Button type="button" variant="outline-light" className="w-full">
+        <Button
+          type="button"
+          variant="outline-light"
+          className="w-full"
+          onClick={() =>
+            setNotice("Google sign-up arrives with the client platform. It is not connected yet.")
+          }
+        >
           <GoogleMark /> Sign up with Google
         </Button>
+
+        {notice && <Alert tone="info">{notice}</Alert>}
 
         <p className="text-center text-xs leading-relaxed text-slate-500">
           By creating an account, you agree to our{" "}

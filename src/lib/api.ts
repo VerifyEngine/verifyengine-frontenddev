@@ -48,6 +48,19 @@ export async function apiRequest<TResponse>(
   } = options;
 
   if (!isApiConfigured) {
+    // A mock that resolves in production would tell a real visitor their
+    // request was received when nothing was sent anywhere. Development and
+    // staging still take the mock path so the loading and success states stay
+    // exercisable; production reports the truth and the form shows its error
+    // state instead.
+    if (env.appEnv === "production" && method !== "GET") {
+      throw new ApiError(
+        "We can't submit this right now — our request system is being connected. " +
+          "Please email support@verifyengine.ai and we'll pick it up from there.",
+        0,
+      );
+    }
+
     if (mock === undefined) {
       throw new ApiError(
         `No API configured and no mock supplied for ${method} ${path}. ` +

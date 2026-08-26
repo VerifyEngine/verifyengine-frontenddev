@@ -1,16 +1,22 @@
 "use client";
 
-import Link from "next/link";
 import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { FormField, Input, PasswordInput, DividerText } from "@/components/ui/Field";
 import { Alert, Spinner } from "@/components/ui/Feedback";
 import { GoogleMark } from "@/components/ui/GoogleMark";
 import { useForm } from "@/lib/useForm";
+import { useState } from "react";
 import { required, email } from "@/lib/validation";
 import { api } from "@/lib/api";
 
 export function LoginForm() {
+  // Password recovery and Google sign-in are both in the approved design and
+  // both wait on the authentication backend. Saying so where the reader
+  // clicked is honest; a link to a 404 and a button that swallows the click
+  // are not.
+  const [notice, setNotice] = useState<string | null>(null);
+
   const form = useForm({
     initialValues: { email: "", password: "" },
     rules: {
@@ -53,12 +59,21 @@ export function LoginForm() {
         </FormField>
 
         <div className="flex justify-end">
-          <Link href="/forgot-password" className="text-sm font-semibold text-teal-600 hover:underline">
+          <button
+            type="button"
+            onClick={() =>
+              setNotice(
+                "Password recovery arrives with the client platform. Email support@verifyengine.ai and our team will reset it for you.",
+              )
+            }
+            className="text-sm font-semibold text-teal-600 hover:underline"
+          >
             Forgot Password?
-          </Link>
+          </button>
         </div>
 
         {form.submitError && <Alert tone="error">{form.submitError}</Alert>}
+        {notice && <Alert tone="info">{notice}</Alert>}
 
         <Button type="submit" variant="dark" className="w-full" disabled={form.isSubmitting}>
           {form.isSubmitting ? (
@@ -72,7 +87,14 @@ export function LoginForm() {
 
         <DividerText>or</DividerText>
 
-        <Button type="button" variant="outline-light" className="w-full">
+        <Button
+          type="button"
+          variant="outline-light"
+          className="w-full"
+          onClick={() =>
+            setNotice("Google sign-in arrives with the client platform. It is not connected yet.")
+          }
+        >
           <GoogleMark /> Sign in with Google
         </Button>
 
