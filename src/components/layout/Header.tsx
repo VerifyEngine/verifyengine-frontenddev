@@ -27,6 +27,14 @@ export function Header() {
   const [industriesOpen, setIndustriesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // The header survives navigation, so a menu left open would sit on top of the
+  // page the reader just asked for. Closing on the click that navigates is
+  // enough, and avoids resetting state from an effect.
+  const closeOnNavigation =
+    (close: () => void) => (e: React.MouseEvent<HTMLElement>) => {
+      if ((e.target as HTMLElement).closest("a")) close();
+    };
+
   const industriesActive = pathname.startsWith("/industries");
 
   return (
@@ -37,16 +45,34 @@ export function Header() {
         <nav className="hidden items-center gap-7 lg:flex">
           <NavItem href="/" label="Home" active={pathname === "/"} />
 
+          {/*
+            Hover alone would strand anyone on a touch screen or a keyboard:
+            tapping the trigger fired nothing and Tab never reached the menu.
+            Click toggles it, Escape closes it, and a blur that leaves the
+            wrapper entirely closes it too — hover stays for pointer users.
+          */}
           <div
             className="relative"
             onMouseEnter={() => setIndustriesOpen(true)}
             onMouseLeave={() => setIndustriesOpen(false)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setIndustriesOpen(false);
+            }}
+            onBlur={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                setIndustriesOpen(false);
+              }
+            }}
           >
             <button
+              type="button"
+              onClick={() => setIndustriesOpen((open) => !open)}
+              onFocus={() => setIndustriesOpen(true)}
               className={`flex items-center gap-1 px-1 py-2 text-base font-medium transition-colors ${
                 industriesActive ? "text-white" : "text-white/80 hover:text-white"
               }`}
               aria-expanded={industriesOpen}
+              aria-haspopup="true"
             >
               Industries
               <svg viewBox="0 0 12 12" className="mt-0.5 size-3" fill="none" aria-hidden="true">
@@ -58,7 +84,10 @@ export function Header() {
             </button>
 
             {industriesOpen && (
-              <div className="absolute top-full left-1/2 w-[680px] -translate-x-1/2 pt-3">
+              <div
+                className="absolute top-full left-1/2 w-[680px] -translate-x-1/2 pt-3"
+                onClick={closeOnNavigation(() => setIndustriesOpen(false))}
+              >
                 {/*
                   Kept deliberately plain: no icon chips, no pill badges, no
                   tinted panels — just type and a single 1px divider between
@@ -160,7 +189,10 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-white/10 bg-navy-900 px-6 pb-6 lg:hidden">
+        <div
+          className="border-t border-white/10 bg-navy-900 px-6 pb-6 lg:hidden"
+          onClick={closeOnNavigation(() => setMobileOpen(false))}
+        >
           <nav className="flex flex-col gap-1 pt-4">
             <Link href="/" className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/85 hover:bg-white/5">
               Home
