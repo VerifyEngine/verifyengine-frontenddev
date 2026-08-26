@@ -7,7 +7,8 @@ import { Select } from "@/components/ui/Field";
 import { EmptyState } from "@/components/ui/Feedback";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { CoverArt } from "@/components/sections/CoverArt";
-import { guideCategories, guides } from "@/lib/guides";
+import Link from "next/link";
+import { guideCategories, guideReadingMinutes, guides } from "@/lib/guides";
 
 /**
  * Guides listing. Search lives in the hero above, so the whole page shares
@@ -30,7 +31,7 @@ export function GuideBrowser() {
     return [...filtered].sort((a, b) =>
       sort === "recent"
         ? b.date.localeCompare(a.date)
-        : a.readingMinutes - b.readingMinutes,
+        : guideReadingMinutes(a) - guideReadingMinutes(b),
     );
   }, [query, category, sort]);
 
@@ -101,7 +102,7 @@ export function GuideBrowser() {
                         </span>
                         <span className="flex items-center gap-1 text-slate-400">
                           <Clock className="size-3.5" strokeWidth={2} />
-                          {guide.readingMinutes} min read
+                          {guideReadingMinutes(guide)} min read
                         </span>
                       </p>
                       <h3 className="mt-3 text-lg leading-snug font-bold text-ink-900 group-hover:text-teal-700">
@@ -110,9 +111,12 @@ export function GuideBrowser() {
                       <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
                         {guide.excerpt}
                       </p>
-                      <span className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-semibold text-teal-600">
+                      <Link
+                        href={`/guides/${guide.slug}`}
+                        className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-semibold text-teal-600 hover:text-teal-700"
+                      >
                         Read Guide <ArrowRight />
-                      </span>
+                      </Link>
                     </div>
                   </article>
                 </RevealItem>

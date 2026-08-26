@@ -7,6 +7,7 @@ import { Select } from "@/components/ui/Field";
 import { EmptyState } from "@/components/ui/Feedback";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { CoverArt } from "@/components/sections/CoverArt";
+import Link from "next/link";
 import { caseStudies, caseStudyIndustries } from "@/lib/case-studies";
 
 export function CaseStudyBrowser() {
@@ -81,9 +82,12 @@ export function CaseStudyBrowser() {
                       ))}
                     </dl>
 
-                    <span className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-semibold text-teal-600">
+                    <Link
+                      href={`/case-studies/${study.slug}`}
+                      className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-semibold text-teal-600 hover:text-teal-700"
+                    >
                       Read Full Case Study <ArrowRight />
-                    </span>
+                    </Link>
                   </div>
                 </article>
               </RevealItem>

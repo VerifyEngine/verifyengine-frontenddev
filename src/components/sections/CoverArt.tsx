@@ -1,9 +1,15 @@
 import {
-  LineChart,
-  Scale,
-  Sparkles,
+  Building2,
   ClipboardCheck,
+  GraduationCap,
+  HeartPulse,
+  Landmark,
+  LineChart,
   Quote,
+  Scale,
+  ShieldCheck,
+  Sparkles,
+  Users,
   type LucideIcon,
 } from "lucide-react";
 
@@ -23,6 +29,20 @@ const themes: Record<string, { from: string; to: string; icon: LucideIcon }> = {
   "Product Updates": { from: "#0B2A5C", to: "#8FE9D9", icon: Sparkles },
   "Best Practices": { from: "#123A72", to: "#2DD4BF", icon: ClipboardCheck },
   "Customer Stories": { from: "#05122B", to: "#0D9488", icon: Quote },
+
+  // Guide categories.
+  "Getting Started": { from: "#0B2A5C", to: "#5EEAD4", icon: Sparkles },
+  Compliance: { from: "#071D45", to: "#60A5FA", icon: Scale },
+  "Industry-Specific": { from: "#0E2E63", to: "#0EA5A4", icon: Building2 },
+  "Product How-To's": { from: "#123A72", to: "#34D399", icon: ClipboardCheck },
+
+  // Case study industries.
+  "Property Management": { from: "#0B2A5C", to: "#2DD4BF", icon: Building2 },
+  "Employment Services": { from: "#123A72", to: "#38BDF8", icon: Users },
+  "Financial Services": { from: "#071D45", to: "#4F8EF7", icon: Landmark },
+  Healthcare: { from: "#0A2350", to: "#22C7B8", icon: HeartPulse },
+  Education: { from: "#0E2E63", to: "#7DD3FC", icon: GraduationCap },
+  "Background Screening": { from: "#05122B", to: "#0D9488", icon: ShieldCheck },
 };
 
 const fallback = { from: "#071D45", to: "#14B8A6", icon: Sparkles };
