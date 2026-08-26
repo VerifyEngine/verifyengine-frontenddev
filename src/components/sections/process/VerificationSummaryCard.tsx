@@ -47,15 +47,15 @@ export function VerificationSummaryCard({
   return (
     <div
       data-ve-theme="light"
-      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
+      className="mock-miniature font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
       /* The platform ships type at 1.2x the Figma sizes; these hero cards are
          shown much smaller than a 1920px screen, so they carry a little more
          again to stay readable at hero scale. Every box sized from the same
          token scales with it. */
       style={{ "--ve-type-scale": "1.35" } as CSSProperties}
     >
-      <div className="grid grid-cols-1 gap-0 sm:grid-cols-[0.72fr_1fr]">
-        <div className="relative border-b border-app-line p-4 sm:border-r sm:border-b-0">
+      <div className="grid grid-cols-[0.72fr_1fr] gap-0">
+        <div className="relative border-r border-app-line p-4">
           <div className="absolute top-10 bottom-10 left-[38px] w-px border-l border-dashed border-app-line" />
           <SummaryStepper steps={renderedSteps} />
         </div>
@@ -63,7 +63,7 @@ export function VerificationSummaryCard({
         <div className="p-4">
           <p className="text-label-xs text-app-text">Applicant Verification Summary</p>
 
-          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <div className="mt-3 grid grid-cols-2 gap-2">
             <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5 text-center">
               <p className="text-body-2xs text-app-text-secondary">
                 VE Score<span className="align-super text-[8px]">™</span>
@@ -92,7 +92,7 @@ export function VerificationSummaryCard({
 
           <div className="mt-2 rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5">
             <p className="text-label-2xs text-app-text">Verification Breakdown</p>
-            <RevealGroup className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <RevealGroup className="mt-3 grid grid-cols-2 gap-2">
               {checks.map((check) => (
                 <RevealItem
                   key={check.label}
