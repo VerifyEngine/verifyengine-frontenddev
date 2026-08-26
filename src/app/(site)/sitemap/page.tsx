@@ -4,95 +4,12 @@ import { Download, ShieldCheck } from "lucide-react";
 import { Button, Container, ArrowRight } from "@/components/ui/Button";
 import { Breadcrumb } from "@/components/ui/Navigation";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { siteMapColumns } from "@/lib/site-map";
 
 export const metadata: Metadata = {
   title: "Sitemap",
   description: "Find all pages on the Verify Engine website.",
 };
-
-/**
- * Human-readable sitemap. Distinct from `app/sitemap.ts`, which would emit the
- * machine-readable XML for crawlers — that lives in the SEO work, not here.
- */
-const columns: { title: string; links: { label: string; href: string }[] }[] = [
-  {
-    title: "Company",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "Pricing", href: "/pricing" },
-      { label: "Client Login", href: "/login" },
-      { label: "Get Started", href: "/get-started" },
-      { label: "Book Demo", href: "/book-demo" },
-    ],
-  },
-  {
-    title: "Industries",
-    links: [
-      { label: "Industries Overview", href: "/industries" },
-      { label: "Landlord Verification", href: "/industries/landlord-verification" },
-      { label: "Employment Verification", href: "/industries/employment-verification" },
-      { label: "Financial Services", href: "/industries/financial-services" },
-      { label: "Healthcare Verification", href: "/industries/healthcare-verification" },
-      { label: "Education Verification", href: "/industries/education-verification" },
-    ],
-  },
-  {
-    title: "Landlord Audiences",
-    links: [
-      {
-        label: "Tenant Screening Companies",
-        href: "/industries/landlord-verification/tenant-screening-companies",
-      },
-      {
-        label: "Property Management Companies",
-        href: "/industries/landlord-verification/property-management-companies",
-      },
-      {
-        label: "Independent Landlords",
-        href: "/industries/landlord-verification/independent-landlords",
-      },
-      {
-        label: "Multifamily Operators",
-        href: "/industries/landlord-verification/multifamily-operators",
-      },
-      {
-        label: "Affordable Housing",
-        href: "/industries/landlord-verification/affordable-housing",
-      },
-    ],
-  },
-  {
-    title: "Verification Processes",
-    links: [
-      { label: "Landlord Verification", href: "/how-it-works/landlord-verification" },
-      { label: "Employment Verification", href: "/how-it-works/employment-verification" },
-      { label: "Income Verification", href: "/how-it-works/income-verification" },
-      { label: "Mortgage Verification", href: "/how-it-works/mortgage-verification" },
-      { label: "Healthcare Verification", href: "/how-it-works/healthcare-verification" },
-      { label: "Education Verification", href: "/how-it-works/education-verification" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Guides", href: "/guides" },
-      { label: "Case Studies", href: "/case-studies" },
-      { label: "Glossary", href: "/glossary" },
-      { label: "FAQ", href: "/faq" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { label: "Privacy Policy", href: "/legal/privacy" },
-      { label: "Terms of Use", href: "/legal/terms" },
-      { label: "Accessibility", href: "/legal/accessibility" },
-      { label: "Sitemap", href: "/sitemap" },
-    ],
-  },
-];
 
 export default function SitemapPage() {
   return (
@@ -128,7 +45,7 @@ export default function SitemapPage() {
           </Reveal>
 
           <RevealGroup className="mt-10 grid grid-cols-1 gap-x-8 gap-y-10 rounded-2xl border border-slate-100 p-8 sm:grid-cols-2 lg:grid-cols-3">
-            {columns.map((column) => (
+            {siteMapColumns.map((column) => (
               <RevealItem key={column.title}>
                 <h2 className="text-base font-bold text-ink-900">{column.title}</h2>
                 <ul className="mt-4 space-y-2.5">

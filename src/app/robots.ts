@@ -15,5 +15,8 @@ export default function robots(): MetadataRoute.Robots {
     return { rules: { userAgent: "*", disallow: "/" } };
   }
 
-  return { rules: { userAgent: "*", allow: "/", disallow: "/dev/" } };
+  return {
+    rules: { userAgent: "*", allow: "/", disallow: "/dev/" },
+    sitemap: `${env.siteUrl.replace(/\/$/, "")}/sitemap.xml`,
+  };
 }
