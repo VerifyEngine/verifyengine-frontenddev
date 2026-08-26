@@ -71,3 +71,39 @@ h3 {
     zoom: var(--mock-zoom, 0.5);
   }
 }
+
+/*
+ * Hero product mockups that draw a whole screen, not a single card.
+ *
+ * `mock-miniature` above just paints the mockup at half size on a phone. That is
+ * enough for the small cards, but not for a mockup that reproduces the platform
+ * shell — top nav, side menu, metric band, workflow beside report. That
+ * composition needs roughly 780px to hold together, and letting it reflow below
+ * that width is what made it unusable on a phone: the side menu disappeared, the
+ * metric band dropped to two rows and the two panels stacked, so the "screenshot"
+ * became a 318 x 535 column — long, narrow, and nothing like the product.
+ *
+ * `mock-fit` stops it reflowing. The mockup always lays out at
+ * --mock-native-width, and `zoom` paints that fixed composition at whatever width
+ * the container actually has, so a phone gets a faithful, proportional miniature
+ * of the desktop screen instead of a different, taller layout.
+ *
+ * `tan(atan2(a, b))` is how CSS turns two lengths into the plain ratio `zoom`
+ * needs; `100cqw` is the container's own width, so the parent has to carry
+ * `container-type: inline-size` (the `@container` utility). `min(1, ...)` keeps it
+ * from ever enlarging past its native size, which is what leaves a hero wide
+ * enough for the mockup rendering exactly as it does today.
+ *
+ * `zoom` and not `transform: scale()`, for the same reason as above: a transform
+ * would not change the space the element takes, leaving a gap under the mockup.
+ */
+@utility mock-fit {
+  --mock-native-width: 780px;
+
+  /* Fallback for engines without the trig math: the old half-size phone rule. */
+  @media (width < 40rem) {
+    zoom: var(--mock-zoom, 0.5);
+  }
+
+  zoom: min(1, tan(atan2(100cqw, var(--mock-native-width))));
+}

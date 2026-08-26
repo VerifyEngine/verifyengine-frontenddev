@@ -156,7 +156,7 @@ export function WorkflowShowcase() {
   return (
     <div
       data-ve-theme="light"
-      className="font-app relative pt-8 pb-10 pl-6 sm:pt-10 sm:pb-14 sm:pl-10"
+      className="font-app relative pt-8 pb-10 sm:pt-10 sm:pb-14 sm:pl-10"
       style={{ perspective: 1400 }}
     >
       {/* ambient glow */}
@@ -177,155 +177,165 @@ export function WorkflowShowcase() {
         </div>
       </motion.div>
 
-      {/* The platform shell: canvas, 8px gaps, floating glass panels. */}
-      <motion.div
-        onMouseMove={handleTiltMove}
-        onMouseLeave={handleTiltLeave}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative z-10 flex flex-col gap-2 overflow-hidden rounded-app-xl bg-[var(--ve-canvas)] p-2 shadow-2xl"
-      >
-        <TopNav />
+      {/*
+        The platform shell: canvas, 8px gaps, floating glass panels.
 
-        <div className="flex gap-2">
-          <SideMenu />
+        The shell keeps this composition at every width — `mock-fit` scales it
+        down rather than letting it reflow, so the narrow layouts a phone would
+        otherwise pick never apply. The wrapper is what `mock-fit` measures, so
+        it has to be the container; it is a separate element from the padded box
+        above so the glow and the toast stay outside the measurement.
+      */}
+      <div className="@container relative z-10">
+        <motion.div
+          onMouseMove={handleTiltMove}
+          onMouseLeave={handleTiltLeave}
+          style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+          className="mock-fit flex flex-col gap-2 overflow-hidden rounded-app-xl bg-[var(--ve-canvas)] p-2 shadow-2xl"
+        >
+          <TopNav />
 
-          <div className="flex min-w-px flex-1 flex-col gap-2">
-            <MetricBand verified={verified} />
+          <div className="flex gap-2">
+            <SideMenu />
 
-            <div className="grid grid-cols-1 gap-2 lg:grid-cols-[1.1fr_1fr]">
-              {/* workflow steps */}
-              <section className="flex flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]">
-                <h3 className="text-label-xs text-app-text-brand1">
-                  Landlord Verification Workflow
-                </h3>
+            <div className="flex min-w-px flex-1 flex-col gap-2">
+              <MetricBand verified={verified} />
 
-                <div className="relative">
-                  <div className="absolute top-1 bottom-1 left-[13px] w-px bg-app-line" />
-                  <motion.div
-                    className="absolute top-1 left-[13px] w-px bg-app-brand1"
-                    animate={{ height: `${progress}%` }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                  />
+              <div className="grid grid-cols-[1.1fr_1fr] gap-2">
+                {/* workflow steps */}
+                <section className="flex flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]">
+                  <h3 className="text-label-xs text-app-text-brand1">
+                    Landlord Verification Workflow
+                  </h3>
 
-                  <ol className="flex flex-col gap-0.5">
-                    {steps.map((step, i) => {
-                      const Icon = step.icon;
-                      const isActive = i === active;
-                      const isDone = i < active;
-                      return (
-                        <li key={step.title}>
-                          <motion.button
-                            type="button"
-                            onClick={() => selectStep(i)}
-                            animate={{
-                              backgroundColor: isActive
-                                ? "var(--ve-surface-fade-48)"
-                                : "rgba(255,255,255,0)",
-                            }}
-                            whileHover={{ backgroundColor: "var(--ve-surface-fade-48)" }}
-                            transition={{ duration: 0.35 }}
-                            className="flex w-full cursor-pointer items-start gap-2.5 rounded-app-m px-2 py-2 text-left"
-                          >
-                            <span
-                              className={`relative z-10 mt-0.5 flex size-[22px] shrink-0 items-center justify-center rounded-app-12xl text-body-2xs font-bold transition-colors ${
-                                isActive || isDone
-                                  ? "bg-app-brand1 text-app-text-inverse"
-                                  : "bg-app-fade-48 text-app-text-tertiary"
-                              }`}
+                  <div className="relative">
+                    <div className="absolute top-1 bottom-1 left-[13px] w-px bg-app-line" />
+                    <motion.div
+                      className="absolute top-1 left-[13px] w-px bg-app-brand1"
+                      animate={{ height: `${progress}%` }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                    />
+
+                    <ol className="flex flex-col gap-0.5">
+                      {steps.map((step, i) => {
+                        const Icon = step.icon;
+                        const isActive = i === active;
+                        const isDone = i < active;
+                        return (
+                          <li key={step.title}>
+                            <motion.button
+                              type="button"
+                              onClick={() => selectStep(i)}
+                              animate={{
+                                backgroundColor: isActive
+                                  ? "var(--ve-surface-fade-48)"
+                                  : "rgba(255,255,255,0)",
+                              }}
+                              whileHover={{ backgroundColor: "var(--ve-surface-fade-48)" }}
+                              transition={{ duration: 0.35 }}
+                              className="flex w-full cursor-pointer items-start gap-2.5 rounded-app-m px-2 py-2 text-left"
                             >
-                              {i + 1}
-                            </span>
-                            <Icon
-                              className={`mt-0.5 shrink-0 ${isActive ? "text-app-text-brand1" : "text-app-text-tertiary"}`}
-                              size={15}
-                              stroke={1.6}
-                              aria-hidden
-                            />
-                            <span className="min-w-px flex-1">
                               <span
-                                className={`block text-label-2xs ${isActive ? "text-app-text" : "text-app-text-secondary"}`}
+                                className={`relative z-10 mt-0.5 flex size-[22px] shrink-0 items-center justify-center rounded-app-12xl text-body-2xs font-bold transition-colors ${
+                                  isActive || isDone
+                                    ? "bg-app-brand1 text-app-text-inverse"
+                                    : "bg-app-fade-48 text-app-text-tertiary"
+                                }`}
                               >
-                                {step.title}
+                                {i + 1}
                               </span>
-                              <span className="block text-body-2xs text-app-text-tertiary">
-                                {step.desc}
+                              <Icon
+                                className={`mt-0.5 shrink-0 ${isActive ? "text-app-text-brand1" : "text-app-text-tertiary"}`}
+                                size={15}
+                                stroke={1.6}
+                                aria-hidden
+                              />
+                              <span className="min-w-px flex-1">
+                                <span
+                                  className={`block text-label-2xs ${isActive ? "text-app-text" : "text-app-text-secondary"}`}
+                                >
+                                  {step.title}
+                                </span>
+                                <span className="block text-body-2xs text-app-text-tertiary">
+                                  {step.desc}
+                                </span>
                               </span>
-                            </span>
-                          </motion.button>
-                        </li>
-                      );
-                    })}
-                  </ol>
-                </div>
-              </section>
-
-              {/* verification report */}
-              <section className="flex flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]">
-                <div className="flex items-center justify-between gap-2">
-                  <h3 className="text-label-xs text-app-text-brand1">Verification Report</h3>
-                  <motion.span
-                    key={delivered ? "verified" : "progress"}
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`rounded-app-4xl px-2 py-1 text-body-2xs whitespace-nowrap ${
-                      delivered
-                        ? "bg-app-success text-app-text-inverse"
-                        : "bg-app-neutral text-app-text-inverse"
-                    }`}
-                  >
-                    {delivered ? "Verified" : "In Progress"}
-                  </motion.span>
-                </div>
-
-                <div className="flex items-center gap-2.5 rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3">
-                  <div className="size-8 shrink-0 rounded-app-12xl bg-gradient-to-br from-app-brand2-64 to-app-brand1" />
-                  <div>
-                    <p className="text-label-2xs text-app-text">John Smith</p>
-                    <p className="text-body-2xs text-app-text-tertiary">Applicant ID #48213</p>
+                            </motion.button>
+                          </li>
+                        );
+                      })}
+                    </ol>
                   </div>
-                </div>
+                </section>
 
-                <div className="flex flex-col gap-2.5">
-                  {reportFacts.map((row) => (
-                    <ReportRow key={row.label} label={row.label} revealed={active >= row.revealAt}>
-                      <span className="text-body-2xs text-app-text">{row.value}</span>
-                    </ReportRow>
-                  ))}
-                </div>
-
-                <div className="h-px bg-app-line" />
-
-                <div className="flex flex-col gap-2.5">
-                  {reportOutcomes.map((row) => (
-                    <ReportRow key={row.label} label={row.label} revealed={active >= row.revealAt}>
-                      {row.value === "stars" ? (
-                        <span className="flex gap-0.5 text-app-success">
-                          {Array.from({ length: 5 }).map((_, i) => (
-                            <IconStarFilled key={i} size={12} aria-hidden />
-                          ))}
-                        </span>
-                      ) : (
-                        <span className="text-body-2xs text-app-success">{row.value}</span>
-                      )}
-                    </ReportRow>
-                  ))}
-                </div>
-
-                <div className="mt-auto flex items-center justify-between rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3">
-                  <div>
-                    <p className="text-body-2xs text-app-text-tertiary">Verification Score</p>
-                    <p className="text-heading-s text-app-text-brand1">
-                      {score}
-                      <span className="text-body-2xs text-app-text-tertiary"> / 100</span>
-                    </p>
+                {/* verification report */}
+                <section className="flex flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]">
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="text-label-xs text-app-text-brand1">Verification Report</h3>
+                    <motion.span
+                      key={delivered ? "verified" : "progress"}
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`rounded-app-4xl px-2 py-1 text-body-2xs whitespace-nowrap ${
+                        delivered
+                          ? "bg-app-success text-app-text-inverse"
+                          : "bg-app-neutral text-app-text-inverse"
+                      }`}
+                    >
+                      {delivered ? "Verified" : "In Progress"}
+                    </motion.span>
                   </div>
-                  <ScoreRing score={score} />
-                </div>
-              </section>
+
+                  <div className="flex items-center gap-2.5 rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3">
+                    <div className="size-8 shrink-0 rounded-app-12xl bg-gradient-to-br from-app-brand2-64 to-app-brand1" />
+                    <div>
+                      <p className="text-label-2xs text-app-text">John Smith</p>
+                      <p className="text-body-2xs text-app-text-tertiary">Applicant ID #48213</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2.5">
+                    {reportFacts.map((row) => (
+                      <ReportRow key={row.label} label={row.label} revealed={active >= row.revealAt}>
+                        <span className="text-body-2xs text-app-text">{row.value}</span>
+                      </ReportRow>
+                    ))}
+                  </div>
+
+                  <div className="h-px bg-app-line" />
+
+                  <div className="flex flex-col gap-2.5">
+                    {reportOutcomes.map((row) => (
+                      <ReportRow key={row.label} label={row.label} revealed={active >= row.revealAt}>
+                        {row.value === "stars" ? (
+                          <span className="flex gap-0.5 text-app-success">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <IconStarFilled key={i} size={12} aria-hidden />
+                            ))}
+                          </span>
+                        ) : (
+                          <span className="text-body-2xs text-app-success">{row.value}</span>
+                        )}
+                      </ReportRow>
+                    ))}
+                  </div>
+
+                  <div className="mt-auto flex items-center justify-between rounded-app-l border-w-2xs border-app-line bg-app-fade-48 p-3">
+                    <div>
+                      <p className="text-body-2xs text-app-text-tertiary">Verification Score</p>
+                      <p className="text-heading-s text-app-text-brand1">
+                        {score}
+                        <span className="text-body-2xs text-app-text-tertiary"> / 100</span>
+                      </p>
+                    </div>
+                    <ScoreRing score={score} />
+                  </div>
+                </section>
+              </div>
             </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 }
@@ -349,7 +359,7 @@ function TopNav() {
         <IconX size={12} stroke={1.6} className="shrink-0 text-app-text" aria-hidden />
       </span>
 
-      <span className="hidden shrink-0 items-center gap-1 sm:flex">
+      <span className="flex shrink-0 items-center gap-1">
         {[IconHeadset, IconBell].map((Icon, i) => (
           <span
             key={i}
@@ -360,7 +370,7 @@ function TopNav() {
         ))}
         <span className="flex items-center gap-1.5 rounded-app-7xl border-w-2xs border-app-line bg-app-brand2-40 py-1.5 pr-3 pl-2">
           <IconRefreshDot size={15} stroke={1.6} className="shrink-0 text-app-text" aria-hidden />
-          <span className="hidden lg:block">
+          <span className="block">
             <span className="block text-body-2xs whitespace-nowrap text-app-text">
               CutRite Lawn Care
             </span>
@@ -378,7 +388,7 @@ function TopNav() {
 /** Side Menu panel — grouped rows under uppercase section headings. */
 function SideMenu() {
   return (
-    <nav className="hidden w-40 shrink-0 flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 px-2 py-3 backdrop-blur-[12px] lg:flex">
+    <nav className="flex w-40 shrink-0 flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 px-2 py-3 backdrop-blur-[12px]">
       {navSections.map((section) => (
         <div key={section.heading} className="flex flex-col gap-1">
           <p className="px-2 text-nav-heading text-app-text">{section.heading}</p>
@@ -416,7 +426,7 @@ function MetricBand({ verified }: { verified: number }) {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
+    <div className="grid grid-cols-4 gap-2">
       {metrics.map((metric) => (
         <div
           key={metric.label}
