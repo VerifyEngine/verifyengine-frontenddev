@@ -27,7 +27,7 @@ export default function SitemapPage() {
           <Reveal>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+                <h1 className="text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
                   Sitemap
                 </h1>
                 <p className="mt-2 text-base text-slate-600">

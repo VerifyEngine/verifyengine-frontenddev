@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 import { motion, useAnimationFrame } from "motion/react";
 import { Headset, Cpu, UserCheck, FileText } from "lucide-react";
 import { useRef, useState } from "react";
-import { Button, ArrowRight, PlayIcon, HeroContainer } from "@/components/ui/Button";
+import { Button, ArrowRight, PlayIcon, FullBleedContainer } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -54,7 +54,7 @@ export function HeroHowItWorks() {
         }}
       />
 
-      <HeroContainer>
+      <FullBleedContainer>
         <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.68fr_1fr] lg:gap-16">
           <Reveal>
             <PillBadge>How It Works</PillBadge>
@@ -138,7 +138,7 @@ export function HeroHowItWorks() {
             </div>
           </Reveal>
         </div>
-      </HeroContainer>
+      </FullBleedContainer>
     </section>
   );
 }

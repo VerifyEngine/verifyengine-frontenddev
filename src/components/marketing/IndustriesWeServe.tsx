@@ -67,7 +67,7 @@ export function IndustriesWeServe({
       <Container>
         <Reveal className="mx-auto max-w-3xl text-center">
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
             {title}
           </h2>
           {subtitle && <p className="mt-4 text-base text-slate-600">{subtitle}</p>}
@@ -84,7 +84,7 @@ export function IndustriesWeServe({
             }`}
           >
             <CalloutTag>Most Popular</CalloutTag>
-            <Building2 className="mt-5 size-9 text-mint-200" strokeWidth={1.5} />
+            <Building2 className="mt-5 size-11 text-mint-200" strokeWidth={1.5} />
             <h3 className="mt-4 text-xl font-bold">Landlord Verification</h3>
             <p className="mt-2 text-sm text-white/60">
               Rental history verification for tenant screening companies, property managers, and
@@ -124,8 +124,8 @@ function SupportingCards({ isRow }: { isRow: boolean }) {
       key={card.title}
       className={`flex flex-col rounded-2xl bg-white shadow-card ${isRow ? "p-6" : "p-7"}`}
     >
-      <div className="flex size-11 items-center justify-center rounded-full bg-mint-100 text-teal-600">
-        <card.icon className="size-5" strokeWidth={1.75} />
+      <div className="flex size-13 items-center justify-center rounded-full bg-mint-100 text-teal-600">
+        <card.icon className="size-6" strokeWidth={1.75} />
       </div>
       <h3 className="mt-4 text-base font-semibold text-ink-900">{card.title}</h3>
       <p className="mt-2 text-sm text-slate-600">{card.desc}</p>

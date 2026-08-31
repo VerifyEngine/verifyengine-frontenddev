@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
-import { Container } from "@/components/ui/Button";
+import { FullBleedContainer } from "@/components/ui/Button";
 
 export function LogosRow({
   label = "Trusted by innovative companies",
@@ -27,7 +27,8 @@ export function LogosRow({
 
   return (
     <div className={`py-10 ${background === "muted" ? "bg-bg-muted" : "bg-white"}`}>
-      <Container>
+      {/* Full width, matching the trust band on the homepage. */}
+      <FullBleedContainer>
         <p className="text-center text-xs font-semibold tracking-wide text-slate-400 uppercase">
           {label}
         </p>
@@ -47,13 +48,15 @@ export function LogosRow({
           <div
             ref={trackRef}
             className={`flex flex-1 items-center gap-x-12 gap-y-4 overflow-x-auto ${
-              arrows ? "justify-start sm:justify-between" : "flex-wrap justify-center"
+              arrows
+                ? "justify-start sm:justify-between"
+                : "flex-wrap justify-center lg:justify-between"
             }`}
           >
             {logos.map((logo) => (
               <span
                 key={logo}
-                className="shrink-0 text-lg font-bold tracking-tight text-slate-400 select-none"
+                className="shrink-0 text-xl font-bold tracking-tight text-slate-400 select-none sm:text-2xl"
               >
                 {logo}
               </span>
@@ -71,7 +74,7 @@ export function LogosRow({
             </button>
           )}
         </div>
-      </Container>
+      </FullBleedContainer>
     </div>
   );
 }

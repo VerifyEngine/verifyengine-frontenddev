@@ -19,7 +19,7 @@ export function IntegrationsRow() {
       <Container>
         <Reveal className="mx-auto max-w-3xl text-center">
           <Eyebrow>Seamless Integrations</Eyebrow>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
             Connect Verify Engine With Your Tools
           </h2>
         </Reveal>

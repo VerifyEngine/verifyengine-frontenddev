@@ -18,7 +18,7 @@ export function ExperienceCards() {
       <Container>
         <Reveal className="mx-auto max-w-3xl text-center">
           <Eyebrow>Experience Verify Engine</Eyebrow>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
             See It. Hear It. Try It.
           </h2>
           <p className="mt-4 text-base text-slate-600">

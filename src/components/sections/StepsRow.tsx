@@ -43,7 +43,7 @@ export function StepsRow({
       <Container>
         <Reveal className="mx-auto max-w-3xl text-center">
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
             {title}
           </h2>
           {subtitle && <p className="mt-4 text-base text-slate-600">{subtitle}</p>}
@@ -68,11 +68,11 @@ export function StepsRow({
                   <span className="absolute top-1/2 right-1/2 hidden w-full -translate-y-1/2 border-t border-dashed border-teal-500/40 sm:block" />
                 )}
                 <span
-                  className={`relative z-10 flex size-16 items-center justify-center rounded-full bg-mint-100 text-teal-600 ring-6 ${
+                  className={`relative z-10 flex size-18 items-center justify-center rounded-full bg-mint-100 text-teal-600 ring-6 ${
                     background === "muted" ? "ring-bg-muted" : "ring-white"
                   } ${numbered ? "mt-5" : ""}`}
                 >
-                  <step.icon className="size-7" strokeWidth={1.75} />
+                  <step.icon className="size-8" strokeWidth={1.75} />
                 </span>
               </div>
 

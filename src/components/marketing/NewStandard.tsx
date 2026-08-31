@@ -26,7 +26,7 @@ export function NewStandard() {
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
           <Reveal>
             <Eyebrow>The New Standard</Eyebrow>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
               The New Standard for Landlord Verification
             </h2>
             <p className="mt-5 text-base text-slate-600">

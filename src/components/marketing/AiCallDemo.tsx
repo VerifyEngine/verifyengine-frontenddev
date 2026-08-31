@@ -59,7 +59,7 @@ export function AiCallDemo() {
       <Container className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.46fr_1fr] lg:gap-14">
         <Reveal>
           <Eyebrow>AI In Action</Eyebrow>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
             Experience an AI Verification Call
           </h2>
           <p className="mt-5 text-base text-slate-600">

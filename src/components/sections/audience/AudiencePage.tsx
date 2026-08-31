@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { ArrowRight as ArrowIcon, CheckCircle2, ShieldCheck } from "lucide-react";
-import { Button, Container, HeroContainer, ArrowRight, PlayIcon } from "@/components/ui/Button";
+import { Button, Container, FullBleedContainer, ArrowRight, PlayIcon } from "@/components/ui/Button";
 import { PillBadge, Eyebrow } from "@/components/ui/Badge";
 import { Breadcrumb } from "@/components/ui/Navigation";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
@@ -73,7 +73,7 @@ export function AudiencePage({ config }: { config: AudiencePageConfig }) {
             backgroundSize: "18px 18px",
           }}
         />
-        <HeroContainer>
+        <FullBleedContainer>
           <div className="relative [&_a]:text-white/50 [&_a:hover]:text-mint-200 [&_span[aria-current]]:text-white">
             <Breadcrumb items={config.breadcrumb} />
           </div>
@@ -109,7 +109,7 @@ export function AudiencePage({ config }: { config: AudiencePageConfig }) {
               <AudienceDashboardCard {...config.dashboard} />
             </Reveal>
           </div>
-        </HeroContainer>
+        </FullBleedContainer>
       </section>
 
       <FeatureGrid
@@ -125,7 +125,7 @@ export function AudiencePage({ config }: { config: AudiencePageConfig }) {
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.62fr_1fr] lg:gap-14">
             <Reveal>
               <Eyebrow>{flow.eyebrow}</Eyebrow>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+              <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
                 {flow.title}
               </h2>
               <p className="mt-5 text-base text-slate-600">{flow.description}</p>

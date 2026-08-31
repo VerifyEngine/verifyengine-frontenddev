@@ -30,7 +30,7 @@ export function PlatformStrip() {
       <Container>
         <Reveal className="mx-auto max-w-3xl text-center">
           <Eyebrow>The Verify Engine Platform</Eyebrow>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
             One Platform. Multiple Verification Workflows.
           </h2>
         </Reveal>
@@ -38,8 +38,8 @@ export function PlatformStrip() {
         <RevealGroup className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
           {platform.map((item) => (
             <RevealItem key={item.label} className="group flex flex-col items-center text-center">
-              <div className="flex size-12 items-center justify-center rounded-full bg-mint-100 text-teal-600 transition-transform duration-200 group-hover:scale-110 group-hover:bg-teal-500 group-hover:text-white">
-                <item.icon className="size-6" strokeWidth={1.75} />
+              <div className="flex size-14 items-center justify-center rounded-full bg-mint-100 text-teal-600 transition-transform duration-200 group-hover:scale-110 group-hover:bg-teal-500 group-hover:text-white">
+                <item.icon className="size-7" strokeWidth={1.75} />
               </div>
               <p className="mt-3 text-sm font-medium text-ink-900">{item.label}</p>
             </RevealItem>

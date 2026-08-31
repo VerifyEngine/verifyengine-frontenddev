@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { ArrowRight as ArrowIcon, ShieldCheck } from "lucide-react";
-import { Button, Container, HeroContainer, ArrowRight, PlayIcon } from "@/components/ui/Button";
+import { Button, Container, FullBleedContainer, ArrowRight, PlayIcon } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Breadcrumb } from "@/components/ui/Navigation";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
@@ -74,7 +74,7 @@ export function ProcessPage({ config }: { config: ProcessPageConfig }) {
             backgroundSize: "18px 18px",
           }}
         />
-        <HeroContainer>
+        <FullBleedContainer>
           <div className="relative [&_a]:text-white/50 [&_a:hover]:text-mint-200 [&_span[aria-current]]:text-white">
             <Breadcrumb items={config.breadcrumb} />
           </div>
@@ -100,7 +100,7 @@ export function ProcessPage({ config }: { config: ProcessPageConfig }) {
               <VerificationSummaryCard {...config.summary} />
             </Reveal>
           </div>
-        </HeroContainer>
+        </FullBleedContainer>
       </section>
 
       {/* workflow steps */}
@@ -110,7 +110,7 @@ export function ProcessPage({ config }: { config: ProcessPageConfig }) {
             <p className="text-sm font-semibold tracking-wide text-teal-600 uppercase">
               {workflow.eyebrow}
             </p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
               {workflow.title}
             </h2>
             <p className="mt-4 text-base text-slate-600">{workflow.subtitle}</p>

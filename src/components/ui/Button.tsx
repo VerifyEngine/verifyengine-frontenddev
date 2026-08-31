@@ -117,15 +117,15 @@ export function Container({
 }
 
 /**
- * The box a hero lives in.
+ * A band that runs the full width of the viewport.
  *
- * Heroes run full-bleed: unlike <Container> they are not held to the site's
- * centred column, they take the whole viewport with matching space on both
- * sides, and only stop widening at --site-hero-max-width so a paragraph does
- * not run the length of an ultrawide monitor. Every hero shares this, so the
- * product mockups all get the same generous column.
+ * Unlike <Container> it is not held to the site's centred column: it takes the
+ * whole viewport with matching space on both sides, and only stops widening at
+ * --site-hero-max-width so a line of copy does not run the length of an
+ * ultrawide monitor. The heroes and the partner bands share it, so the product
+ * mockups all get the same generous column.
  */
-export function HeroContainer({
+export function FullBleedContainer({
   className = "",
   children,
 }: {
@@ -141,7 +141,7 @@ export function HeroContainer({
   );
 }
 
-/** A <HeroContainer> that is itself the copy/mockup grid. */
+/** A <FullBleedContainer> that is itself the copy/mockup grid of a hero. */
 export function HeroRow({
   className = "",
   children,
@@ -150,8 +150,8 @@ export function HeroRow({
   children: ReactNode;
 }) {
   return (
-    <HeroContainer className={`grid grid-cols-1 items-center ${className}`}>
+    <FullBleedContainer className={`grid grid-cols-1 items-center ${className}`}>
       {children}
-    </HeroContainer>
+    </FullBleedContainer>
   );
 }

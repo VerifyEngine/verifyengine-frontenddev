@@ -70,7 +70,7 @@ export function LegalPage({
             </aside>
 
             <article className="min-w-0">
-              <h1 className="text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+              <h1 className="text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
                 {title}
               </h1>
               <p className="mt-2 text-sm text-slate-500">Last updated: {lastUpdated}</p>

@@ -74,7 +74,7 @@ export function ProcessSteps() {
         <Container>
           <Reveal className="mx-auto max-w-3xl text-center">
             <Eyebrow>Our Verification Process</Eyebrow>
-            <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:mt-3 sm:text-4xl">
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink-900 sm:mt-3 sm:text-4xl lg:text-5xl">
               How Verify Engine Works
             </h2>
             <p className="mt-2 text-xs text-slate-400 sm:mt-3 sm:text-sm">
