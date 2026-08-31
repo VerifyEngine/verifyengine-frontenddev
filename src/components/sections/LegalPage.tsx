@@ -59,7 +59,7 @@ export function LegalPage({
 
       <div className="bg-white py-12 sm:py-16">
         <Container>
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[280px_1fr] lg:gap-14">
+          <div className="mx-auto grid max-w-[1260px] grid-cols-1 gap-12 lg:grid-cols-[280px_1fr] lg:gap-14">
             <aside className="lg:sticky lg:top-24 lg:self-start">
               <div className="rounded-2xl border border-slate-100 p-5">
                 <p className="mb-1 text-xs font-semibold tracking-wide text-slate-400 uppercase">

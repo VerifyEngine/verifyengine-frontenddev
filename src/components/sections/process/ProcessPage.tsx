@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { ArrowRight as ArrowIcon, ShieldCheck } from "lucide-react";
-import { Button, Container, ArrowRight, PlayIcon } from "@/components/ui/Button";
+import { Button, Container, HeroContainer, ArrowRight, PlayIcon } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Breadcrumb } from "@/components/ui/Navigation";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
@@ -74,12 +74,12 @@ export function ProcessPage({ config }: { config: ProcessPageConfig }) {
             backgroundSize: "18px 18px",
           }}
         />
-        <Container>
+        <HeroContainer>
           <div className="relative [&_a]:text-white/50 [&_a:hover]:text-mint-200 [&_span[aria-current]]:text-white">
             <Breadcrumb items={config.breadcrumb} />
           </div>
 
-          <div className="relative mt-8 grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.65fr_1fr] lg:gap-14">
+          <div className="relative mt-8 grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.62fr_1fr] lg:gap-16">
             <Reveal>
               <PillBadge>{config.badge}</PillBadge>
               <h1 className="mt-5 text-4xl leading-[1.1] font-bold tracking-tight text-white sm:text-5xl">
@@ -100,13 +100,13 @@ export function ProcessPage({ config }: { config: ProcessPageConfig }) {
               <VerificationSummaryCard {...config.summary} />
             </Reveal>
           </div>
-        </Container>
+        </HeroContainer>
       </section>
 
       {/* workflow steps */}
       <section className="bg-bg-muted py-20 sm:py-24">
         <Container>
-          <Reveal className="mx-auto max-w-2xl text-center">
+          <Reveal className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-semibold tracking-wide text-teal-600 uppercase">
               {workflow.eyebrow}
             </p>

@@ -28,7 +28,7 @@ export function PlatformStrip() {
   return (
     <section className="bg-white py-20 sm:py-24">
       <Container>
-        <Reveal className="mx-auto max-w-2xl text-center">
+        <Reveal className="mx-auto max-w-3xl text-center">
           <Eyebrow>The Verify Engine Platform</Eyebrow>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
             One Platform. Multiple Verification Workflows.

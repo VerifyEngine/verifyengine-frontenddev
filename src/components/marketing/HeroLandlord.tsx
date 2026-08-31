@@ -1,5 +1,5 @@
 import { CheckCircle2, Briefcase, Wallet, Home, Fingerprint, ShieldCheck } from "lucide-react";
-import { Button, ArrowRight, PlayIcon } from "@/components/ui/Button";
+import { Button, ArrowRight, PlayIcon, HeroRow } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
 import { ApplicantOverviewCard } from "./ApplicantOverviewCard";
@@ -29,11 +29,8 @@ export function HeroLandlord() {
         }}
       />
 
-      {/* The report card runs wide to the right, matching the design. */}
-      <div
-        className="relative grid grid-cols-1 items-center gap-12 pr-6 lg:grid-cols-[0.65fr_1fr] lg:gap-14 lg:pr-12"
-        style={{ paddingLeft: "max(1.5rem, calc((100vw - 1600px) / 2 + 3rem))" }}
-      >
+      {/* Full-bleed row with matching space on both sides — see <HeroRow>. */}
+      <HeroRow className="gap-12 lg:grid-cols-[0.62fr_1fr] lg:gap-16">
         <Reveal>
           <PillBadge>Landlord Verification</PillBadge>
           <h1 className="mt-5 text-4xl leading-[1.08] font-bold tracking-tight text-white sm:text-5xl">
@@ -67,7 +64,7 @@ export function HeroLandlord() {
         <Reveal delay={0.12}>
           <ApplicantOverviewCard details={verificationChecks} />
         </Reveal>
-      </div>
+      </HeroRow>
     </section>
   );
 }

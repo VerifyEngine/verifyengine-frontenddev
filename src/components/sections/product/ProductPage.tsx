@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { CheckCircle2 } from "lucide-react";
-import { Button, ArrowRight, PlayIcon } from "@/components/ui/Button";
+import { Button, ArrowRight, PlayIcon, HeroRow } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
 import {
@@ -52,10 +52,7 @@ export function ProductPage({ config }: { config: ProductPageConfig }) {
             backgroundSize: "18px 18px",
           }}
         />
-        <div
-          className="relative grid grid-cols-1 items-center gap-12 pr-6 lg:grid-cols-[0.65fr_1fr] lg:gap-14 lg:pr-12"
-          style={{ paddingLeft: "max(1.5rem, calc((100vw - 1600px) / 2 + 3rem))" }}
-        >
+        <HeroRow className="gap-12 lg:grid-cols-[0.62fr_1fr] lg:gap-16">
           <Reveal>
             <PillBadge>{config.badge}</PillBadge>
             <h1 className="mt-5 text-4xl leading-[1.12] font-bold tracking-tight text-white sm:text-5xl">
@@ -92,7 +89,7 @@ export function ProductPage({ config }: { config: ProductPageConfig }) {
               completedIn={config.card.completedIn}
             />
           </Reveal>
-        </div>
+        </HeroRow>
       </section>
 
       <FeatureGrid

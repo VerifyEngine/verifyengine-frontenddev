@@ -107,5 +107,51 @@ export function Container({
   className?: string;
   children: ReactNode;
 }) {
-  return <div className={`mx-auto w-full max-w-[1600px] px-6 lg:px-12 ${className}`}>{children}</div>;
+  return (
+    <div
+      className={`mx-auto w-full max-w-[var(--site-max-width)] px-6 lg:px-10 xl:px-14 ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+/**
+ * The box a hero lives in.
+ *
+ * Heroes run full-bleed: unlike <Container> they are not held to the site's
+ * centred column, they take the whole viewport with matching space on both
+ * sides, and only stop widening at --site-hero-max-width so a paragraph does
+ * not run the length of an ultrawide monitor. Every hero shares this, so the
+ * product mockups all get the same generous column.
+ */
+export function HeroContainer({
+  className = "",
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div
+      className={`relative mx-auto w-full max-w-[var(--site-hero-max-width)] px-6 lg:px-12 xl:px-16 ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+/** A <HeroContainer> that is itself the copy/mockup grid. */
+export function HeroRow({
+  className = "",
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <HeroContainer className={`grid grid-cols-1 items-center ${className}`}>
+      {children}
+    </HeroContainer>
+  );
 }

@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { ArrowRight as ArrowIcon, CheckCircle2, ShieldCheck } from "lucide-react";
-import { Button, Container, ArrowRight, PlayIcon } from "@/components/ui/Button";
+import { Button, Container, HeroContainer, ArrowRight, PlayIcon } from "@/components/ui/Button";
 import { PillBadge, Eyebrow } from "@/components/ui/Badge";
 import { Breadcrumb } from "@/components/ui/Navigation";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
@@ -73,12 +73,12 @@ export function AudiencePage({ config }: { config: AudiencePageConfig }) {
             backgroundSize: "18px 18px",
           }}
         />
-        <Container>
+        <HeroContainer>
           <div className="relative [&_a]:text-white/50 [&_a:hover]:text-mint-200 [&_span[aria-current]]:text-white">
             <Breadcrumb items={config.breadcrumb} />
           </div>
 
-          <div className="relative mt-8 grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.65fr_1fr] lg:gap-14">
+          <div className="relative mt-8 grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.62fr_1fr] lg:gap-16">
             <Reveal>
               <PillBadge>{config.badge}</PillBadge>
               <h1 className="mt-5 text-4xl leading-[1.12] font-bold tracking-tight text-white sm:text-5xl">
@@ -109,7 +109,7 @@ export function AudiencePage({ config }: { config: AudiencePageConfig }) {
               <AudienceDashboardCard {...config.dashboard} />
             </Reveal>
           </div>
-        </Container>
+        </HeroContainer>
       </section>
 
       <FeatureGrid

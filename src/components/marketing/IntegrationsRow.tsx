@@ -17,7 +17,7 @@ export function IntegrationsRow() {
   return (
     <section className="bg-white py-20 sm:py-24">
       <Container>
-        <Reveal className="mx-auto max-w-2xl text-center">
+        <Reveal className="mx-auto max-w-3xl text-center">
           <Eyebrow>Seamless Integrations</Eyebrow>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
             Connect Verify Engine With Your Tools

@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import { Button, ArrowRight, PlayIcon } from "@/components/ui/Button";
+import { Button, ArrowRight, PlayIcon, HeroRow } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
 import { WorkflowShowcase } from "./WorkflowShowcase";
@@ -16,16 +16,13 @@ export function HeroHome() {
       />
 
       {/*
-        The left column stays aligned with the rest of the page's centered
-        1600px container. The right column intentionally ignores that cap and
-        bleeds all the way to the true viewport edge for a "spilling off
-        screen" effect — a fixed max-w container can't do this, so this row
-        isn't built on the shared <Container>.
+        The hero runs the full width of the viewport with matching space on
+        both sides — see <HeroRow>. It used to align its left column to the
+        centred container and let the mockup bleed off the right edge; the
+        balanced full-bleed row gives the mockup far more room without cropping
+        it, which is what the client asked for.
       */}
-      <div
-        className="relative grid grid-cols-1 items-center gap-14 pr-6 lg:grid-cols-[1fr_1.2fr] lg:gap-16 lg:pr-0"
-        style={{ paddingLeft: "max(1.5rem, calc((100vw - 1600px) / 2 + 3rem))" }}
-      >
+      <HeroRow className="gap-14 lg:grid-cols-[1fr_1.25fr] lg:gap-16">
         <Reveal>
           <PillBadge>AI-Powered Landlord Verification</PillBadge>
           <h1 className="mt-5 text-4xl leading-[1.08] font-bold tracking-tight text-white sm:text-5xl">
@@ -72,7 +69,7 @@ export function HeroHome() {
         <Reveal delay={0.15}>
           <WorkflowShowcase />
         </Reveal>
-      </div>
+      </HeroRow>
     </section>
   );
 }

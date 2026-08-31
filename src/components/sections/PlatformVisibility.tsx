@@ -1,5 +1,5 @@
 import { CheckCircle2 } from "lucide-react";
-import { Button, ArrowRight } from "@/components/ui/Button";
+import { Button, ArrowRight, Container } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
 import { DashboardMock, type DashboardVariant } from "./DashboardMock";
@@ -33,10 +33,13 @@ export function PlatformVisibility({
     <section
       className={`overflow-hidden py-20 sm:py-24 ${background === "muted" ? "bg-bg-muted" : "bg-white"}`}
     >
-      <div
-        className="grid grid-cols-1 items-center gap-12 pr-6 lg:grid-cols-[0.42fr_1fr] lg:gap-14 lg:pr-0"
-        style={{ paddingLeft: "max(1.5rem, calc((100vw - 1600px) / 2 + 3rem))" }}
-      >
+      {/*
+        Wide, but still centred: the mockup used to bleed off the right edge,
+        and it now sits inside the site's (wider) shared column with matching
+        space on both sides — the treatment the client asked for on every
+        section that is not a hero.
+      */}
+      <Container className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.46fr_1fr] lg:gap-14">
         <Reveal>
           <Eyebrow>{eyebrow}</Eyebrow>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
@@ -59,7 +62,7 @@ export function PlatformVisibility({
         <Reveal delay={0.12}>
           <DashboardMock variant={variant} />
         </Reveal>
-      </div>
+      </Container>
     </section>
   );
 }

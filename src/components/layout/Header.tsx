@@ -39,7 +39,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-navy-900">
-      <div className="mx-auto flex h-18 max-w-[1600px] items-center justify-between gap-4 px-6 py-4 lg:px-12">
+      <div className="mx-auto flex h-18 max-w-[var(--site-max-width)] items-center justify-between gap-4 px-6 py-4 lg:px-10 xl:px-14">
         <Logo />
 
         <nav className="hidden items-center gap-7 lg:flex">

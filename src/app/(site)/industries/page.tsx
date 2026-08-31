@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Cpu, ShieldCheck, Timer, Lock, Blocks } from "lucide-react";
-import { Button, ArrowRight, PlayIcon } from "@/components/ui/Button";
+import { Button, ArrowRight, PlayIcon, HeroRow } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
 import { DashboardMock } from "@/components/sections/DashboardMock";
@@ -56,10 +56,7 @@ export default function IndustriesPage() {
             backgroundSize: "18px 18px",
           }}
         />
-        <div
-          className="relative grid grid-cols-1 items-center gap-12 pr-6 lg:grid-cols-[0.75fr_1fr] lg:gap-14 lg:pr-0"
-          style={{ paddingLeft: "max(1.5rem, calc((100vw - 1600px) / 2 + 3rem))" }}
-        >
+        <HeroRow className="gap-12 lg:grid-cols-[0.72fr_1fr] lg:gap-16">
           <Reveal>
             <PillBadge>Industries</PillBadge>
             <h1 className="mt-5 text-4xl leading-[1.1] font-bold tracking-tight text-white sm:text-5xl">
@@ -83,7 +80,7 @@ export default function IndustriesPage() {
           <Reveal delay={0.12}>
             <DashboardMock variant="industries" />
           </Reveal>
-        </div>
+        </HeroRow>
       </section>
 
       <IndustriesWeServe

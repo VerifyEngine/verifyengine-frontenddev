@@ -41,7 +41,7 @@ export function StepsRow({
       className={`py-20 sm:py-24 ${background === "muted" ? "bg-bg-muted" : "bg-white"}`}
     >
       <Container>
-        <Reveal className="mx-auto max-w-2xl text-center">
+        <Reveal className="mx-auto max-w-3xl text-center">
           <Eyebrow>{eyebrow}</Eyebrow>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
             {title}

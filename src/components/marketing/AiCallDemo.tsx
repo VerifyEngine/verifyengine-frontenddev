@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { Bot, CheckCircle2, Play, Pause, Volume2, Smile } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Button, PlayIcon } from "@/components/ui/Button";
+import { Button, PlayIcon, Container } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -52,13 +52,11 @@ export function AiCallDemo() {
   return (
     <section id="experience" className="overflow-hidden bg-bg-mint-50 py-20 sm:py-24">
       {/*
-        Same wide-mock treatment as the dashboard section: the copy takes about
-        a quarter of the row and the call panel runs wide to the right.
+        Same wide treatment as the dashboard section: the copy takes about a
+        quarter of the row and the call panel gets the rest, inside the site's
+        shared column so both sides keep matching space.
       */}
-      <div
-        className="grid grid-cols-1 items-center gap-12 pr-6 lg:grid-cols-[0.42fr_1fr] lg:gap-14 lg:pr-12"
-        style={{ paddingLeft: "max(1.5rem, calc((100vw - 1600px) / 2 + 3rem))" }}
-      >
+      <Container className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.46fr_1fr] lg:gap-14">
         <Reveal>
           <Eyebrow>AI In Action</Eyebrow>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
@@ -211,7 +209,7 @@ export function AiCallDemo() {
             </div>
           </div>
         </Reveal>
-      </div>
+      </Container>
     </section>
   );
 }

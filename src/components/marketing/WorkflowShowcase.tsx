@@ -23,7 +23,7 @@ import {
   IconWaveSine,
   IconX,
 } from "@tabler/icons-react";
-import { useRef, useState, type MouseEvent } from "react";
+import { useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import { ShieldMark } from "@/components/layout/Logo";
 
 /*
@@ -49,29 +49,35 @@ import { ShieldMark } from "@/components/layout/Logo";
  * site-only component (nothing is imported from src/components/platform).
  */
 
+// The order the client signed off on. It is the same order the How It Works
+// section walks through, so the two never disagree.
 const steps = [
   { icon: IconUserPlus, title: "Applicant Submitted", desc: "Information received and verification initiated" },
+  { icon: IconShieldExclamation, title: "Fraud Detection", desc: "Advanced fraud and risk detection" },
+  { icon: IconUserCheck, title: "Human QA Review", desc: "Experts review and ensure accuracy" },
   { icon: IconPhoneCall, title: "AI Calls Previous Landlord", desc: "AI voice agent contacts the previous landlord" },
   { icon: IconWaveSine, title: "Dynamic Interview", desc: "Natural conversation gathers detailed rental history" },
   { icon: IconClipboardCheck, title: "Responses Validated", desc: "AI validates answers and cross-checks data" },
-  { icon: IconShieldExclamation, title: "Fraud Detection", desc: "Advanced fraud and risk detection" },
-  { icon: IconUserCheck, title: "Human QA Review", desc: "Experts review and ensure accuracy" },
   { icon: IconFileCheck, title: "Report Delivered", desc: "Complete, accurate report delivered instantly" },
 ];
 
 // Split the way the design does: the tenancy facts first, then the assessed
 // outcomes below a divider.
+// `revealAt` is the step index that fills each row in, so the report builds
+// itself in step with the workflow above: the address comes off the
+// application, the fraud verdict off the fraud-detection step, and everything
+// the landlord says only appears once the call is under way.
 const reportFacts = [
-  { label: "Previous Address", value: "123 Main St, Anytown, CA", revealAt: 1 },
-  { label: "Tenancy Period", value: "Jan 2022 – Dec 2023", revealAt: 2 },
-  { label: "Rent Amount", value: "$1,600 / month", revealAt: 3 },
+  { label: "Previous Address", value: "123 Main St, Anytown, CA", revealAt: 0 },
+  { label: "Tenancy Period", value: "Jan 2022 – Dec 2023", revealAt: 3 },
+  { label: "Rent Amount", value: "$1,600 / month", revealAt: 4 },
 ];
 
 const reportOutcomes = [
-  { label: "Payment History", value: "On Time", revealAt: 3 },
-  { label: "Lease Compliance", value: "Compliant", revealAt: 4 },
-  { label: "Fraud Risk", value: "Low Risk", revealAt: 5 },
-  { label: "Overall Rating", value: "stars", revealAt: 5 },
+  { label: "Payment History", value: "On Time", revealAt: 4 },
+  { label: "Lease Compliance", value: "Compliant", revealAt: 5 },
+  { label: "Fraud Risk", value: "Low Risk", revealAt: 1 },
+  { label: "Overall Rating", value: "stars", revealAt: 6 },
 ];
 
 /** Mirrors the real Side Menu's sections (Figma node 18105:4682). */
@@ -156,7 +162,7 @@ export function WorkflowShowcase() {
   return (
     <div
       data-ve-theme="light"
-      className="font-app relative pt-8 pb-10 sm:pt-10 sm:pb-14 sm:pl-10"
+      className="font-app relative pt-8 pb-10 sm:pt-10 sm:pb-14"
       style={{ perspective: 1400 }}
     >
       {/* ambient glow */}
@@ -186,7 +192,16 @@ export function WorkflowShowcase() {
         it has to be the container; it is a separate element from the padded box
         above so the glow and the toast stay outside the measurement.
       */}
-      <div className="@container relative z-10">
+      <div
+        className="@container relative z-10"
+        /* The full-bleed hero hands this mockup a much wider column than its
+           780px native composition needs, and it is meant to read as a large
+           product screenshot. Letting `mock-fit` scale past 1 fills that column:
+           the whole screenshot grows together, so the proportions stay the ones
+           that were approved, only larger. The property is set here, on the
+           element `mock-fit` measures, and inherits into it. */
+        style={{ "--mock-max-zoom": 1.45 } as CSSProperties}
+      >
         <motion.div
           onMouseMove={handleTiltMove}
           onMouseLeave={handleTiltLeave}

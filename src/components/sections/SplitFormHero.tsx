@@ -39,9 +39,12 @@ export function SplitFormHero({
         {/*
           The designs give the form card roughly 40% of the row, not half —
           a 50/50 split leaves it looking short and wide, especially on the
-          login page where there are only two fields.
+          login page where there are only two fields. The row is also held
+          below the site's full width: unlike a hero with a product mockup,
+          a form gains nothing from more width and only pushes the two
+          columns apart.
         */}
-        <div className="relative grid grid-cols-1 items-start gap-12 lg:grid-cols-[1fr_0.72fr] lg:gap-16">
+        <div className="relative mx-auto grid max-w-[1400px] grid-cols-1 items-start gap-12 lg:grid-cols-[1fr_0.72fr] lg:gap-16">
           <Reveal className="lg:pt-6">
             <PillBadge>{badge}</PillBadge>
             <h1 className="mt-5 text-4xl leading-[1.1] font-bold tracking-tight text-white sm:text-5xl">

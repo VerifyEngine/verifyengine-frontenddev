@@ -89,7 +89,11 @@ export function ArticlePage({ config }: { config: ArticlePageConfig }) {
 
       <div className="bg-white py-12 sm:py-16">
         <Container>
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_340px] lg:gap-14">
+          {/* The site column is wider now, but a line of body copy still has to
+              stay readable. Rather than stretch the article, the whole
+              article-plus-sidebar block is capped and centred inside the wider
+              container. */}
+          <div className="mx-auto grid max-w-[1260px] grid-cols-1 gap-12 lg:grid-cols-[1fr_340px] lg:gap-14">
             <article className="min-w-0">
               <p className="inline-block rounded-md bg-mint-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-teal-700 uppercase">
                 {config.eyebrow}

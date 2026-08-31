@@ -72,7 +72,7 @@ export function ProcessSteps() {
     >
       <div className="sticky top-20 overflow-hidden py-8 sm:py-16">
         <Container>
-          <Reveal className="mx-auto max-w-2xl text-center">
+          <Reveal className="mx-auto max-w-3xl text-center">
             <Eyebrow>Our Verification Process</Eyebrow>
             <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:mt-3 sm:text-4xl">
               How Verify Engine Works

@@ -4,6 +4,18 @@
 :root {
   --background: #ffffff;
   --foreground: #0b1220;
+
+  /*
+   * How wide the public site is allowed to run.
+   *
+   * `--site-max-width` is the cap every centred section shares (the
+   * <Container> and the header), so the site widens from one place. The heroes
+   * use `--site-hero-max-width` instead: they run full-bleed by design and only
+   * stop growing on very large monitors, where an uncapped row would stretch a
+   * paragraph across the whole screen.
+   */
+  --site-max-width: 1800px;
+  --site-hero-max-width: 2200px;
 }
 
 @theme inline {
@@ -90,9 +102,14 @@ h3 {
  *
  * `tan(atan2(a, b))` is how CSS turns two lengths into the plain ratio `zoom`
  * needs; `100cqw` is the container's own width, so the parent has to carry
- * `container-type: inline-size` (the `@container` utility). `min(1, ...)` keeps it
- * from ever enlarging past its native size, which is what leaves a hero wide
- * enough for the mockup rendering exactly as it does today.
+ * `container-type: inline-size` (the `@container` utility).
+ *
+ * `--mock-max-zoom` is how far past its native size the mockup may grow. It
+ * defaults to 1, so a mockup with more room than it needs simply renders at
+ * native size. The full-bleed heroes raise it: there the mockup is meant to fill
+ * the column it was given and read as a large product screenshot, and scaling
+ * the whole composition together is what keeps its proportions — every gap,
+ * radius and type size grows by the same factor.
  *
  * `zoom` and not `transform: scale()`, for the same reason as above: a transform
  * would not change the space the element takes, leaving a gap under the mockup.
@@ -105,5 +122,5 @@ h3 {
     zoom: var(--mock-zoom, 0.5);
   }
 
-  zoom: min(1, tan(atan2(100cqw, var(--mock-native-width))));
+  zoom: min(var(--mock-max-zoom, 1), tan(atan2(100cqw, var(--mock-native-width))));
 }
