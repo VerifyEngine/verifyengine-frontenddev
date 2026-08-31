@@ -1,12 +1,30 @@
-import { Star } from "lucide-react";
-import { Button, ArrowRight, PlayIcon, HeroRow } from "@/components/ui/Button";
+import { Star, Mic, UserCheck, ShieldAlert, Building2, ShieldCheck, Zap } from "lucide-react";
+import { Button, ArrowRight, PlayIcon, HeroRow, FullBleedContainer } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
 import { WorkflowShowcase } from "./WorkflowShowcase";
 
+/*
+ * These used to sit in a white band under the hero, above the partner logos,
+ * under their own "Trusted Verification Technology" heading. Two stacked,
+ * centred rows both headed "Trusted ..." read as one section repeating
+ * itself, and the badges say back what the hero paragraph has just said — AI
+ * voice agents, fraud detection, human-reviewed accuracy. As a hairline strip
+ * closing the hero they read as part of it, and the white band below is left
+ * to do the one thing the hero does not: name the companies.
+ */
+const badges = [
+  { icon: Mic, label: "AI Voice Agents" },
+  { icon: UserCheck, label: "Human Reviewed" },
+  { icon: ShieldAlert, label: "Fraud Detection" },
+  { icon: Building2, label: "Enterprise Ready" },
+  { icon: ShieldCheck, label: "SOC 2 Ready" },
+  { icon: Zap, label: "Fast Turnaround" },
+];
+
 export function HeroHome() {
   return (
-    <section className="relative overflow-hidden bg-navy-900 pt-14 pb-20 sm:pt-20 sm:pb-28">
+    <section className="relative overflow-hidden bg-navy-900 pt-14 pb-12 sm:pt-20 sm:pb-14">
       <div
         className="pointer-events-none absolute top-10 right-0 h-64 w-64 opacity-[0.15]"
         style={{
@@ -70,6 +88,24 @@ export function HeroHome() {
           <WorkflowShowcase />
         </Reveal>
       </HeroRow>
+
+      <FullBleedContainer>
+        <Reveal delay={0.25}>
+          {/* Six labels of different lengths wrap into a ragged block on a
+              phone, so there they sit in two even columns instead. */}
+          <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-white/10 pt-8 sm:mt-14 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-10 lg:justify-between">
+            {badges.map((b) => (
+              <div
+                key={b.label}
+                className="flex items-center gap-2.5 text-base font-medium text-white/70"
+              >
+                <b.icon className="size-6 text-mint-200" strokeWidth={1.75} />
+                {b.label}
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </FullBleedContainer>
     </section>
   );
 }

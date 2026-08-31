@@ -27,52 +27,59 @@ export function LogosRow({
 
   return (
     <div className={`py-10 ${background === "muted" ? "bg-bg-muted" : "bg-white"}`}>
-      {/* Full width, matching the trust band on the homepage. */}
+      {/*
+        Full width, and one row instead of a centred heading stacked on top of
+        a centred row: the label sits at the left and the logos take the rest
+        of the band. Below lg it falls back to the stacked, centred
+        arrangement, where a side label would leave the logos no room.
+      */}
       <FullBleedContainer>
-        <p className="text-center text-xs font-semibold tracking-wide text-slate-400 uppercase">
-          {label}
-        </p>
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-14">
+          <p className="text-center text-xs font-semibold tracking-wide text-slate-400 uppercase lg:max-w-36 lg:shrink-0 lg:text-left">
+            {label}
+          </p>
 
-        <div className="mt-6 flex items-center gap-2">
-          {arrows && (
-            <button
-              type="button"
-              onClick={() => scrollBy(-1)}
-              aria-label="Previous logos"
-              className={arrowButton}
-            >
-              <ChevronLeft className="size-5" strokeWidth={2} />
-            </button>
-          )}
-
-          <div
-            ref={trackRef}
-            className={`flex flex-1 items-center gap-x-12 gap-y-4 overflow-x-auto ${
-              arrows
-                ? "justify-start sm:justify-between"
-                : "flex-wrap justify-center lg:justify-between"
-            }`}
-          >
-            {logos.map((logo) => (
-              <span
-                key={logo}
-                className="shrink-0 text-xl font-bold tracking-tight text-slate-400 select-none sm:text-2xl"
+          <div className="flex flex-1 items-center gap-2">
+            {arrows && (
+              <button
+                type="button"
+                onClick={() => scrollBy(-1)}
+                aria-label="Previous logos"
+                className={arrowButton}
               >
-                {logo}
-              </span>
-            ))}
-          </div>
+                <ChevronLeft className="size-5" strokeWidth={2} />
+              </button>
+            )}
 
-          {arrows && (
-            <button
-              type="button"
-              onClick={() => scrollBy(1)}
-              aria-label="Next logos"
-              className={arrowButton}
+            <div
+              ref={trackRef}
+              className={`flex flex-1 items-center gap-x-12 gap-y-4 overflow-x-auto ${
+                arrows
+                  ? "justify-start sm:justify-between"
+                  : "flex-wrap justify-center lg:justify-between"
+              }`}
             >
-              <ChevronRight className="size-5" strokeWidth={2} />
-            </button>
-          )}
+              {logos.map((logo) => (
+                <span
+                  key={logo}
+                  className="shrink-0 text-xl font-bold tracking-tight text-slate-400 select-none sm:text-2xl"
+                >
+                  {logo}
+                </span>
+              ))}
+            </div>
+
+            {arrows && (
+              <button
+                type="button"
+                onClick={() => scrollBy(1)}
+                aria-label="Next logos"
+                className={arrowButton}
+              >
+                <ChevronRight className="size-5" strokeWidth={2} />
+              </button>
+            )}
+          </div>
         </div>
       </FullBleedContainer>
     </div>
