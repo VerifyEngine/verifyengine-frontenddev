@@ -77,7 +77,8 @@ export default function IndustriesPage() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.12}>
+          {/* Full screen width on phones, page padding from sm up. */}
+          <Reveal delay={0.12} className="-mx-6 sm:mx-0">
             <DashboardMock variant="industries" />
           </Reveal>
         </HeroRow>

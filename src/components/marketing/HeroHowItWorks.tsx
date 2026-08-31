@@ -80,7 +80,8 @@ export function HeroHowItWorks() {
           {/* The theme attribute goes on a plain element, not on Reveal —
               Reveal takes a fixed prop list and silently drops anything else,
               and TypeScript does not flag hyphenated JSX attributes. */}
-          <Reveal delay={0.12}>
+          {/* Full screen width on phones, page padding from sm up. */}
+          <Reveal delay={0.12} className="-mx-6 sm:mx-0">
             <div
               data-ve-theme="light"
               className="mock-miniature font-app grid grid-cols-[1fr_1.05fr] gap-4"
