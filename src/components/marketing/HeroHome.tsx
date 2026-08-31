@@ -84,10 +84,7 @@ export function HeroHome() {
           </div>
         </Reveal>
 
-        {/* Phones give the mockup the full screen width — see mock-bleed note
-            in the other heroes: 342px inside the page padding was too small to
-            make anything out. */}
-        <Reveal delay={0.15} className="-mx-6 sm:mx-0">
+        <Reveal delay={0.15}>
           <WorkflowShowcase />
         </Reveal>
       </HeroRow>

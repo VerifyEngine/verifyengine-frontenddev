@@ -79,8 +79,7 @@ export function ProductPage({ config }: { config: ProductPageConfig }) {
             </div>
           </Reveal>
 
-          {/* Full screen width on phones, page padding from sm up. */}
-          <Reveal delay={0.12} className="-mx-6 sm:mx-0">
+          <Reveal delay={0.12}>
             <ApplicantOverviewCard
               title={config.card.title ?? "Verification Example"}
               score={config.card.score}

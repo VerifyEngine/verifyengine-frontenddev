@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import { CheckCircle2, type LucideIcon } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SummaryStepper } from "./SummaryStepper";
@@ -47,12 +46,7 @@ export function VerificationSummaryCard({
   return (
     <div
       data-ve-theme="light"
-      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
-      /* The platform ships type at 1.2x the Figma sizes; these hero cards are
-         shown much smaller than a 1920px screen, so they carry a little more
-         again to stay readable at hero scale. Every box sized from the same
-         token scales with it. */
-      style={{ "--ve-type-scale": "1.35" } as CSSProperties}
+      className="mock-type font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
     >
       {/* No longer shrunk on phones: a half-size card put this type at about
           6px, which is a picture of a product rather than a look at one. It now

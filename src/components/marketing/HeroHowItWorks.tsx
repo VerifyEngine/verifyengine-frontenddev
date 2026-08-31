@@ -1,6 +1,5 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import { motion, useAnimationFrame } from "motion/react";
 import { Headset, Cpu, UserCheck, FileText } from "lucide-react";
 import { useRef, useState } from "react";
@@ -80,14 +79,10 @@ export function HeroHowItWorks() {
           {/* The theme attribute goes on a plain element, not on Reveal —
               Reveal takes a fixed prop list and silently drops anything else,
               and TypeScript does not flag hyphenated JSX attributes. */}
-          {/* Full screen width on phones, page padding from sm up. */}
-          <Reveal delay={0.12} className="-mx-6 sm:mx-0">
+          <Reveal delay={0.12}>
             <div
               data-ve-theme="light"
-              className="font-app grid grid-cols-1 gap-4 sm:grid-cols-[1fr_1.05fr]"
-              /* Same reasoning as the other hero cards: shown far smaller than
-                 a 1920px screen, so the type carries a little more scale. */
-              style={{ "--ve-type-scale": "1.35" } as CSSProperties}
+              className="mock-type font-app grid grid-cols-1 gap-4 sm:grid-cols-[1fr_1.05fr]"
             >
             <LiveCallCard />
 

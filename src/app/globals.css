@@ -80,6 +80,36 @@ h3 {
  */
 
 /*
+ * Type size inside the hero mockups.
+ *
+ * On a desktop they are drawn far smaller than the 1920px screen they depict,
+ * so their type carries extra scale to stay readable — 1.35 for the cards, and
+ * the platform's own 1.2 for the shell mockup.
+ *
+ * On a phone the mockup is laid out at 1:1, and those same numbers put its type
+ * at or above the size of the page's own copy: it stops reading as a picture of
+ * a screen and starts reading as an app dropped into the hero. Below `sm` the
+ * scale drops so the mockup reads as a screenshot again — small, but a real
+ * caption size rather than the ~6px the old half-size rule produced.
+ */
+/*
+ * Written as plain rules rather than an `@utility`, and matched together with
+ * the theme attribute on purpose. platform.css sets `--ve-type-scale` on
+ * `[data-ve-theme]`, which is the very element a mockup puts this class on, and
+ * that rule is unlayered — a Tailwind utility sits in the `utilities` layer and
+ * would lose to it. `[data-ve-theme].mock-type` outranks it on both counts.
+ */
+[data-ve-theme].mock-type {
+  --ve-type-scale: var(--mock-type-lg, 1.35);
+}
+
+@media (width < 40rem) {
+  [data-ve-theme].mock-type {
+    --ve-type-scale: var(--mock-type-sm, 0.92);
+  }
+}
+
+/*
  * Hero product mockups that draw a whole screen, not a single card.
  *
  * `mock-miniature` above just paints the mockup at half size on a phone. That is

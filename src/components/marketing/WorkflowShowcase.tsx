@@ -162,8 +162,8 @@ export function WorkflowShowcase() {
   return (
     <div
       data-ve-theme="light"
-      className="font-app relative pt-8 pb-10 sm:pt-10 sm:pb-14"
-      style={{ perspective: 1400 }}
+      className="mock-type font-app relative pt-8 pb-10 sm:pt-10 sm:pb-14"
+      style={{ perspective: 1400, "--mock-type-lg": 1.2 } as CSSProperties}
     >
       {/* ambient glow */}
       <div className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-app-brand2-40 blur-[110px]" />
