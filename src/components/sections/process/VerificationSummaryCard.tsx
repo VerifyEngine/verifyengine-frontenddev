@@ -47,15 +47,19 @@ export function VerificationSummaryCard({
   return (
     <div
       data-ve-theme="light"
-      className="mock-miniature font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
+      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
       /* The platform ships type at 1.2x the Figma sizes; these hero cards are
          shown much smaller than a 1920px screen, so they carry a little more
          again to stay readable at hero scale. Every box sized from the same
          token scales with it. */
       style={{ "--ve-type-scale": "1.35" } as CSSProperties}
     >
-      <div className="grid grid-cols-[0.72fr_1fr] gap-0">
-        <div className="relative border-r border-app-line p-4">
+      {/* No longer shrunk on phones: a half-size card put this type at about
+          6px, which is a picture of a product rather than a look at one. It now
+          lays out at the width it is given and stacks below sm, so a phone
+          reads it at 1:1. Desktop is untouched. */}
+      <div className="grid grid-cols-1 gap-0 sm:grid-cols-[0.72fr_1fr]">
+        <div className="relative border-b border-app-line p-4 sm:border-r sm:border-b-0">
           <div className="absolute top-10 bottom-10 left-[38px] w-px border-l border-dashed border-app-line" />
           <SummaryStepper steps={renderedSteps} />
         </div>

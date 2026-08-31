@@ -62,27 +62,22 @@ h3 {
 /*
  * Hero product mockups on small screens.
  *
- * These mockups are drawings of the signed-in platform, and they were sized to
- * read as a product screenshot at the width they get on a desktop hero —
- * roughly 780px. On a phone the card is 342px, less than half, but the type
- * inside it never changed: 27px text inside a 342px card, next to page copy of
- * 16px, stops reading as a screenshot and becomes a panel that swallows the
- * screen.
+ * There used to be a `mock-miniature` utility here that painted these mockups
+ * at half size on a phone, on the reasoning that they are a picture of the
+ * product rather than content, so they could be too small to read. In practice
+ * that put the type at roughly 6px and, in the client's words, you could barely
+ * make anything out. Shrinking further was never going to fix that: a 780px
+ * desktop screen inside a 390px phone is a 0.44 ratio no matter how it is
+ * painted.
  *
- * `zoom` lays the mockup out at a virtual width and paints it smaller, so the
- * whole thing shrinks together and stays in proportion. It is used instead of
- * `transform: scale()` on purpose: a transform does not change the space the
- * element takes, so the page would keep a gap the height of the unscaled
- * mockup underneath it.
+ * So the phone no longer gets a shrunken desktop screenshot. Each hero mockup
+ * lays out at the width it is actually given and stacks its columns below
+ * `sm`, which is the platform's own phone view, at 1:1 and readable. The
+ * desktop composition is untouched, because all of it is behind `sm`.
  *
- * Above the `sm` breakpoint nothing applies — the desktop rendering that was
- * approved is untouched.
+ * `mock-fit` below is what remains: it keeps the homepage mockup from
+ * reflowing between `sm` and the width its desktop composition needs.
  */
-@utility mock-miniature {
-  @media (width < 40rem) {
-    zoom: var(--mock-zoom, 0.5);
-  }
-}
 
 /*
  * Hero product mockups that draw a whole screen, not a single card.
@@ -113,14 +108,19 @@ h3 {
  *
  * `zoom` and not `transform: scale()`, for the same reason as above: a transform
  * would not change the space the element takes, leaving a gap under the mockup.
+ *
+ * Below `sm` none of this applies and the zoom is dropped entirely. Painting a
+ * 780px desktop screen into a 390px phone means a 0.44 ratio and roughly 6px
+ * type — the client's verdict was that you can barely make anything out. So on
+ * a phone the mockup is not a shrunken desktop screenshot at all: it lays out
+ * as the platform's own phone view, at 1:1, and stays readable. The composition
+ * that was approved on the desktop is untouched, because it only ever applied
+ * from `sm` up.
  */
 @utility mock-fit {
   --mock-native-width: 780px;
 
-  /* Fallback for engines without the trig math: the old half-size phone rule. */
-  @media (width < 40rem) {
-    zoom: var(--mock-zoom, 0.5);
+  @media (width >= 40rem) {
+    zoom: min(var(--mock-max-zoom, 1), tan(atan2(100cqw, var(--mock-native-width))));
   }
-
-  zoom: min(var(--mock-max-zoom, 1), tan(atan2(100cqw, var(--mock-native-width))));
 }

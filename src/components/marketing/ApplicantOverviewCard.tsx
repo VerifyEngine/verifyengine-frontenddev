@@ -54,7 +54,7 @@ export function ApplicantOverviewCard({
   return (
     <div
       data-ve-theme="light"
-      className="mock-miniature font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
+      className="font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
       /* The platform ships type at 1.2x the Figma sizes; these hero cards are
          shown much smaller than a 1920px screen, so they carry a little more
          again to stay readable at hero scale. Every box sized from the same
@@ -69,7 +69,11 @@ export function ApplicantOverviewCard({
         </span>
       </div>
 
-      <div className="grid grid-cols-[0.8fr_1fr] gap-3 p-4">
+      {/* No longer shrunk on phones: a half-size card put this type at about
+          6px, which is a picture of a product rather than a look at one. It now
+          lays out at the width it is given and stacks below sm, so a phone
+          reads it at 1:1. Desktop is untouched. */}
+      <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-[0.8fr_1fr]">
         <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4">
           <p className="text-body-2xs text-app-text-secondary">
             VE Score<span className="align-super text-[8px]">™</span>

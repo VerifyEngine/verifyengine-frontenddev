@@ -211,12 +211,19 @@ export function WorkflowShowcase() {
           <TopNav />
 
           <div className="flex gap-2">
+            {/* The side menu is the first thing a real phone layout drops. */}
             <SideMenu />
 
             <div className="flex min-w-px flex-1 flex-col gap-2">
               <MetricBand verified={verified} />
 
-              <div className="grid grid-cols-[1.1fr_1fr] gap-2">
+              {/*
+                One column on a phone, where the two panels side by side would
+                be 180px each. The report panel is the one that gives way: the
+                workflow is what the hero is about, and stacking both would make
+                the mockup taller than the phone screen.
+              */}
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1.1fr_1fr]">
                 {/* workflow steps */}
                 <section className="flex flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]">
                   <h3 className="text-label-xs text-app-text-brand1">
@@ -284,7 +291,7 @@ export function WorkflowShowcase() {
                 </section>
 
                 {/* verification report */}
-                <section className="flex flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]">
+                <section className="hidden flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px] sm:flex">
                   <div className="flex items-center justify-between gap-2">
                     <h3 className="text-label-xs text-app-text-brand1">Verification Report</h3>
                     <motion.span
@@ -358,7 +365,7 @@ export function WorkflowShowcase() {
 /** Full-width Top Nav panel, as the platform draws it (Figma node 18110:24717). */
 function TopNav() {
   return (
-    <div className="flex items-center gap-2 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-2 backdrop-blur-[12px]">
+    <div className="flex items-center justify-between gap-2 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-2 backdrop-blur-[12px] sm:justify-start">
       <span className="flex shrink-0 items-center gap-1.5 px-2">
         <ShieldMark className="size-5" />
         <span className="text-label-xs whitespace-nowrap text-app-text">
@@ -366,7 +373,9 @@ function TopNav() {
         </span>
       </span>
 
-      <span className="flex min-w-px flex-1 items-center gap-2 rounded-app-l border-w-xs border-app-line bg-app-fade-48 px-3 py-2">
+      {/* The search field and the organisation switcher are what a phone-width
+          app bar leaves out — without them the row fits, with them it spills. */}
+      <span className="hidden min-w-px flex-1 items-center gap-2 rounded-app-l border-w-xs border-app-line bg-app-fade-48 px-3 py-2 sm:flex">
         <IconSearch size={15} stroke={1.6} className="shrink-0 text-app-text" aria-hidden />
         <span className="min-w-px flex-1 truncate text-body-2xs text-app-text-tertiary">
           Search by keywords...
@@ -383,7 +392,7 @@ function TopNav() {
             <Icon size={15} stroke={1.6} aria-hidden />
           </span>
         ))}
-        <span className="flex items-center gap-1.5 rounded-app-7xl border-w-2xs border-app-line bg-app-brand2-40 py-1.5 pr-3 pl-2">
+        <span className="hidden items-center gap-1.5 rounded-app-7xl border-w-2xs border-app-line bg-app-brand2-40 py-1.5 pr-3 pl-2 sm:flex">
           <IconRefreshDot size={15} stroke={1.6} className="shrink-0 text-app-text" aria-hidden />
           <span className="block">
             <span className="block text-body-2xs whitespace-nowrap text-app-text">
@@ -403,7 +412,7 @@ function TopNav() {
 /** Side Menu panel — grouped rows under uppercase section headings. */
 function SideMenu() {
   return (
-    <nav className="flex w-40 shrink-0 flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 px-2 py-3 backdrop-blur-[12px]">
+    <nav className="hidden w-40 shrink-0 flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 px-2 py-3 backdrop-blur-[12px] sm:flex">
       {navSections.map((section) => (
         <div key={section.heading} className="flex flex-col gap-1">
           <p className="px-2 text-nav-heading text-app-text">{section.heading}</p>
@@ -441,7 +450,7 @@ function MetricBand({ verified }: { verified: number }) {
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
       {metrics.map((metric) => (
         <div
           key={metric.label}

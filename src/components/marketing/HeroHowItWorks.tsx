@@ -84,7 +84,7 @@ export function HeroHowItWorks() {
           <Reveal delay={0.12} className="-mx-6 sm:mx-0">
             <div
               data-ve-theme="light"
-              className="mock-miniature font-app grid grid-cols-[1fr_1.05fr] gap-4"
+              className="font-app grid grid-cols-1 gap-4 sm:grid-cols-[1fr_1.05fr]"
               /* Same reasoning as the other hero cards: shown far smaller than
                  a 1920px screen, so the type carries a little more scale. */
               style={{ "--ve-type-scale": "1.35" } as CSSProperties}
