@@ -36,7 +36,7 @@ export function NewsletterBand({
               </span>
               <div>
                 <h2 className="text-xl font-bold text-white sm:text-2xl">{title}</h2>
-                <p className="mt-1.5 max-w-md text-sm text-white/60">{description}</p>
+                <p className="mt-1.5 max-w-md text-base text-white/60">{description}</p>
               </div>
             </div>
 
@@ -71,7 +71,7 @@ export function NewsletterBand({
                       {form.errors.email}
                     </p>
                   )}
-                  <p className="mt-2 text-left text-xs text-white/40">
+                  <p className="mt-2 text-left text-sm text-white/50">
                     We respect your privacy. Unsubscribe at any time.
                   </p>
                 </form>

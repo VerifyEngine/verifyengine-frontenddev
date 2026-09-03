@@ -83,7 +83,7 @@ export function AiCallDemo() {
                     </span>
                     <div>
                       <p className="text-base font-bold text-ink-900">AI Voice Agent: Ava</p>
-                      <p className="text-sm text-slate-500">Rental History Verification</p>
+                      <p className="text-base text-slate-500">Rental History Verification</p>
                     </div>
                   </div>
                   <span className="hidden items-center gap-1.5 rounded-full bg-mint-100 px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-teal-700 sm:flex">
@@ -115,9 +115,9 @@ export function AiCallDemo() {
                         <p className="text-sm leading-relaxed text-ink-900">{line.text}</p>
                         {/* Each bubble carries its own audio scrubber in the design. */}
                         <div className="mt-2.5 flex items-center gap-2.5">
-                          <span className="text-[11px] text-slate-400">{line.time}</span>
+                          <span className="text-base text-slate-400">{line.time}</span>
                           <BubbleWave active={playing && i < revealed} />
-                          <span className="text-[11px] text-slate-400">{line.time}</span>
+                          <span className="text-base text-slate-400">{line.time}</span>
                         </div>
                       </div>
                     </motion.div>
@@ -131,7 +131,7 @@ export function AiCallDemo() {
 
                 <div className="mt-5">
                   <div className="flex items-center justify-between">
-                    <p className="text-xs text-slate-500">Confidence Score</p>
+                    <p className="text-base text-slate-500">Confidence Score</p>
                     <p className="text-xs font-bold text-ink-900">98%</p>
                   </div>
                   <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100">
@@ -146,7 +146,7 @@ export function AiCallDemo() {
                 </div>
 
                 <div className="mt-5">
-                  <p className="text-xs text-slate-500">Sentiment</p>
+                  <p className="text-base text-slate-500">Sentiment</p>
                   <p className="mt-1 flex items-center gap-1.5 text-base font-bold text-ink-900">
                     Positive
                     <Smile className="size-4 text-teal-500" strokeWidth={2} />
@@ -154,7 +154,7 @@ export function AiCallDemo() {
                 </div>
 
                 <div className="mt-5">
-                  <p className="text-xs font-semibold text-ink-900">Key Details Collected</p>
+                  <p className="text-sm font-semibold text-ink-900">Key Details Collected</p>
                   <ul className="mt-2.5 space-y-2">
                     {keyDetails.map((item, i) => (
                       <motion.li
@@ -163,7 +163,7 @@ export function AiCallDemo() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.3, delay: 0.2 + i * 0.09 }}
-                        className="flex items-center gap-2 text-sm text-slate-600"
+                        className="flex items-center gap-2 text-base text-slate-600"
                       >
                         <CheckCircle2 className="size-4 shrink-0 text-teal-500" strokeWidth={2} />
                         {item}
@@ -173,7 +173,7 @@ export function AiCallDemo() {
                 </div>
 
                 <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
-                  <p className="text-xs font-semibold text-ink-900">Call Duration</p>
+                  <p className="text-sm font-semibold text-ink-900">Call Duration</p>
                   <p className="text-sm font-bold text-ink-900">02:34</p>
                 </div>
               </div>
@@ -204,7 +204,7 @@ export function AiCallDemo() {
                   transition={{ duration: 0.5, ease: "easeOut" }}
                 />
               </div>
-              <span className="shrink-0 text-xs text-slate-400">02:34 / 03:12</span>
+              <span className="shrink-0 text-base text-slate-400">02:34 / 03:12</span>
               <Volume2 className="size-4 shrink-0 text-slate-400" strokeWidth={1.75} />
             </div>
           </div>

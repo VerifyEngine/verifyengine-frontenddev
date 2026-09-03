@@ -74,7 +74,7 @@ export default function ContactPage() {
               <h3 className="text-lg font-bold text-ink-900 group-hover:text-teal-700">
                 {route.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">{route.description}</p>
+              <p className="mt-2 text-base leading-relaxed text-slate-600">{route.description}</p>
               <span className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-semibold text-teal-600">
                 {route.action} <ArrowRight />
               </span>

@@ -19,11 +19,11 @@ const socials: { label: string; href?: string; path: string }[] = [
 function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
     <div>
-      <h3 className="text-sm font-semibold text-white">{title}</h3>
+      <h3 className="text-base font-semibold text-white">{title}</h3>
       <ul className="mt-4 space-y-3">
         {links.map((link) => (
           <li key={link.href}>
-            <Link href={link.href} className="text-sm text-white/60 transition-colors hover:text-mint-200">
+            <Link href={link.href} className="text-base text-white/60 transition-colors hover:text-mint-200">
               {link.label}
             </Link>
           </li>
@@ -60,7 +60,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 pb-12 md:grid-cols-2 lg:grid-cols-[1.35fr_repeat(5,1fr)]">
           <div>
             <Logo />
-            <p className="mt-4 max-w-xs text-sm text-white/60">
+            <p className="mt-4 max-w-xs text-base text-white/60">
               AI-powered verification platform for landlords, property managers, and businesses
               across industries. Stronger communities. Smarter decisions.
             </p>
@@ -102,8 +102,8 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 sm:flex-row">
-          <p className="text-xs text-white/50">© {new Date().getFullYear()} Verify Engine. All rights reserved.</p>
-          <div className="flex items-center gap-4 text-xs text-white/50">
+          <p className="text-sm text-white/60">© {new Date().getFullYear()} Verify Engine. All rights reserved.</p>
+          <div className="flex items-center gap-4 text-sm text-white/60">
             <span>SOC 2 Ready</span>
             <span className="text-white/20">|</span>
             <Link href="/legal/privacy" className="hover:text-mint-200">Privacy</Link>

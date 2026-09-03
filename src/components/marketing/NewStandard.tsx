@@ -29,14 +29,14 @@ export function NewStandard() {
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
               The New Standard for Landlord Verification
             </h2>
-            <p className="mt-5 text-base text-slate-600">
+            <p className="mt-5 text-lg leading-relaxed text-slate-600">
               Manual landlord verification is slow, inconsistent, and easy to manipulate. Verify
               Engine automates the entire process with AI while maintaining human accuracy—so you
               can screen with confidence and lease faster.
             </p>
             <ul className="mt-6 space-y-3">
               {checklist.map((item) => (
-                <li key={item} className="flex items-center gap-3 text-sm font-medium text-ink-900">
+                <li key={item} className="flex items-center gap-3 text-base font-medium text-ink-900">
                   <CheckCircle2 className="size-5 shrink-0 text-teal-500" strokeWidth={1.75} />
                   {item}
                 </li>
@@ -78,8 +78,8 @@ export function NewStandard() {
                     <s.icon className="size-4.5" strokeWidth={1.75} />
                   </span>
                   <div className="leading-tight">
-                    <p className="text-sm font-bold text-ink-900">{s.value}</p>
-                    <p className="text-xs text-slate-500">{s.label}</p>
+                    <p className="text-base font-bold text-ink-900">{s.value}</p>
+                    <p className="text-base text-slate-500">{s.label}</p>
                   </div>
                 </div>
               ))}
@@ -91,8 +91,8 @@ export function NewStandard() {
                 <div key={s.label} className="flex items-start gap-3 rounded-xl bg-bg-muted p-4">
                   <s.icon className="size-5 shrink-0 text-teal-600" strokeWidth={1.75} />
                   <div>
-                    <p className="text-sm font-bold text-ink-900">{s.value}</p>
-                    <p className="text-xs text-slate-500">{s.label}</p>
+                    <p className="text-base font-bold text-ink-900">{s.value}</p>
+                    <p className="text-base text-slate-500">{s.label}</p>
                   </div>
                 </div>
               ))}

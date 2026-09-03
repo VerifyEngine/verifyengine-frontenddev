@@ -51,7 +51,7 @@ export function FormField({
       {error ? (
         <p className="mt-1.5 text-xs font-medium text-rose-600">{error}</p>
       ) : hint ? (
-        <p className="mt-1.5 text-xs text-slate-500">{hint}</p>
+        <p className="mt-1.5 text-base text-slate-500">{hint}</p>
       ) : null}
     </div>
   );
@@ -153,7 +153,7 @@ export function Checkbox({
         className="mt-0.5 size-4 shrink-0 cursor-pointer rounded border-slate-300 text-teal-600 accent-teal-600 focus:ring-2 focus:ring-teal-500/25"
         {...rest}
       />
-      <span className="text-sm text-slate-600">{label}</span>
+      <span className="text-base text-slate-600">{label}</span>
     </label>
   );
 }
@@ -163,7 +163,7 @@ export function DividerText({ children }: { children: ReactNode }) {
   return (
     <div className="flex items-center gap-4">
       <span className="h-px flex-1 bg-slate-200" />
-      <span className="text-xs text-slate-400">{children}</span>
+      <span className="text-base text-slate-400">{children}</span>
       <span className="h-px flex-1 bg-slate-200" />
     </div>
   );

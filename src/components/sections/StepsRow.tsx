@@ -77,7 +77,7 @@ export function StepsRow({
               </div>
 
               <h3 className="mt-4 text-base font-bold text-ink-900">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-500">{step.description}</p>
+              <p className="mt-2 text-base leading-relaxed text-slate-500">{step.description}</p>
             </RevealItem>
           ))}
         </RevealGroup>

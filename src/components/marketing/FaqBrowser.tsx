@@ -44,7 +44,7 @@ export function FaqBrowser() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search questions..."
               aria-label="Search questions"
-              className="w-full rounded-xl bg-white py-4 pr-14 pl-5 text-sm text-ink-900 placeholder:text-slate-400 focus:ring-2 focus:ring-mint-200 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+              className="w-full rounded-xl bg-white py-4 pr-14 pl-5 text-base text-ink-900 placeholder:text-slate-400 focus:ring-2 focus:ring-mint-200 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
             />
             {/* Trailing, like the design and the blog search — decorative, since
                 the field is labelled and filtering happens as you type. */}
@@ -70,7 +70,7 @@ export function FaqBrowser() {
                       key={item.id}
                       type="button"
                       onClick={() => setCategory(item.id)}
-                      className={`flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors ${
+                      className={`flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-3 text-left text-base font-medium transition-colors ${
                         isActive
                           ? "bg-mint-100 text-teal-700"
                           : "text-slate-600 hover:bg-bg-muted hover:text-ink-900"
@@ -88,7 +88,7 @@ export function FaqBrowser() {
 
               <div className="mt-6 rounded-2xl bg-white p-6 shadow-card">
                 <p className="text-base font-bold text-ink-900">Still have questions?</p>
-                <p className="mt-1.5 text-sm text-slate-500">
+                <p className="mt-1.5 text-base text-slate-500">
                   Our team is here to help you find the answers you need.
                 </p>
                 <Link
@@ -106,7 +106,7 @@ export function FaqBrowser() {
                 <h2 className="text-2xl font-bold text-ink-900">
                   {category === "all" && !query ? "Top Questions" : activeCategoryLabel}
                 </h2>
-                <p className="text-sm text-slate-500">
+                <p className="text-base text-slate-500">
                   {results.length} {results.length === 1 ? "question" : "questions"}
                 </p>
               </div>

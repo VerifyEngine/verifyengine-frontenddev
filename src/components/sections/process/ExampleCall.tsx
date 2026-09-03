@@ -40,7 +40,7 @@ export function ExampleCall({
             <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.6fr]">
               <div className="border-b border-slate-100 p-7 lg:border-r lg:border-b-0">
                 <h2 className="text-xl font-bold text-ink-900">{title}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-slate-600">{description}</p>
+                <p className="mt-3 text-base leading-relaxed text-slate-600">{description}</p>
 
                 <button
                   type="button"
@@ -54,7 +54,7 @@ export function ExampleCall({
                   )}
                   {playing ? "Pause Example Call" : "Play Example Call"}
                 </button>
-                <p className="mt-2.5 text-xs text-slate-400">Duration: {duration}</p>
+                <p className="mt-2.5 text-base text-slate-400">Duration: {duration}</p>
               </div>
 
               <div>
@@ -97,7 +97,7 @@ export function ExampleCall({
                     })}
                   </div>
 
-                  <span className="shrink-0 text-xs text-slate-400">{duration}</span>
+                  <span className="shrink-0 text-base text-slate-400">{duration}</span>
                   <Volume2 className="size-4 shrink-0 text-slate-400" strokeWidth={1.75} />
                 </div>
               </div>
@@ -132,8 +132,8 @@ function Speaker({
       <div className="mt-3 space-y-4">
         {lines.map((line, i) => (
           <div key={i}>
-            <p className="text-right text-[11px] text-slate-400">{line.time}</p>
-            <p className="mt-0.5 text-xs leading-relaxed text-slate-600">{line.text}</p>
+            <p className="text-right text-base text-slate-400">{line.time}</p>
+            <p className="mt-0.5 text-base leading-relaxed text-slate-600">{line.text}</p>
           </div>
         ))}
       </div>

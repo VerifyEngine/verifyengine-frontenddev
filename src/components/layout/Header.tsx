@@ -106,7 +106,7 @@ export function Header() {
                       <p className="mt-2 text-xl font-bold text-white group-hover:text-mint-200">
                         Landlord Verification
                       </p>
-                      <p className="mt-1.5 text-sm leading-relaxed text-white/80">
+                      <p className="mt-1.5 text-base leading-relaxed text-white/80">
                         Rental history verification for tenant screening.
                       </p>
                     </Link>
@@ -116,7 +116,7 @@ export function Header() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="block text-sm font-medium text-white/75 transition-colors hover:text-white"
+                          className="block text-base font-medium text-white/75 transition-colors hover:text-white"
                         >
                           {item.label}
                         </Link>
@@ -131,7 +131,7 @@ export function Header() {
                           <p className="text-base font-bold text-white group-hover:text-mint-200">
                             {item.title}
                           </p>
-                          <p className="mt-1 text-sm leading-relaxed text-white/80">{item.description}</p>
+                          <p className="mt-1 text-base leading-relaxed text-white/80">{item.description}</p>
                         </Link>
                       ))}
                     </div>
@@ -194,7 +194,7 @@ export function Header() {
           onClick={closeOnNavigation(() => setMobileOpen(false))}
         >
           <nav className="flex flex-col gap-1 pt-4">
-            <Link href="/" className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/85 hover:bg-white/5">
+            <Link href="/" className="rounded-lg px-3 py-2.5 text-base font-medium text-white/85 hover:bg-white/5">
               Home
             </Link>
             <p className="px-3 pt-3 pb-1 text-xs font-semibold tracking-wide text-white/40 uppercase">
@@ -204,7 +204,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/85 hover:bg-white/5"
+                className="rounded-lg px-3 py-2.5 text-base font-medium text-white/85 hover:bg-white/5"
               >
                 {item.title}
               </Link>
@@ -213,12 +213,12 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/85 hover:bg-white/5"
+                className="rounded-lg px-3 py-2.5 text-base font-medium text-white/85 hover:bg-white/5"
               >
                 {item.label}
               </Link>
             ))}
-            <Link href="/login" className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/85 hover:bg-white/5">
+            <Link href="/login" className="rounded-lg px-3 py-2.5 text-base font-medium text-white/85 hover:bg-white/5">
               Client Login
             </Link>
           </nav>

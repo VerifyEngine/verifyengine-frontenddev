@@ -77,7 +77,7 @@ export function HeroHome() {
                   <Star key={i} className="size-3.5" fill="currentColor" strokeWidth={0} />
                 ))}
               </div>
-              <p className="mt-0.5 text-xs text-white/50">
+              <p className="mt-1 text-base text-white/60">
                 Trusted by leading tenant screening companies and property managers
               </p>
             </div>

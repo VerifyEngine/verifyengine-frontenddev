@@ -64,7 +64,7 @@ export function BlogBrowser() {
               onChange={(e) => updateFilter(() => setQuery(e.target.value))}
               placeholder="Search articles..."
               aria-label="Search articles"
-              className="w-full rounded-xl bg-white py-4 pr-14 pl-5 text-sm text-ink-900 placeholder:text-slate-400 focus:ring-2 focus:ring-mint-200 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+              className="w-full rounded-xl bg-white py-4 pr-14 pl-5 text-base text-ink-900 placeholder:text-slate-400 focus:ring-2 focus:ring-mint-200 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
             />
             {/* Decorative: the field is already labelled, and filtering happens
                 as you type, so there is nothing to click here. */}
@@ -121,7 +121,7 @@ export function BlogBrowser() {
                     >
                       <CoverArt category={post.category} />
                       <div className="flex flex-1 flex-col p-6">
-                        <p className="flex flex-wrap items-center gap-2 text-xs text-slate-400 uppercase">
+                        <p className="flex flex-wrap items-center gap-2 text-base text-slate-400 uppercase">
                           {formatPostDate(post.date)}
                           <span className="text-slate-300">•</span>
                           <span className="font-semibold tracking-wide text-teal-600">
@@ -131,7 +131,7 @@ export function BlogBrowser() {
                         <h3 className="mt-3 text-lg leading-snug font-bold text-ink-900 group-hover:text-teal-700">
                           {post.title}
                         </h3>
-                        <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
+                        <p className="mt-2.5 text-base leading-relaxed text-slate-600">
                           {post.excerpt}
                         </p>
                         <span className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-semibold text-teal-600">
@@ -179,7 +179,7 @@ function FilterPill({
     <button
       type="button"
       onClick={onClick}
-      className={`cursor-pointer rounded-lg px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors ${
+      className={`cursor-pointer rounded-lg px-4 py-2.5 text-base font-medium whitespace-nowrap transition-colors ${
         active
           ? "bg-navy-900 text-white"
           : "border border-slate-200 text-slate-600 hover:border-teal-500 hover:text-teal-600"

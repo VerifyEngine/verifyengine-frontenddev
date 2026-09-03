@@ -53,7 +53,7 @@ export default function SitemapPage() {
                     <li key={link.href + link.label}>
                       <Link
                         href={link.href}
-                        className="text-sm text-slate-600 transition-colors hover:text-teal-600"
+                        className="text-base text-slate-600 transition-colors hover:text-teal-600"
                       >
                         {link.label}
                       </Link>
@@ -74,7 +74,7 @@ export default function SitemapPage() {
                   <h2 className="text-xl font-bold text-ink-900">
                     Can&apos;t find what you&apos;re looking for?
                   </h2>
-                  <p className="mt-1.5 text-sm text-slate-600">
+                  <p className="mt-1.5 text-base text-slate-600">
                     Our team is here to help. Contact us and we&apos;ll point you in the right
                     direction.
                   </p>

@@ -56,15 +56,15 @@ export function CaseStudyBrowser() {
                 <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white transition-shadow duration-200 hover:shadow-card">
                   <div className="relative">
                     <CoverArt category={study.industry} />
-                    <span className="absolute bottom-4 left-4 rounded-lg bg-navy-950/70 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">
+                    <span className="absolute bottom-4 left-4 rounded-lg bg-navy-950/70 px-3 py-1.5 text-sm font-semibold text-white backdrop-blur">
                       {study.industry}
                     </span>
                   </div>
 
                   <div className="flex flex-1 flex-col p-6">
                     <h3 className="text-lg font-bold text-ink-900">{study.company}</h3>
-                    <p className="mt-0.5 text-sm font-semibold text-slate-600">{study.tagline}</p>
-                    <p className="mt-3 text-sm leading-relaxed text-slate-600">{study.summary}</p>
+                    <p className="mt-0.5 text-base font-semibold text-slate-600">{study.tagline}</p>
+                    <p className="mt-3 text-base leading-relaxed text-slate-600">{study.summary}</p>
 
                     <dl className="mt-5 grid grid-cols-3 gap-3 border-t border-slate-100 pt-5">
                       {study.results.map((result) => (
@@ -74,7 +74,7 @@ export function CaseStudyBrowser() {
                             <span className="block text-lg font-bold text-teal-600">
                               {result.value}
                             </span>
-                            <span className="mt-0.5 block text-[10px] leading-tight text-slate-500">
+                            <span className="mt-0.5 block text-base leading-tight text-slate-500">
                               {result.label}
                             </span>
                           </dd>
@@ -120,7 +120,7 @@ function FilterPill({
     <button
       type="button"
       onClick={onClick}
-      className={`cursor-pointer rounded-lg px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors ${
+      className={`cursor-pointer rounded-lg px-4 py-2.5 text-base font-medium whitespace-nowrap transition-colors ${
         active
           ? "bg-navy-900 text-white"
           : "border border-slate-200 text-slate-600 hover:border-teal-500 hover:text-teal-600"

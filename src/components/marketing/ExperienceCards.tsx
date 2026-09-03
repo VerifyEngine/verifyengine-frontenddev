@@ -58,7 +58,7 @@ function ListenCard() {
         <Headphones className="size-5" strokeWidth={1.75} />
       </div>
       <h3 className="mt-4 text-base font-semibold text-ink-900">Listen to an AI Demo Call</h3>
-      <p className="mt-2 text-sm text-slate-600">
+      <p className="mt-2 text-base text-slate-600">
         Hear a real landlord verification conversation powered by our AI voice agent.
       </p>
       <div className="mt-5 flex-1" />
@@ -93,13 +93,13 @@ function ReportCard() {
         <FileText className="size-5" strokeWidth={1.75} />
       </div>
       <h3 className="mt-4 text-base font-semibold text-ink-900">View a Sample Report</h3>
-      <p className="mt-2 text-sm text-slate-600">
+      <p className="mt-2 text-base text-slate-600">
         Explore an interactive verification report and see the level of detail you receive.
       </p>
       <div className="mt-5 flex-1 rounded-xl bg-bg-muted p-4">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold text-ink-900">Applicant</span>
-          <span className="rounded-full bg-mint-100 px-2 py-0.5 text-[10px] font-semibold text-teal-600">
+          <span className="text-sm font-semibold text-ink-900">Applicant</span>
+          <span className="rounded-full bg-mint-100 px-2 py-0.5 text-xs font-semibold text-teal-600">
             VERIFIED
           </span>
         </div>
@@ -142,7 +142,7 @@ function LiveDemoCard() {
         <Phone className="size-5" strokeWidth={1.75} />
       </div>
       <h3 className="mt-4 text-base font-semibold text-ink-900">Try a Live AI Demo</h3>
-      <p className="mt-2 text-sm text-slate-600">
+      <p className="mt-2 text-base text-slate-600">
         Enter your phone number. Verify Engine calls you within seconds.
       </p>
       <div className="mt-5 flex-1" />
@@ -159,7 +159,7 @@ function LiveDemoCard() {
               aria-label="Phone number"
               aria-invalid={Boolean(form.errors.phone)}
               placeholder="(555) 123-4567"
-              className={`min-w-0 flex-1 rounded-lg border px-4 py-2.5 text-sm text-ink-900 placeholder:text-slate-400 focus:outline-none ${
+              className={`min-w-0 flex-1 rounded-lg border px-4 py-2.5 text-base text-ink-900 placeholder:text-slate-400 focus:outline-none ${
                 form.errors.phone
                   ? "border-red-400 focus:border-red-500"
                   : "border-slate-200 focus:border-teal-500"
@@ -177,13 +177,13 @@ function LiveDemoCard() {
               {form.isSubmitting ? <Spinner className="size-4" /> : "Call Me Now"}
             </button>
           </div>
-          {form.errors.phone && <p className="mt-2 text-xs text-red-600">{form.errors.phone}</p>}
+          {form.errors.phone && <p className="mt-2 text-sm text-red-600">{form.errors.phone}</p>}
           {form.submitError && (
             <Alert tone="error" className="mt-3">
               {form.submitError}
             </Alert>
           )}
-          <p className="mt-2 text-xs text-slate-400">Takes less than 60 seconds.</p>
+          <p className="mt-2 text-base text-slate-400">Takes less than 60 seconds.</p>
         </form>
       )}
     </CardShell>

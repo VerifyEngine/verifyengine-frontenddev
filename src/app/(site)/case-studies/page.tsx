@@ -69,7 +69,7 @@ export default function CaseStudiesPage() {
                       aria-hidden="true"
                     />
                     <dd className="mt-3 text-2xl font-bold text-white">{stat.value}</dd>
-                    <dt className="mt-1 text-[11px] leading-tight text-white/60">{stat.label}</dt>
+                    <dt className="mt-1 text-base leading-tight text-white/60">{stat.label}</dt>
                   </div>
                 ))}
               </dl>
@@ -92,7 +92,7 @@ export default function CaseStudiesPage() {
                   <h2 className="text-xl font-bold text-ink-900">
                     Your success story could be next.
                   </h2>
-                  <p className="mt-1.5 max-w-lg text-sm text-slate-600">
+                  <p className="mt-1.5 max-w-lg text-base text-slate-600">
                     Join thousands of organizations already achieving greater accuracy, efficiency,
                     and peace of mind with Verify Engine.
                   </p>

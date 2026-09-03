@@ -102,7 +102,7 @@ export function BookDemoForm() {
   return (
     <>
       <h2 className="text-xl font-bold text-ink-900">Book Your Demo</h2>
-      <p className="mt-1 text-sm text-slate-500">
+      <p className="mt-1 text-base text-slate-500">
         Fill out the form and our team will reach out to confirm your demo.
       </p>
 
@@ -201,7 +201,7 @@ export function BookDemoForm() {
           )}
         </Button>
 
-        <p className="flex items-center justify-center gap-1.5 text-center text-xs text-slate-500">
+        <p className="flex items-center justify-center gap-1.5 text-center text-base text-slate-500">
           <ShieldCheck className="size-3.5 text-teal-500" strokeWidth={2} />
           No spam. We respect your time and privacy.
         </p>

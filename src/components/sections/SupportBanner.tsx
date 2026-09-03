@@ -43,7 +43,7 @@ export function SupportBanner({
                 </span>
                 <div>
                   <h2 className="text-xl font-bold text-ink-900 sm:text-2xl">{title}</h2>
-                  <p className="mt-1 text-sm text-slate-600">{description}</p>
+                  <p className="mt-1 text-base text-slate-600">{description}</p>
                 </div>
               </div>
 
@@ -52,7 +52,7 @@ export function SupportBanner({
                   <Mail className="size-5 shrink-0 text-navy-900" strokeWidth={1.75} />
                   <span>
                     <span className="block text-sm font-bold text-ink-900">Email Support</span>
-                    <span className="block text-sm text-slate-600 group-hover:text-teal-600">
+                    <span className="block text-base text-slate-600 group-hover:text-teal-600">
                       {email}
                     </span>
                   </span>
@@ -65,7 +65,7 @@ export function SupportBanner({
                   <Phone className="size-5 shrink-0 text-navy-900" strokeWidth={1.75} />
                   <span>
                     <span className="block text-sm font-bold text-ink-900">Call Us</span>
-                    <span className="block text-sm text-slate-600 group-hover:text-teal-600">
+                    <span className="block text-base text-slate-600 group-hover:text-teal-600">
                       {phone}
                     </span>
                   </span>

@@ -86,13 +86,13 @@ export function IndustriesWeServe({
             <CalloutTag>Most Popular</CalloutTag>
             <Building2 className="mt-5 size-11 text-mint-200" strokeWidth={1.5} />
             <h3 className="mt-4 text-xl font-bold">Landlord Verification</h3>
-            <p className="mt-2 text-sm text-white/60">
+            <p className="mt-2 text-base text-white/60">
               Rental history verification for tenant screening companies, property managers, and
               landlords.
             </p>
             <ul className="mt-5 space-y-2.5">
               {landlordChecklist.map((item) => (
-                <li key={item} className="flex items-center gap-2.5 text-sm text-white/80">
+                <li key={item} className="flex items-center gap-2.5 text-base text-white/80">
                   <CheckCircle2 className="size-4 shrink-0 text-mint-200" strokeWidth={1.75} />
                   {item}
                 </li>
@@ -128,7 +128,7 @@ function SupportingCards({ isRow }: { isRow: boolean }) {
         <card.icon className="size-6" strokeWidth={1.75} />
       </div>
       <h3 className="mt-4 text-base font-semibold text-ink-900">{card.title}</h3>
-      <p className="mt-2 text-sm text-slate-600">{card.desc}</p>
+      <p className="mt-2 text-base text-slate-600">{card.desc}</p>
       <div className="mt-auto pt-5">
         <Button href={card.href} variant="outline-light" size="md">
           Learn More <ArrowRight />

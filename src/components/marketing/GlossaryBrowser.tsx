@@ -42,7 +42,7 @@ export function GlossaryBrowser() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search glossary terms..."
               aria-label="Search glossary terms"
-              className="w-full rounded-xl bg-white py-4 pr-14 pl-5 text-sm text-ink-900 placeholder:text-slate-400 focus:ring-2 focus:ring-mint-200 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+              className="w-full rounded-xl bg-white py-4 pr-14 pl-5 text-base text-ink-900 placeholder:text-slate-400 focus:ring-2 focus:ring-mint-200 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
             />
             {/* Trailing, like the design — decorative, since the field is
                 labelled and filtering happens as you type. */}
@@ -87,7 +87,7 @@ export function GlossaryBrowser() {
                   <CircleHelp className="size-4.5" strokeWidth={1.75} />
                 </span>
                 <p className="mt-3 text-sm font-bold text-ink-900">Can&apos;t find a term?</p>
-                <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
+                <p className="mt-1.5 text-base leading-relaxed text-slate-500">
                   Contact our support team and we&apos;ll help you out.
                 </p>
                 <Link
@@ -105,7 +105,7 @@ export function GlossaryBrowser() {
                 <h2 className="text-2xl font-bold text-ink-900">
                   {letter === "all" ? "All Terms" : `Terms starting with ${letter}`}
                 </h2>
-                <p className="text-sm text-slate-500">
+                <p className="text-base text-slate-500">
                   {results.length} {results.length === 1 ? "Term" : "Terms"}
                 </p>
               </div>
@@ -129,7 +129,7 @@ export function GlossaryBrowser() {
                             <span className="block text-base font-bold text-ink-900">
                               {entry.term}
                             </span>
-                            <span className="mt-1 block text-sm leading-relaxed text-slate-600">
+                            <span className="mt-1 block text-base leading-relaxed text-slate-600">
                               {entry.short}
                             </span>
                           </span>
@@ -151,7 +151,7 @@ export function GlossaryBrowser() {
                               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                               className="overflow-hidden"
                             >
-                              <p className="px-5 pb-5 pl-19 text-sm leading-relaxed text-slate-600">
+                              <p className="px-5 pb-5 pl-19 text-base leading-relaxed text-slate-600">
                                 {entry.detail}
                               </p>
                             </motion.div>
@@ -193,14 +193,14 @@ function LetterRow({
     <button
       type="button"
       onClick={onClick}
-      className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors ${
+      className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-base transition-colors ${
         active
           ? "bg-mint-100 font-semibold text-teal-700"
           : "text-slate-600 hover:bg-bg-muted hover:text-ink-900"
       }`}
     >
       {label}
-      {count !== undefined && <span className="text-xs text-slate-400">{count}</span>}
+      {count !== undefined && <span className="text-base text-slate-400">{count}</span>}
     </button>
   );
 }

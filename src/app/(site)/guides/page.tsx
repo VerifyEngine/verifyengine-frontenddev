@@ -56,7 +56,7 @@ export default function GuidesPage() {
                     <br />
                     Best Practices
                   </p>
-                  <p className="mt-1 text-xs text-white/50">A Complete Guide</p>
+                  <p className="mt-1 text-sm text-white/60">A Complete Guide</p>
 
                   <div
                     data-ve-theme="light"
@@ -89,11 +89,11 @@ export default function GuidesPage() {
                   <p className="text-sm leading-snug font-bold text-white">
                     The Ultimate Guide to Tenant Screening
                   </p>
-                  <p className="mt-2 text-[11px] leading-relaxed text-white/50">
+                  <p className="mt-2 text-sm leading-relaxed text-white/60">
                     Best Practices for Property Managers
                   </p>
                   <ShieldCheck className="mt-5 size-10 text-mint-200/70" strokeWidth={1.25} />
-                  <p className="mt-4 text-[10px] font-bold text-white">
+                  <p className="mt-4 text-xs font-bold text-white">
                     VERIFY <span className="text-mint-200">ENGINE</span>
                   </p>
                 </div>
@@ -117,7 +117,7 @@ export default function GuidesPage() {
                   <h2 className="text-xl font-bold text-ink-900">
                     Need help implementing what you&apos;ve learned?
                   </h2>
-                  <p className="mt-1.5 text-sm text-slate-600">
+                  <p className="mt-1.5 text-base text-slate-600">
                     Our team is here to help you get the most out of Verify Engine.
                   </p>
                 </div>

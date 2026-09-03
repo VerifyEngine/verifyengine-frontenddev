@@ -36,7 +36,7 @@ export function LoginForm() {
   return (
     <>
       <h2 className="text-2xl font-bold text-ink-900">Welcome Back</h2>
-      <p className="mt-1 text-sm text-slate-500">Sign in to your Verify Engine account.</p>
+      <p className="mt-1 text-base text-slate-500">Sign in to your Verify Engine account.</p>
 
       <form onSubmit={form.handleSubmit} noValidate className="mt-6 space-y-4">
         <FormField label="Work Email" htmlFor="email" error={form.errors.email}>
@@ -98,7 +98,7 @@ export function LoginForm() {
           <GoogleMark /> Sign in with Google
         </Button>
 
-        <p className="flex items-center justify-center gap-1.5 text-center text-xs text-slate-500">
+        <p className="flex items-center justify-center gap-1.5 text-center text-base text-slate-500">
           <Lock className="size-3.5 text-slate-400" strokeWidth={2} />
           Secure login protected by enterprise-grade encryption
         </p>

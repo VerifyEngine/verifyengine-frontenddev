@@ -105,7 +105,7 @@ export function Accordion({
                   className="overflow-hidden"
                 >
                   <div
-                    className={`text-sm leading-relaxed text-slate-600 ${
+                    className={`text-base leading-relaxed text-slate-600 ${
                       isCards ? "px-5 pb-5" : "pr-11 pb-5"
                     }`}
                   >

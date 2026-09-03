@@ -64,7 +64,7 @@ export function NewsletterCard() {
               "Subscribe"
             )}
           </Button>
-          <p className="mt-3 text-xs leading-relaxed text-white/40">
+          <p className="mt-3 text-sm leading-relaxed text-white/50">
             We respect your privacy. Unsubscribe at any time.
           </p>
         </form>

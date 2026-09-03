@@ -30,8 +30,8 @@ export function IntegrationsRow() {
               key={item.name}
               className="flex flex-col items-center justify-center rounded-xl border border-slate-200 px-3 py-6 text-center"
             >
-              <p className="text-sm font-bold tracking-tight text-slate-500">{item.name}</p>
-              <p className="mt-1 text-[10px] text-slate-400">{item.sub}</p>
+              <p className="text-base font-bold tracking-tight text-slate-500">{item.name}</p>
+              <p className="mt-1 text-base text-slate-400">{item.sub}</p>
             </RevealItem>
           ))}
         </RevealGroup>

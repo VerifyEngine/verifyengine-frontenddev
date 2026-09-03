@@ -85,7 +85,7 @@ export function EmptyState({
         <Icon className="size-6" strokeWidth={1.75} />
       </span>
       <h3 className="mt-4 text-base font-semibold text-ink-900">{title}</h3>
-      {description && <p className="mt-1.5 max-w-sm text-sm text-slate-500">{description}</p>}
+      {description && <p className="mt-1.5 max-w-sm text-base text-slate-500">{description}</p>}
       {action && <div className="mt-5">{action}</div>}
     </div>
   );
@@ -108,7 +108,7 @@ export function ErrorState({
         <AlertTriangle className="size-6" strokeWidth={1.75} />
       </span>
       <h3 className="mt-4 text-base font-semibold text-ink-900">{title}</h3>
-      <p className="mt-1.5 max-w-sm text-sm text-slate-500">{description}</p>
+      <p className="mt-1.5 max-w-sm text-base text-slate-500">{description}</p>
       {onRetry && (
         <button
           type="button"

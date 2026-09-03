@@ -32,7 +32,7 @@ function Section({ title, hint, children }: { title: string; hint?: string; chil
   return (
     <section className="border-t border-slate-200 py-10">
       <h2 className="text-xl font-bold text-ink-900">{title}</h2>
-      {hint && <p className="mt-1 text-sm text-slate-500">{hint}</p>}
+      {hint && <p className="mt-1 text-base text-slate-500">{hint}</p>}
       <div className="mt-6">{children}</div>
     </section>
   );
@@ -189,7 +189,7 @@ export function ComponentGallery() {
             </>
           }
         >
-          <p className="text-sm text-slate-600">
+          <p className="text-base text-slate-600">
             Press Escape or click the backdrop to close. Page scroll is locked while open.
           </p>
         </Modal>

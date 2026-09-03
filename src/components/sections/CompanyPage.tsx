@@ -72,7 +72,7 @@ export function CompanyPage({
               {highlights.map((item) => (
                 <RevealItem key={item.label}>
                   <p className="text-3xl font-bold text-mint-200">{item.value}</p>
-                  <p className="mt-1 text-sm text-white/60">{item.label}</p>
+                  <p className="mt-1 text-base text-white/60">{item.label}</p>
                 </RevealItem>
               ))}
             </RevealGroup>

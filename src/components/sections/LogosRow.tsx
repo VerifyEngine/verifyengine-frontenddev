@@ -35,7 +35,7 @@ export function LogosRow({
       */}
       <FullBleedContainer>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-14">
-          <p className="text-center text-xs font-semibold tracking-wide text-slate-400 uppercase lg:max-w-36 lg:shrink-0 lg:text-left">
+          <p className="text-center text-base font-semibold tracking-wide text-slate-400 uppercase lg:max-w-36 lg:shrink-0 lg:text-left">
             {label}
           </p>
 

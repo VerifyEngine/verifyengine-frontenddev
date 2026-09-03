@@ -30,7 +30,7 @@ export default function Error({
         the homepage.
       </p>
       {error.digest && (
-        <p className="mt-2 text-xs text-slate-400">Reference: {error.digest}</p>
+        <p className="mt-2 text-base text-slate-400">Reference: {error.digest}</p>
       )}
       <div className="mt-8 flex flex-wrap justify-center gap-3">
         <Button variant="dark" onClick={reset}>

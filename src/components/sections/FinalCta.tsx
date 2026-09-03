@@ -28,7 +28,7 @@ export function FinalCta({
         </div>
         <div>
           <h2 className="text-xl font-bold text-white sm:text-2xl">{title}</h2>
-          <p className="mt-1 text-sm text-white/60">{subtitle}</p>
+          <p className="mt-1 text-base text-white/60">{subtitle}</p>
         </div>
       </div>
       <div className="flex shrink-0 gap-3">

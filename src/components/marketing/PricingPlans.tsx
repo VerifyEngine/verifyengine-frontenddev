@@ -116,19 +116,19 @@ export function PricingPlans() {
                     {plan.name}
                   </h3>
                   {plan.volume && (
-                    <p className="mt-2 max-w-[16rem] text-sm text-slate-500">{plan.volume}</p>
+                    <p className="mt-2 max-w-[16rem] text-base text-slate-500">{plan.volume}</p>
                   )}
                   <p className="mt-5 text-4xl font-bold text-ink-900">{plan.price}</p>
-                  <p className="mt-1 text-sm text-slate-500">{plan.priceNote}</p>
+                  <p className="mt-1 text-base text-slate-500">{plan.priceNote}</p>
                 </div>
 
-                <p className="mt-6 border-t border-slate-100 pt-5 text-center text-sm text-slate-600">
+                <p className="mt-6 border-t border-slate-100 pt-5 text-center text-base text-slate-600">
                   {plan.tagline}
                 </p>
 
                 <ul className="mt-5 space-y-2.5">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2.5 text-sm text-slate-600">
+                    <li key={feature} className="flex items-start gap-2.5 text-base text-slate-600">
                       <CheckCircle2
                         className="mt-0.5 size-4 shrink-0 text-teal-500"
                         strokeWidth={2}
@@ -166,7 +166,7 @@ export function PricingPlans() {
                 </span>
                 <div className="min-w-0">
                   <p className="text-sm font-bold text-ink-900">{addOn.name}</p>
-                  <p className="mt-0.5 text-xs text-slate-500">{addOn.price}</p>
+                  <p className="mt-0.5 text-base text-slate-500">{addOn.price}</p>
                 </div>
               </div>
             ))}
@@ -182,7 +182,7 @@ export function PricingPlans() {
               </span>
               <div>
                 <h3 className="text-lg font-bold text-ink-900">Enterprise-Grade Solutions</h3>
-                <p className="mt-1.5 text-sm text-slate-600">
+                <p className="mt-1.5 text-base text-slate-600">
                   Need a custom solution? Our enterprise plan is designed to your unique workflow,
                   compliance, and security needs.
                 </p>
@@ -191,7 +191,7 @@ export function PricingPlans() {
 
             <ul className="space-y-2">
               {enterprisePoints.map((point) => (
-                <li key={point} className="flex items-start gap-2.5 text-sm text-slate-600">
+                <li key={point} className="flex items-start gap-2.5 text-base text-slate-600">
                   <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-teal-500" strokeWidth={2} />
                   {point}
                 </li>

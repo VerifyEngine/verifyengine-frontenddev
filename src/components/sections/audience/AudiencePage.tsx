@@ -173,13 +173,13 @@ export function AudiencePage({ config }: { config: AudiencePageConfig }) {
                           </span>
 
                           {flow.numbered !== false && (
-                            <span className="mt-3 flex size-6 items-center justify-center rounded-full bg-teal-500 text-[11px] font-bold text-white">
+                            <span className="mt-3 flex size-6 items-center justify-center rounded-full bg-teal-500 text-xs font-bold text-white">
                               {i + 1}
                             </span>
                           )}
 
-                          <h4 className="mt-2.5 text-xs font-bold text-ink-900">{step.title}</h4>
-                          <p className="mt-1.5 text-[11px] leading-relaxed text-slate-500">
+                          <h4 className="mt-2.5 text-base font-bold text-ink-900">{step.title}</h4>
+                          <p className="mt-1.5 text-base leading-relaxed text-slate-500">
                             {step.description}
                           </p>
                         </div>
@@ -211,7 +211,7 @@ export function AudiencePage({ config }: { config: AudiencePageConfig }) {
                   <stat.icon className="size-8 shrink-0 text-navy-900" strokeWidth={1.5} />
                   <div>
                     <p className="text-lg font-bold text-ink-900">{stat.value}</p>
-                    <p className="text-xs text-slate-500">{stat.label}</p>
+                    <p className="text-base text-slate-500">{stat.label}</p>
                   </div>
                 </RevealItem>
               ))}
@@ -246,7 +246,7 @@ export function AudiencePage({ config }: { config: AudiencePageConfig }) {
                     <h2 className="text-xl font-bold text-ink-900 sm:text-2xl">
                       {config.cta.title}
                     </h2>
-                    <p className="mt-1.5 max-w-xl text-sm text-slate-600">
+                    <p className="mt-1.5 max-w-xl text-base text-slate-600">
                       {config.cta.description}
                     </p>
                   </div>

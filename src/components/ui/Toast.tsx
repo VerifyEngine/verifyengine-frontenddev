@@ -94,7 +94,7 @@ export function ToastProvider({
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-semibold text-ink-900">{t.title}</p>
                   {t.description && (
-                    <p className="mt-0.5 text-xs text-slate-500">{t.description}</p>
+                    <p className="mt-0.5 text-base text-slate-500">{t.description}</p>
                   )}
                 </div>
                 <button

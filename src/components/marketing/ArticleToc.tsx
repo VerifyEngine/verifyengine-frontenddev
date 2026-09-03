@@ -40,7 +40,7 @@ export function ArticleToc({ items }: { items: { id: string; label: string }[] }
             <li key={item.id}>
               <a
                 href={`#${item.id}`}
-                className={`block border-l-2 py-2 pl-3 text-sm transition-colors ${
+                className={`block border-l-2 py-2 pl-3 text-base transition-colors ${
                   isActive
                     ? "border-teal-500 font-semibold text-teal-700"
                     : "border-transparent text-slate-500 hover:text-ink-900"

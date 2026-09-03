@@ -85,7 +85,7 @@ export default function PricingPage() {
                 </Button>
               </div>
 
-              <p className="mt-6 flex items-center gap-2 text-sm text-white/60">
+              <p className="mt-6 flex items-center gap-2 text-base text-white/60">
                 <CheckCircle2 className="size-4 text-mint-200" strokeWidth={2} />
                 No setup fees <span className="text-white/30">•</span> Cancel anytime
               </p>
@@ -139,7 +139,7 @@ export default function PricingPage() {
                   <MessagesSquare className="size-6" strokeWidth={1.75} />
                 </span>
                 <h3 className="mt-5 text-lg font-bold text-ink-900">Have more questions?</h3>
-                <p className="mt-1.5 text-sm text-slate-600">
+                <p className="mt-1.5 text-base text-slate-600">
                   Our team is here to help you find the perfect plan for your organization.
                 </p>
                 <div className="mt-5">

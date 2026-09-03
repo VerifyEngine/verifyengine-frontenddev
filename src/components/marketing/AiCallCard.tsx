@@ -13,7 +13,7 @@ export function AiCallCard() {
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold text-white">AI Voice Agent</p>
           <div className="mt-1.5 flex items-center gap-2">
-            <span className="text-[11px] text-white/40">00:45</span>
+            <span className="text-sm text-white/50">00:45</span>
             <div className="flex flex-1 items-end gap-0.5">
               {Array.from({ length: 22 }).map((_, i) => (
                 <motion.span
@@ -25,7 +25,7 @@ export function AiCallCard() {
                 />
               ))}
             </div>
-            <span className="text-[11px] text-white/40">00:45</span>
+            <span className="text-sm text-white/50">00:45</span>
           </div>
         </div>
       </div>

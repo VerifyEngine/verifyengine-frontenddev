@@ -147,8 +147,8 @@ export function ProcessPage({ config }: { config: ProcessPageConfig }) {
                     <span className="flex size-14 items-center justify-center rounded-full bg-mint-100 text-navy-900">
                       <step.icon className="size-6" strokeWidth={1.75} />
                     </span>
-                    <h3 className="mt-4 text-sm font-bold text-ink-900">{step.title}</h3>
-                    <p className="mt-2 text-xs leading-relaxed text-slate-500">
+                    <h3 className="mt-4 text-base font-bold text-ink-900">{step.title}</h3>
+                    <p className="mt-2 text-base leading-relaxed text-slate-500">
                       {step.description}
                     </p>
                   </div>
@@ -174,8 +174,8 @@ export function ProcessPage({ config }: { config: ProcessPageConfig }) {
                     <span className="flex size-14 items-center justify-center rounded-full bg-mint-100 text-navy-900">
                       <item.icon className="size-6" strokeWidth={1.75} />
                     </span>
-                    <h3 className="mt-4 text-sm font-bold text-ink-900">{item.title}</h3>
-                    <p className="mt-2 text-xs leading-relaxed text-slate-500">
+                    <h3 className="mt-4 text-base font-bold text-ink-900">{item.title}</h3>
+                    <p className="mt-2 text-base leading-relaxed text-slate-500">
                       {item.description}
                     </p>
                   </div>
@@ -200,7 +200,7 @@ export function ProcessPage({ config }: { config: ProcessPageConfig }) {
                 </span>
                 <div>
                   <h2 className="text-xl font-bold text-white sm:text-2xl">{config.cta.title}</h2>
-                  <p className="mt-1.5 text-sm text-white/60">{config.cta.description}</p>
+                  <p className="mt-1.5 text-base text-white/60">{config.cta.description}</p>
                 </div>
               </div>
               <div className="flex shrink-0 flex-wrap justify-center gap-3">

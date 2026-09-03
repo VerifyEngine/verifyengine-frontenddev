@@ -70,7 +70,7 @@ export function SplitFormHero({
                 </span>
                 <div>
                   <p className="text-base font-bold text-white">{helpCard.title}</p>
-                  <p className="mt-1 text-sm text-white/60">{helpCard.description}</p>
+                  <p className="mt-1 text-base text-white/60">{helpCard.description}</p>
                   <Link
                     href={helpCard.ctaHref}
                     className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-mint-200 transition-colors hover:text-mint-300"

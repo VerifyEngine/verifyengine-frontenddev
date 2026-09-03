@@ -89,7 +89,7 @@ export default function AccessibilityPage() {
               <principle.icon className="size-5" strokeWidth={1.75} />
             </span>
             <p className="mt-3 text-sm font-bold text-ink-900">{principle.title}</p>
-            <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
+            <p className="mt-1.5 text-base leading-relaxed text-slate-500">
               {principle.description}
             </p>
           </div>

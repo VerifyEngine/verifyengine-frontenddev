@@ -74,7 +74,7 @@ export function CreateAccountForm() {
   return (
     <>
       <h2 className="text-xl font-bold text-ink-900">Create Your Account</h2>
-      <p className="mt-1 text-sm text-slate-500">
+      <p className="mt-1 text-base text-slate-500">
         Start your free trial or request a personalized onboarding.
       </p>
 
@@ -157,7 +157,7 @@ export function CreateAccountForm() {
 
         {notice && <Alert tone="info">{notice}</Alert>}
 
-        <p className="text-center text-xs leading-relaxed text-slate-500">
+        <p className="text-center text-base leading-relaxed text-slate-500">
           By creating an account, you agree to our{" "}
           <Link href="/legal/terms" className="text-teal-600 hover:underline">
             Terms of Service

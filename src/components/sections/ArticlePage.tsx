@@ -110,11 +110,11 @@ export function ArticlePage({ config }: { config: ArticlePageConfig }) {
                     <span className="block text-sm font-semibold text-ink-900">
                       {config.byline.name}
                     </span>
-                    <span className="block text-xs text-slate-500">{config.byline.detail}</span>
+                    <span className="block text-base text-slate-500">{config.byline.detail}</span>
                   </span>
                 </div>
                 {config.byline.trailing && (
-                  <p className="text-xs text-slate-400">{config.byline.trailing}</p>
+                  <p className="text-base text-slate-400">{config.byline.trailing}</p>
                 )}
               </div>
 
@@ -125,7 +125,7 @@ export function ArticlePage({ config }: { config: ArticlePageConfig }) {
                       <dt className="sr-only">{item.label}</dt>
                       <dd>
                         <span className="block text-3xl font-bold text-teal-600">{item.value}</span>
-                        <span className="mt-1.5 block text-xs leading-snug text-slate-600">
+                        <span className="mt-1.5 block text-base leading-snug text-slate-600">
                           {item.label}
                         </span>
                       </dd>
@@ -183,7 +183,7 @@ export function ArticlePage({ config }: { config: ArticlePageConfig }) {
                       <span className="block text-sm font-semibold text-white">
                         {config.quote.name}
                       </span>
-                      <span className="block text-xs text-white/60">{config.quote.role}</span>
+                      <span className="block text-base text-white/60">{config.quote.role}</span>
                     </span>
                   </figcaption>
                 </figure>
@@ -196,7 +196,7 @@ export function ArticlePage({ config }: { config: ArticlePageConfig }) {
                   </span>
                   <div>
                     <p className="text-base font-bold text-ink-900">{config.cta.title}</p>
-                    <p className="mt-1 text-sm text-slate-600">{config.cta.description}</p>
+                    <p className="mt-1 text-base text-slate-600">{config.cta.description}</p>
                   </div>
                 </div>
                 <Button href={config.cta.href} variant="primary" className="shrink-0">
@@ -208,7 +208,7 @@ export function ArticlePage({ config }: { config: ArticlePageConfig }) {
                 <nav className="mt-10 grid grid-cols-1 gap-6 border-t border-slate-100 pt-8 sm:grid-cols-2">
                   {config.previous ? (
                     <Link href={config.previous.href} className="group">
-                      <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-400">
+                      <span className="flex items-center gap-1.5 text-base font-semibold text-slate-400">
                         <ArrowLeft className="size-3.5" strokeWidth={2} /> Previous{" "}
                         {config.pieceLabel}
                       </span>
@@ -221,7 +221,7 @@ export function ArticlePage({ config }: { config: ArticlePageConfig }) {
                   )}
                   {config.next && (
                     <Link href={config.next.href} className="group sm:text-right">
-                      <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 sm:justify-end">
+                      <span className="flex items-center gap-1.5 text-base font-semibold text-slate-400 sm:justify-end">
                         Next {config.pieceLabel}{" "}
                         <ArrowRightIcon className="size-3.5" strokeWidth={2} />
                       </span>
@@ -244,7 +244,7 @@ export function ArticlePage({ config }: { config: ArticlePageConfig }) {
                         <dt className="text-xs font-semibold tracking-wide text-teal-700 uppercase">
                           {item.label}
                         </dt>
-                        <dd className="mt-0.5 text-sm text-slate-600">{item.value}</dd>
+                        <dd className="mt-0.5 text-base text-slate-600">{item.value}</dd>
                       </div>
                     ))}
                   </dl>
@@ -266,13 +266,13 @@ export function ArticlePage({ config }: { config: ArticlePageConfig }) {
                             <CoverArt category={item.coverCategory} className="aspect-4/3" />
                           </span>
                           <span className="min-w-0">
-                            <span className="block text-[11px] font-semibold tracking-wide text-teal-600 uppercase">
+                            <span className="block text-xs font-semibold tracking-wide text-teal-600 uppercase">
                               {item.eyebrow}
                             </span>
                             <span className="mt-1 block text-sm leading-snug font-semibold text-ink-900 group-hover:text-teal-700">
                               {item.title}
                             </span>
-                            <span className="mt-1 block text-xs text-slate-400">{item.meta}</span>
+                            <span className="mt-1 block text-base text-slate-400">{item.meta}</span>
                           </span>
                         </Link>
                       </li>

@@ -58,7 +58,7 @@ export function AudienceCards({
                   <item.icon className="size-7" strokeWidth={1.75} />
                 </div>
                 <h3 className="mt-4 text-base font-bold text-ink-900">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.description}</p>
+                <p className="mt-2 text-base leading-relaxed text-slate-600">{item.description}</p>
               </>
             );
 

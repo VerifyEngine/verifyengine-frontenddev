@@ -41,7 +41,7 @@ export default function GlossaryPage() {
                 <BookOpen className="size-24 shrink-0 text-mint-200" strokeWidth={1} />
                 <div>
                   <p className="text-lg font-bold text-white">Knowledge is Power</p>
-                  <p className="mt-2 text-sm leading-relaxed text-white/60">
+                  <p className="mt-2 text-base leading-relaxed text-white/60">
                     Our glossary breaks down important verification terms in simple,
                     easy-to-understand language.
                   </p>
@@ -64,7 +64,7 @@ export default function GlossaryPage() {
                 </span>
                 <div>
                   <h2 className="text-xl font-bold text-ink-900">Still have questions?</h2>
-                  <p className="mt-1.5 text-sm text-slate-600">
+                  <p className="mt-1.5 text-base text-slate-600">
                     Our team is here to help you understand how Verify Engine works.
                   </p>
                 </div>

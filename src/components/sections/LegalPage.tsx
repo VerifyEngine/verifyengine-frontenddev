@@ -62,7 +62,7 @@ export function LegalPage({
           <div className="mx-auto grid max-w-[1260px] grid-cols-1 gap-12 lg:grid-cols-[280px_1fr] lg:gap-14">
             <aside className="lg:sticky lg:top-24 lg:self-start">
               <div className="rounded-2xl border border-slate-100 p-5">
-                <p className="mb-1 text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                <p className="mb-1 text-base font-semibold tracking-wide text-slate-400 uppercase">
                   On this page
                 </p>
                 <ArticleToc items={toc} />
@@ -73,7 +73,7 @@ export function LegalPage({
               <h1 className="text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
                 {title}
               </h1>
-              <p className="mt-2 text-sm text-slate-500">Last updated: {lastUpdated}</p>
+              <p className="mt-2 text-base text-slate-500">Last updated: {lastUpdated}</p>
               <p className="mt-6 text-base leading-relaxed text-slate-600">{intro}</p>
 
               <div className="mt-10 space-y-10">

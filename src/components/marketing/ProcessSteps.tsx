@@ -77,7 +77,7 @@ export function ProcessSteps() {
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink-900 sm:mt-3 sm:text-4xl lg:text-5xl">
               How Verify Engine Works
             </h2>
-            <p className="mt-2 text-xs text-slate-400 sm:mt-3 sm:text-sm">
+            <p className="mt-2 text-base text-slate-400 sm:mt-3 sm:text-base">
               Scroll to follow the process, step by step.
             </p>
           </Reveal>
@@ -104,7 +104,7 @@ export function ProcessSteps() {
                       <span className="absolute top-1/2 right-1/2 w-full -translate-y-1/2 border-t border-dashed border-slate-200" />
                     )}
                     <span
-                      className={`relative z-10 flex size-6 items-center justify-center rounded-full text-[11px] font-bold transition-colors sm:size-7 sm:text-xs ${
+                      className={`relative z-10 flex size-6 items-center justify-center rounded-full text-sm font-bold transition-colors sm:size-7 sm:text-base ${
                         isActive || isDone ? "bg-teal-500 text-white" : "bg-slate-200 text-slate-500"
                       }`}
                     >
@@ -127,7 +127,7 @@ export function ProcessSteps() {
                   </motion.span>
 
                   <h3
-                    className={`mt-4 hidden text-sm font-bold transition-colors sm:block sm:text-base ${
+                    className={`mt-4 hidden text-base font-bold transition-colors sm:block sm:text-base ${
                       isActive ? "text-ink-900" : "text-slate-500"
                     }`}
                   >
@@ -153,13 +153,13 @@ export function ProcessSteps() {
                   <ActiveIcon className="size-5 sm:size-7" strokeWidth={1.75} />
                 </span>
                 <div>
-                  <p className="text-[11px] font-bold tracking-[0.1em] text-teal-600 uppercase sm:text-xs">
+                  <p className="text-sm font-bold tracking-[0.1em] text-teal-600 uppercase">
                     Step {active + 1} of {steps.length}
                   </p>
                   <h3 className="mt-1 text-lg font-bold text-ink-900 sm:mt-1.5 sm:text-xl">
                     {steps[active].title}
                   </h3>
-                  <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
+                  <p className="mt-2 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-base">
                     {steps[active].detail}
                   </p>
                 </div>

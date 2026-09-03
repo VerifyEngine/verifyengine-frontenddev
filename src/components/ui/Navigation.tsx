@@ -89,7 +89,7 @@ export function Pagination({
             type="button"
             onClick={() => onChange(p)}
             aria-current={p === page ? "page" : undefined}
-            className={`size-9 cursor-pointer rounded-lg text-sm font-medium transition-colors ${
+            className={`size-9 cursor-pointer rounded-lg text-base font-medium transition-colors ${
               p === page
                 ? "bg-navy-900 text-white"
                 : "border border-slate-200 text-slate-600 hover:border-teal-500 hover:text-teal-600"
@@ -180,7 +180,7 @@ export function DropdownItem({
       type="button"
       role="menuitem"
       onClick={onClick}
-      className="block w-full cursor-pointer px-4 py-2.5 text-left text-sm text-slate-600 transition-colors hover:bg-bg-muted hover:text-ink-900"
+      className="block w-full cursor-pointer px-4 py-2.5 text-left text-base text-slate-600 transition-colors hover:bg-bg-muted hover:text-ink-900"
     >
       {children}
     </button>

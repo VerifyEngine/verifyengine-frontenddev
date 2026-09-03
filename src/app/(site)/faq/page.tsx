@@ -58,7 +58,7 @@ export default function FaqPage() {
                   <h2 className="text-xl font-bold text-white sm:text-2xl">
                     Ready to verify with confidence?
                   </h2>
-                  <p className="mt-1 text-sm text-white/60">
+                  <p className="mt-1 text-base text-white/60">
                     See how Verify Engine can streamline your verification process and reduce risk.
                   </p>
                 </div>
