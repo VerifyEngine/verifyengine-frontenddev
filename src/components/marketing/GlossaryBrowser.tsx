@@ -55,7 +55,7 @@ export function GlossaryBrowser() {
         </Container>
       </div>
 
-      <section className="bg-white py-14 sm:py-16">
+      <section className="bg-white py-16 sm:py-20">
         <Container>
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[260px_1fr] lg:gap-12">
             {/* letter index */}

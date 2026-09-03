@@ -22,11 +22,14 @@ import {
  * seven-step timeline, the compact phone progress and the product
  * visualisation beside it.
  *
- * Desktop pins the whole composition and reads the active step off the scroll
- * position, forwards and backwards. Below `lg` there is no pinning at all —
- * a phone would either squeeze seven timeline labels into 390px or trap the
- * scroll, so it gets a compact dots + "n / 7" control with real buttons, and
- * the section is only as tall as its content.
+ * From `xl` (80rem) the whole composition pins and reads the active step off
+ * the scroll position, forwards and backwards. Narrower than that it does not
+ * pin at all, and keeps the site's own section rhythm: a phone would either
+ * squeeze seven timeline labels into 390px or trap the scroll, so below `lg`
+ * it gets a compact dots + "n / 7" control with real buttons, and the section
+ * is only as tall as its content. The tightened spacing is xl-only for the
+ * same reason — it exists to fit the pinned panel into one screen, and applied
+ * any wider it just left the section looking starved.
  */
 
 // How much scrolling each step is given while the section is pinned.
@@ -121,17 +124,17 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
       }
       aria-labelledby="how-it-works-title"
     >
-      <div className="how-pin-panel pt-16 pb-10 sm:pt-20 sm:pb-12">
+      <div className="how-pin-panel py-20 sm:py-24">
         <Container className="how-pin-fit">
           <Reveal className="text-center">
             <Eyebrow>{eyebrow}</Eyebrow>
             <h2
               id="how-it-works-title"
-              className="font-display mt-2.5 text-4xl leading-[1.05] font-bold tracking-tight text-ink-900 sm:text-5xl lg:text-[clamp(2.5rem,4.6dvh,3.5rem)] 2xl:text-[clamp(2.75rem,4.8dvh,4rem)]"
+              className="font-display mt-3 text-4xl leading-[1.05] font-bold tracking-tight text-ink-900 sm:text-5xl lg:text-[clamp(2.5rem,4.6dvh,3.5rem)] 2xl:text-[clamp(2.75rem,4.8dvh,4rem)]"
             >
               {title}
             </h2>
-            <p className="how-pin-sub mx-auto mt-2.5 max-w-2xl text-base text-slate-600 sm:text-lg">
+            <p className="how-pin-sub mx-auto mt-4 max-w-2xl text-base text-slate-600 sm:text-lg">
               {subtitle}
             </p>
           </Reveal>
@@ -144,7 +147,7 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
             for: heading, description, visualisation, then features and
             callout.
           */}
-          <div className="mt-5 rounded-3xl border border-slate-200/70 bg-bg-muted p-6 sm:p-7 lg:mt-4 lg:p-4">
+          <div className="mt-10 rounded-3xl border border-slate-200/70 bg-bg-muted p-6 sm:mt-12 sm:p-7 xl:mt-4 xl:p-4">
             <div className="grid gap-6 lg:min-h-[340px] lg:grid-cols-[minmax(0,92fr)_minmax(0,100fr)] lg:grid-rows-[1fr_auto_auto_1fr] lg:items-center lg:gap-x-12 lg:gap-y-3">
               <div className="lg:col-start-1 lg:row-start-2">
                 <AnimatePresence mode="wait" initial={false}>
@@ -241,7 +244,7 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
  */
 function ProcessLink({ cta }: { cta: NonNullable<VerificationFlow["cta"]> }) {
   return (
-    <div className="bg-white pb-16 sm:pb-20">
+    <div className="bg-white pb-16 sm:pb-20 xl:pt-12">
       <Container>
         <div className="flex justify-center">
           <div className="flex flex-col items-center gap-x-3 gap-y-1 rounded-2xl bg-bg-muted px-5 py-3.5 text-center sm:flex-row sm:text-left">
@@ -295,7 +298,7 @@ function Timeline({
 
   return (
     <div
-      className="relative mx-auto mt-3 hidden max-w-[1200px] lg:block"
+      className="relative mx-auto mt-10 hidden max-w-[1200px] lg:block xl:mt-3"
       onKeyDown={handleKeyDown}
       role="group"
       aria-label="Verification workflow steps"
@@ -368,7 +371,7 @@ function CompactProgress({
 }) {
   const lastIndex = steps.length - 1;
   return (
-    <div className="mt-6 flex items-center justify-between gap-4 lg:hidden">
+    <div className="mt-8 flex items-center justify-between gap-4 lg:hidden">
       <button
         type="button"
         onClick={() => onSelect(active - 1)}

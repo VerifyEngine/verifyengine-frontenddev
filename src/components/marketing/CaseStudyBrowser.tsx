@@ -23,7 +23,7 @@ export function CaseStudyBrowser() {
   }, [industry, sort]);
 
   return (
-    <section className="bg-white py-14 sm:py-16">
+    <section className="bg-white py-16 sm:py-20">
       <Container>
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap gap-2">
