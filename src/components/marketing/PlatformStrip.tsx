@@ -1,60 +1,77 @@
-import {
-  Building2,
-  Headset,
-  TrendingUp,
-  Workflow,
-  ShieldAlert,
-  UserCheck,
-  Lock,
-  Boxes,
-} from "lucide-react";
+import Link from "next/link";
 import { Container, ArrowRight } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Badge";
-import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import Link from "next/link";
+import { Reveal } from "@/components/ui/Reveal";
+import { PlatformShowcase } from "@/components/marketing/PlatformShowcase";
+import { platformBadges } from "@/lib/platform-features";
 
-const platform = [
-  { icon: Building2, label: "Reference Verification Engine" },
-  { icon: TrendingUp, label: "Income Verification Engine" },
-  { icon: Headset, label: "AI Voice Agents" },
-  { icon: Workflow, label: "Workflow Automation" },
-  { icon: ShieldAlert, label: "Fraud Detection" },
-  { icon: UserCheck, label: "Human Quality Assurance" },
-  { icon: Lock, label: "Enterprise Security" },
-  { icon: Boxes, label: "API Integrations" },
-];
+/*
+ * The Verify Engine platform overview.
+ *
+ * Desktop composes three feature cards, the product visualisation and three
+ * more feature cards across one row; the middle column is deliberately the
+ * widest, because the product — not the cards — is what this section is
+ * selling. PlatformShowcase owns that grid and the link between a card and the
+ * part of the dashboard that capability produces.
+ *
+ * Below `lg` the same markup reflows: the visualisation comes first (it stays
+ * near the top on every screen), then the six cards, two per row on a tablet
+ * and one per row on a phone.
+ */
 
 export function PlatformStrip() {
   return (
     <section className="bg-white py-20 sm:py-24">
       <Container>
-        <Reveal className="mx-auto max-w-3xl text-center">
+        <Reveal className="mx-auto max-w-4xl text-center">
           <Eyebrow>The Verify Engine Platform</Eyebrow>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
+          <h2 className="font-display mt-3 text-3xl leading-[1.08] font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl 2xl:text-6xl">
             One Platform. Multiple Verification Workflows.
           </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base text-slate-600 sm:text-lg">
+            Everything you need to verify with confidence — from automation to final report.
+          </p>
         </Reveal>
 
-        <RevealGroup className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
-          {platform.map((item) => (
-            <RevealItem key={item.label} className="group flex flex-col items-center text-center">
-              <div className="flex size-14 items-center justify-center rounded-full bg-mint-100 text-teal-600 transition-transform duration-200 group-hover:scale-110 group-hover:bg-teal-500 group-hover:text-white">
-                <item.icon className="size-7" strokeWidth={1.75} />
-              </div>
-              <p className="mt-3 text-sm font-medium text-ink-900">{item.label}</p>
-            </RevealItem>
-          ))}
-        </RevealGroup>
+        <div className="mt-12 lg:mt-16">
+          <PlatformShowcase />
+        </div>
 
-        <div className="mt-10 text-center">
+        <PlatformBadges />
+
+        <div className="mt-12 text-center">
           <Link
             href="/how-it-works"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-600 hover:text-teal-600/80"
+            className="inline-flex items-center gap-1.5 rounded text-base font-semibold text-teal-600 transition-colors hover:text-teal-600/80 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             See All Platform Features <ArrowRight />
           </Link>
         </div>
       </Container>
     </section>
+  );
+}
+
+/**
+ * Supporting capabilities that sit under the product visualisation.
+ *
+ * Given its own reveal, and a delay, so it lands after the platform visual and
+ * the feature cards — the spec asks for the badges to appear last.
+ */
+function PlatformBadges() {
+  return (
+    <Reveal delay={0.45} className="mt-8">
+      <ul className="flex flex-wrap justify-center gap-2">
+        {platformBadges.map((badge) => (
+          <li
+            key={badge.label}
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white px-3.5 py-2 text-sm font-semibold text-ink-900 shadow-sm"
+          >
+            <badge.icon className="size-4 shrink-0 text-teal-600" strokeWidth={1.75} />
+            {badge.label}
+          </li>
+        ))}
+      </ul>
+    </Reveal>
   );
 }

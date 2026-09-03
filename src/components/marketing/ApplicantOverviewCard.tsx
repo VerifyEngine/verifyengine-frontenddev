@@ -1,13 +1,14 @@
-import { Download, CheckCircle2, type LucideIcon } from "lucide-react";
+import { CheckCircle2, type LucideIcon } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { ScoreGauge } from "@/components/ui/ScoreGauge";
+import { MockAppFrame, MockBadge } from "@/components/marketing/PlatformMock";
 
 export type DetailRow = { icon: LucideIcon; label: string; value: string };
 
 const meta = [
   { label: "Decision", value: "Approve", pill: true },
   { label: "Confidence", value: "High" },
-  { label: "Completed", value: "May 20, 2024" },
+  { label: "Human QA", value: "Reviewed" },
   { label: "Time to Complete", value: "8 min" },
 ];
 
@@ -51,30 +52,27 @@ export function ApplicantOverviewCard({
   );
 
   return (
-    <div
-      data-ve-theme="light"
-      className="mock-type font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] shadow-2xl"
-    >
-      <div className="flex items-center justify-between gap-4 border-b border-app-line px-5 py-4">
+    <MockAppFrame right={<MockBadge tone="success">Verified</MockBadge>}>
+      <div className="flex items-center justify-between gap-3 px-1">
         <p className="text-label-xs text-app-text">{title}</p>
-        <span className="flex items-center gap-1.5 text-body-2xs text-app-text-secondary">
-          <Download className="size-3.5" strokeWidth={1.6} />
-          Download Report
-        </span>
+        <span className="text-body-2xs text-app-text-secondary">Download Report</span>
       </div>
 
-      {/* No longer shrunk on phones: a half-size card put this type at about
-          6px, which is a picture of a product rather than a look at one. It now
-          lays out at the width it is given and stacks below sm, so a phone
-          reads it at 1:1. Desktop is untouched. */}
-      <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-[0.8fr_1fr]">
-        <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4">
-          <p className="text-body-2xs text-app-text-secondary">
-            VE Score<span className="align-super text-[8px]">™</span>
-          </p>
-          <ScoreGauge score={score} />
+      {/* The approved composition, unchanged: the score panel beside the
+          verification summary and the AI note. Below sm it stacks, so a phone
+          reads it at 1:1 rather than as a shrunken screenshot. */}
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-[0.82fr_1fr]">
+        <div className="flex flex-col rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5">
+          {/* The dial takes the slack so the panel has no hole in the middle
+              when the summary beside it runs taller. */}
+          <div className="flex flex-1 flex-col justify-center">
+            <p className="text-body-2xs text-app-text-secondary">
+              VE Score<span className="align-super text-[8px]">™</span>
+            </p>
+            <ScoreGauge score={score} />
+          </div>
 
-          <div className="mt-4 flex flex-col gap-2.5 border-t border-app-line pt-3">
+          <div className="mt-auto flex flex-col gap-2 border-t border-app-line pt-3">
             {metaRows.map((row) => (
               <div key={row.label} className="flex items-center justify-between gap-2">
                 <span className="text-body-2xs text-app-text-tertiary">{row.label}</span>
@@ -90,10 +88,10 @@ export function ApplicantOverviewCard({
           </div>
         </div>
 
-        <div className="flex flex-col gap-3">
-          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4">
+        <div className="flex flex-col gap-2">
+          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5">
             <p className="text-body-2xs text-app-text-secondary">{detailsTitle}</p>
-            <RevealGroup className="mt-3 flex flex-col gap-2.5">
+            <RevealGroup className="mt-2.5 flex flex-col gap-2">
               {details.map((row) => (
                 <RevealItem
                   key={row.label}
@@ -115,15 +113,15 @@ export function ApplicantOverviewCard({
             </RevealGroup>
           </div>
 
-          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4">
+          <div className="flex flex-1 flex-col rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5">
             <p className="text-body-2xs text-app-text-secondary">AI Summary</p>
             <p className="mt-2 text-body-2xs leading-relaxed text-app-text-secondary">{summary}</p>
-            <span className="mt-3 inline-flex items-center gap-1 rounded-app-4xl bg-app-success px-2 py-0.5 text-body-2xs text-app-text-inverse">
+            <span className="mt-auto inline-flex w-fit items-center gap-1 rounded-app-4xl bg-app-success px-2 py-0.5 text-body-2xs text-app-text-inverse">
               {riskTag}
             </span>
           </div>
         </div>
       </div>
-    </div>
+    </MockAppFrame>
   );
 }

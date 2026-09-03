@@ -1,5 +1,6 @@
 import { ArrowDownRight, ArrowUpRight, CheckCircle2, ChevronDown, type LucideIcon } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { MockAppFrame } from "@/components/marketing/PlatformMock";
 import { ScoreDial } from "./ScoreDial";
 
 export type BreakdownRow = { icon: LucideIcon; label: string; value: string };
@@ -61,22 +62,22 @@ export function AudienceDashboardCard({
   const isColumn = statsLayout === "column";
 
   return (
-    <div
-      data-ve-theme="light"
-      className="mock-type font-app overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] p-4 shadow-2xl"
-    >
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-label-xs text-app-text">{title}</p>
-        {rangeLabel && (
+    <MockAppFrame
+      nativeWidth={660}
+      nativeHeight={400}
+      right={
+        rangeLabel ? (
           <span className="flex shrink-0 items-center gap-1.5 rounded-app-l border-w-xs border-app-line bg-app-fade-40 px-2.5 py-1.5 text-body-2xs text-app-text-secondary">
             {rangeLabel} <ChevronDown className="size-3.5" strokeWidth={1.6} />
           </span>
-        )}
-      </div>
+        ) : undefined
+      }
+    >
+      <p className="px-1 text-label-xs text-app-text">{title}</p>
 
-      <div className="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-[0.85fr_1fr]">
-        <div className="flex flex-col gap-3">
-          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 text-center">
+      <div className="grid grid-cols-1 gap-2 lg:grid-cols-[0.85fr_1fr]">
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-1 flex-col justify-center rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5 text-center">
             <p className="text-body-2xs text-app-text-secondary">{scoreLabel}</p>
             <ScoreDial score={score} />
             {scoreCaption && (
@@ -108,10 +109,10 @@ export function AudienceDashboardCard({
           )}
         </div>
 
-        <div className="flex flex-col gap-3">
-          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4">
+        <div className="flex flex-col gap-2">
+          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5">
             <p className="text-label-2xs text-app-text">Verification Breakdown</p>
-            <RevealGroup className="mt-3 flex flex-col gap-2.5">
+            <RevealGroup className="mt-2.5 flex flex-col gap-2">
               {breakdown.map((row) => (
                 <RevealItem key={row.label} className="flex items-center gap-2.5">
                   <row.icon className="size-4 shrink-0 text-app-text-tertiary" strokeWidth={1.6} />
@@ -125,10 +126,10 @@ export function AudienceDashboardCard({
             </RevealGroup>
           </div>
 
-          <div className="rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4">
+          <div className="flex flex-1 flex-col rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3.5">
             <p className="text-label-2xs text-app-text">{insightTitle}</p>
             <p className="mt-2 text-body-2xs leading-relaxed text-app-text-secondary">{insight}</p>
-            <span className="mt-3 inline-block rounded-app-4xl bg-app-success px-2.5 py-1 text-body-2xs text-app-text-inverse">
+            <span className="mt-auto inline-block w-fit rounded-app-4xl bg-app-success px-2.5 py-1 text-body-2xs text-app-text-inverse">
               {insightTag}
             </span>
           </div>
@@ -136,7 +137,7 @@ export function AudienceDashboardCard({
       </div>
 
       {!isColumn && (
-        <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
           {stats.map((stat) => (
             <div
               key={stat.label}
@@ -152,24 +153,33 @@ export function AudienceDashboardCard({
           ))}
         </div>
       )}
-    </div>
+    </MockAppFrame>
   );
 }
 
+/*
+ * The trend under a stat. The comparison sits on its own line rather than
+ * trailing the figure: in a four-up row the tile is narrow, and inline it
+ * broke mid-phrase as "vs last 30 / days".
+ */
 function Delta({ delta, up }: { delta: string; up: boolean }) {
   return (
-    <p
-      className={`mt-0.5 flex items-center gap-1 text-body-2xs ${
-        up ? "text-app-success" : "text-app-warning"
-      }`}
-    >
-      {up ? (
-        <ArrowUpRight className="size-3" strokeWidth={2} />
-      ) : (
-        <ArrowDownRight className="size-3" strokeWidth={2} />
-      )}
-      {delta}
-      <span className="text-app-text-tertiary">vs last 30 days</span>
+    <p className="mt-1">
+      <span
+        className={`flex items-center gap-1 text-body-2xs ${
+          up ? "text-app-success" : "text-app-warning"
+        }`}
+      >
+        {up ? (
+          <ArrowUpRight className="size-3 shrink-0" strokeWidth={2} />
+        ) : (
+          <ArrowDownRight className="size-3 shrink-0" strokeWidth={2} />
+        )}
+        {delta}
+      </span>
+      <span className="block text-body-2xs whitespace-nowrap text-app-text-tertiary">
+        vs last 30 days
+      </span>
     </p>
   );
 }
