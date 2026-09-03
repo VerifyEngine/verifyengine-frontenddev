@@ -59,7 +59,10 @@ export function MockShell({
 }) {
   return (
     // `mock-fit` measures the container, so the @container has to be the parent.
-    <div className="@container w-full" style={{ "--mock-max-zoom": maxZoom } as CSSProperties}>
+    <div
+      className="@container w-full"
+      style={{ "--mock-max-zoom": maxZoom } as CSSProperties}
+    >
       <div
         data-ve-theme="light"
         // The last panel takes the slack, so a shorter mockup fills its shell
@@ -94,12 +97,19 @@ export function MockTopBar({ right }: { right?: ReactNode }) {
         </span>
       </span>
       <span className="hidden min-w-px flex-1 items-center gap-2 rounded-app-l border-w-xs border-app-line bg-app-fade-48 px-2.5 py-1.5 sm:flex">
-        <IconSearch size={13} stroke={1.6} className="shrink-0 text-app-text" aria-hidden />
+        <IconSearch
+          size={13}
+          stroke={1.6}
+          className="shrink-0 text-app-text"
+          aria-hidden
+        />
         <span className="min-w-px flex-1 truncate text-body-2xs text-app-text-tertiary">
           Search by keywords...
         </span>
       </span>
-      <span className="ml-auto flex shrink-0 items-center gap-1.5">{right}</span>
+      <span className="ml-auto flex shrink-0 items-center gap-1.5">
+        {right}
+      </span>
     </div>
   );
 }
@@ -118,6 +128,34 @@ export function MockRail({ icons }: { icons: TablerIcon[] }) {
           }`}
         >
           <Icon size={14} stroke={1.6} aria-hidden />
+        </span>
+      ))}
+    </nav>
+  );
+}
+
+/**
+ * The same navigation as MockRail, in the shape a phone would carry it.
+ *
+ * A mockup stops reading as software the moment its chrome disappears, and the
+ * side rail is the piece doing most of that work. On a phone the rail cannot
+ * stay — it takes an eighth of the width the content needs — so the navigation
+ * moves to the bottom, which is where an app would put it anyway. The mockup
+ * keeps saying "this is a product" without spending the width to say it.
+ */
+export function MockTabBar({ icons }: { icons: TablerIcon[] }) {
+  return (
+    <nav className="flex items-center justify-between rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 px-2 py-1.5 backdrop-blur-[12px]">
+      {icons.map((Icon, i) => (
+        <span
+          key={i}
+          className={`flex size-8 items-center justify-center rounded-app-m ${
+            i === 0
+              ? "bg-app-brand1-16 text-app-nav-active"
+              : "bg-app-fade-48 text-app-text-tertiary"
+          }`}
+        >
+          <Icon size={16} stroke={1.6} aria-hidden />
         </span>
       ))}
     </nav>
@@ -144,11 +182,17 @@ export function MockPanel({
     >
       {title || badge ? (
         <div className="flex items-center justify-between gap-2">
-          {title ? <h3 className="text-label-xs text-app-text-brand1">{title}</h3> : <span />}
+          {title ? (
+            <h3 className="text-label-xs text-app-text-brand1">{title}</h3>
+          ) : (
+            <span />
+          )}
           {badge}
         </div>
       ) : null}
-      <div className={`flex flex-1 flex-col gap-2 ${bodyClassName}`}>{children}</div>
+      <div className={`flex flex-1 flex-col gap-2 ${bodyClassName}`}>
+        {children}
+      </div>
     </section>
   );
 }
@@ -213,16 +257,26 @@ export function MockCheck({
       <span className="min-w-px flex-1">
         <span className="block text-label-2xs text-app-text">{label}</span>
         {caption ? (
-          <span className="block text-body-2xs text-app-text-tertiary">{caption}</span>
+          <span className="block text-body-2xs text-app-text-tertiary">
+            {caption}
+          </span>
         ) : null}
       </span>
-      {value ? <span className="shrink-0 text-body-2xs text-app-success">{value}</span> : null}
+      {value ? (
+        <span className="shrink-0 text-body-2xs text-app-success">{value}</span>
+      ) : null}
     </li>
   );
 }
 
 /** A label/value line, the way the platform lays out a record. */
-export function MockRow({ label, children }: { label: string; children: ReactNode }) {
+export function MockRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
   return (
     <div className="flex items-center justify-between gap-3">
       <span className="text-body-2xs text-app-text-tertiary">{label}</span>
@@ -232,7 +286,13 @@ export function MockRow({ label, children }: { label: string; children: ReactNod
 }
 
 /** An inset tile — the lighter surface the platform uses inside a panel. */
-export function MockTile({ className = "", children }: { className?: string; children: ReactNode }) {
+export function MockTile({
+  className = "",
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) {
   return (
     <div
       className={`rounded-app-l border-w-2xs border-app-line bg-app-fade-48 px-3 py-2.5 ${className}`}
@@ -252,14 +312,22 @@ export function MockTag({ children }: { children: ReactNode }) {
 
 /** Stands in for body copy without inventing any. */
 export function MockBar({ width = "w-full" }: { width?: string }) {
-  return <span className={`block h-1.5 rounded-app-12xl bg-app-line ${width}`} />;
+  return (
+    <span className={`block h-1.5 rounded-app-12xl bg-app-line ${width}`} />
+  );
 }
 
 export function MockDivider() {
   return <span className="block h-px bg-app-line" />;
 }
 
-export function MockAvatar({ initials, size = 32 }: { initials: string; size?: number }) {
+export function MockAvatar({
+  initials,
+  size = 32,
+}: {
+  initials: string;
+  size?: number;
+}) {
   return (
     <span
       className="flex shrink-0 items-center justify-center rounded-app-12xl bg-gradient-to-br from-app-brand2-64 to-app-brand1 text-body-2xs font-bold text-app-text-inverse"
@@ -296,8 +364,19 @@ export function MockRing({
   const circumference = 2 * Math.PI * radius;
   return (
     <div className="relative flex size-[86px] shrink-0 items-center justify-center">
-      <svg viewBox="0 0 80 80" className="size-full -rotate-90" aria-hidden="true">
-        <circle cx="40" cy="40" r={radius} fill="none" stroke="var(--ve-border-line)" strokeWidth="6" />
+      <svg
+        viewBox="0 0 80 80"
+        className="size-full -rotate-90"
+        aria-hidden="true"
+      >
+        <circle
+          cx="40"
+          cy="40"
+          r={radius}
+          fill="none"
+          stroke="var(--ve-border-line)"
+          strokeWidth="6"
+        />
         <circle
           cx="40"
           cy="40"
@@ -356,7 +435,11 @@ export function MockAppFrame({
   children: ReactNode;
 }) {
   return (
-    <MockShell nativeWidth={nativeWidth} nativeHeight={nativeHeight} maxZoom={maxZoom}>
+    <MockShell
+      nativeWidth={nativeWidth}
+      nativeHeight={nativeHeight}
+      maxZoom={maxZoom}
+    >
       <MockTopBar right={right} />
       <div className="flex gap-2">
         {/* The rail is the platform's shell signature; on a phone it would eat

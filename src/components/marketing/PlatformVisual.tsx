@@ -16,6 +16,7 @@ import {
   MockPanel,
   MockRail,
   MockShell,
+  MockTabBar,
   MockTile,
   MockTopBar,
 } from "@/components/marketing/PlatformMock";
@@ -159,7 +160,12 @@ export function PlatformVisual({
                 className={`min-w-px flex-1 ${faded(active)}`}
                 badge={<MockBadge tone="brand">PDF</MockBadge>}
               >
-                <div className="flex flex-1 flex-col justify-center gap-1.5">
+                {/* The ruled document body is what a report looks like beside
+                    the checks on a desktop. On a phone it stacks under them and
+                    becomes 150px of grey rules — the largest thing on screen
+                    saying the least — so there the report is its badge and its
+                    verdict, and nothing else. */}
+                <div className="hidden flex-1 flex-col justify-center gap-1.5 sm:flex">
                   <MockBar />
                   <MockBar width="w-4/5" />
                   <MockBar />
@@ -194,6 +200,15 @@ export function PlatformVisual({
               </span>
             </span>
           </MockTile>
+
+          {/* The navigation the rail carries on a desktop, in the place a phone
+              would put it — last, under the content. Without it the mockup stops
+              reading as software at all and becomes stacked marketing cards.
+              MockShell stretches its last child to fill the frame, and a
+              stretched nav bar is not a nav bar, hence flex-none!. */}
+          <div className="flex-none! sm:hidden">
+            <MockTabBar icons={railIcons} />
+          </div>
         </MockShell>
       </div>
     </div>
