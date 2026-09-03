@@ -43,7 +43,14 @@ import type { VerificationStepId } from "@/lib/verification-steps";
  * rather than sitting small in the middle of the panel.
  */
 
-const railIcons = [IconHome, IconUser, IconShieldCheck, IconFileAnalytics, IconChartBar, IconSettings];
+const railIcons = [
+  IconHome,
+  IconUser,
+  IconShieldCheck,
+  IconFileAnalytics,
+  IconChartBar,
+  IconSettings,
+];
 
 /* ------------------------------------------------------------------ *
  * 01 — Applicant Submitted
@@ -76,7 +83,9 @@ function ApplicantSubmittedVisual() {
         </ul>
         <MockDivider />
         <div className="flex flex-col gap-2">
-          <p className="text-nav-heading text-app-text-secondary">Verification Requested</p>
+          <p className="text-nav-heading text-app-text-secondary">
+            Verification Requested
+          </p>
           <div className="flex flex-wrap gap-1.5">
             <MockTag>Rental History</MockTag>
             <MockTag>Identity</MockTag>
@@ -86,7 +95,9 @@ function ApplicantSubmittedVisual() {
         </div>
         <MockTile className="mt-auto">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-label-2xs text-app-text">Verification started</span>
+            <span className="text-label-2xs text-app-text">
+              Verification started
+            </span>
             <span className="text-body-2xs text-app-text-brand1">Queued</span>
           </div>
           <div className="mt-2">
@@ -117,7 +128,9 @@ function FraudDetectionVisual() {
         </div>
         <MockTile className="mt-auto">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-label-2xs text-app-text">Risk Assessment</span>
+            <span className="text-label-2xs text-app-text">
+              Risk Assessment
+            </span>
             <MockBadge tone="success">Low Risk</MockBadge>
           </div>
         </MockTile>
@@ -140,11 +153,16 @@ function HumanQaReviewVisual() {
   return (
     <MockShell nativeWidth={450} nativeHeight={300}>
       <MockTopBar right={<MockBadge tone="brand">QA Queue</MockBadge>} />
-      <MockPanel title="QA Review" badge={<MockBadge tone="success">Approved</MockBadge>}>
+      <MockPanel
+        title="QA Review"
+        badge={<MockBadge tone="success">Approved</MockBadge>}
+      >
         <MockTile className="flex items-center gap-2.5">
           <MockAvatar initials="QA" />
           <span className="min-w-px flex-1">
-            <span className="block text-label-2xs text-app-text">Verification Specialist</span>
+            <span className="block text-label-2xs text-app-text">
+              Verification Specialist
+            </span>
             <span className="block text-body-2xs text-app-text-tertiary">
               Reviews the full file before outreach
             </span>
@@ -156,8 +174,15 @@ function HumanQaReviewVisual() {
           ))}
         </ul>
         <MockTile className="mt-auto flex items-center justify-between gap-2">
-          <span className="text-label-2xs text-app-text">Ready for Verification</span>
-          <IconShieldCheck size={16} stroke={1.6} className="text-app-success" aria-hidden />
+          <span className="text-label-2xs text-app-text">
+            Ready for Verification
+          </span>
+          <IconShieldCheck
+            size={16}
+            stroke={1.6}
+            className="text-app-success"
+            aria-hidden
+          />
         </MockTile>
       </MockPanel>
     </MockShell>
@@ -168,9 +193,15 @@ function HumanQaReviewVisual() {
  * 04 — AI Calls Previous Landlord
  * ------------------------------------------------------------------ */
 const interviewTurns = [
-  { from: "ai" as const, text: "How long was the applicant a tenant at your property?" },
+  {
+    from: "ai" as const,
+    text: "How long was the applicant a tenant at your property?",
+  },
   { from: "landlord" as const, text: "They were a tenant for 14 months." },
-  { from: "ai" as const, text: "Did the applicant pay rent on time during their tenancy?" },
+  {
+    from: "ai" as const,
+    text: "Did the applicant pay rent on time during their tenancy?",
+  },
 ];
 
 function AiCallsLandlordVisual() {
@@ -178,7 +209,13 @@ function AiCallsLandlordVisual() {
     // The spec draws the phone UI beside the interview panel, so the two sit
     // side by side inside the app shell rather than floating over each other.
     <MockShell nativeWidth={450} nativeHeight={300}>
-      <MockTopBar right={<MockBadge tone="neutral" live>Live Call</MockBadge>} />
+      <MockTopBar
+        right={
+          <MockBadge tone="neutral" live>
+            Live Call
+          </MockBadge>
+        }
+      />
       <div className="flex flex-col gap-2 sm:flex-row">
         <MockPanel
           title="Interview in Progress"
@@ -209,22 +246,78 @@ function AiCallsLandlordVisual() {
           </ul>
         </MockPanel>
 
-        <section className="flex w-full shrink-0 flex-col items-center gap-2 sm:w-[132px] rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-3 text-center backdrop-blur-[12px]">
+        <PhoneFrame>
           <span className="flex size-9 items-center justify-center rounded-app-12xl bg-app-brand2-64 text-app-text-brand1">
             <IconPhoneCall size={17} stroke={1.6} aria-hidden />
           </span>
           <span className="block">
-            <span className="block text-label-2xs text-app-text-brand1">Outgoing Call</span>
-            <span className="block text-body-2xs text-app-text-tertiary">Previous Landlord</span>
+            <span className="block text-label-2xs text-app-text-brand1">
+              Outgoing Call
+            </span>
+            {/* The party, not a person: no name, number or address stands in
+                for an applicant anywhere in these mockups. */}
+            <span className="block text-body-2xs text-app-text-secondary">
+              Previous Landlord
+            </span>
           </span>
           <Waveform />
           <span className="text-body-2xs text-app-text-secondary">02:18</span>
           <span className="mt-auto flex size-8 items-center justify-center rounded-app-12xl bg-app-warning text-app-text-inverse">
             <IconPhoneOff size={15} stroke={1.8} aria-hidden />
           </span>
-        </section>
+        </PhoneFrame>
       </div>
     </MockShell>
+  );
+}
+
+/**
+ * The handset the call lands on, for step 04 only.
+ *
+ * This step is the one moment in the workflow that leaves the platform: the AI
+ * dials a real person, and drawing the call as one more glass panel made it
+ * look like another dashboard widget. A phone says the outbound call is
+ * happening out in the world while the transcript beside it is what Verify
+ * Engine captures — the two read as one event rather than two panels.
+ *
+ * Drawn in markup: rounded shell, camera cutout and side buttons, no image and
+ * no device asset. It scales with the rest of the composition through
+ * MockShell's zoom like everything else here, which a bitmap of a phone would
+ * not do cleanly. The body borrows navy-900 — the brand's own dark — so the
+ * hardware sits in the site's palette instead of introducing a device colour.
+ */
+function PhoneFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="relative mx-auto w-[132px] shrink-0 self-stretch sm:mx-0">
+      {/* Side buttons. Decorative, and small enough to read as hardware rather
+          than as controls a visitor might try to press. */}
+      <span
+        aria-hidden="true"
+        className="absolute top-12 -left-[2px] h-7 w-[2px] rounded-l-full bg-navy-900/45"
+      />
+      <span
+        aria-hidden="true"
+        className="absolute top-[86px] -left-[2px] h-5 w-[2px] rounded-l-full bg-navy-900/45"
+      />
+      <span
+        aria-hidden="true"
+        className="absolute top-16 -right-[2px] h-9 w-[2px] rounded-r-full bg-navy-900/45"
+      />
+
+      <div className="h-full rounded-[26px] bg-navy-900/10 p-[2px]">
+        <div className="relative flex h-full flex-col overflow-hidden rounded-[24px] border-[3px] border-navy-900 bg-[var(--ve-canvas)]">
+          {/* The camera cutout, which is what makes the shape read as a phone
+              at this size more than the rounded corners do. */}
+          <span
+            aria-hidden="true"
+            className="absolute top-1.5 left-1/2 z-10 h-[11px] w-10 -translate-x-1/2 rounded-full bg-navy-900"
+          />
+          <div className="flex flex-1 flex-col items-center gap-2 px-2.5 pt-6 pb-3 text-center">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -252,14 +345,24 @@ function DynamicInterviewVisual() {
   return (
     <MockShell nativeWidth={450} nativeHeight={300}>
       <MockTopBar right={<MockBadge tone="neutral">Question 4</MockBadge>} />
-      <MockPanel title="Dynamic Interview" badge={<MockBadge tone="brand">Adapting</MockBadge>}>
+      <MockPanel
+        title="Dynamic Interview"
+        badge={<MockBadge tone="brand">Adapting</MockBadge>}
+      >
         <Turn from="ai">Did the applicant pay rent on time?</Turn>
         <Turn from="landlord">Yes</Turn>
 
         <div className="flex flex-col gap-2 rounded-app-l border-w-2xs border-app-line-brand2 bg-app-brand2-40 p-3">
           <span className="flex items-center gap-1.5">
-            <IconSparkles size={14} stroke={1.8} className="shrink-0 text-app-text-brand1" aria-hidden />
-            <span className="text-nav-heading text-app-text-brand1">Follow-Up Generated</span>
+            <IconSparkles
+              size={14}
+              stroke={1.8}
+              className="shrink-0 text-app-text-brand1"
+              aria-hidden
+            />
+            <span className="text-nav-heading text-app-text-brand1">
+              Follow-Up Generated
+            </span>
           </span>
           <span className="block text-body-2xs text-app-text">
             Were there any late payments during the tenancy?
@@ -269,7 +372,10 @@ function DynamicInterviewVisual() {
         <MockTile className="mt-auto flex items-center gap-2">
           <span className="flex gap-0.5">
             {[0, 1, 2].map((i) => (
-              <span key={i} className="size-1.5 rounded-app-12xl bg-app-brand1" />
+              <span
+                key={i}
+                className="size-1.5 rounded-app-12xl bg-app-brand1"
+              />
             ))}
           </span>
           <span className="text-body-2xs text-app-text-tertiary">
@@ -281,13 +387,21 @@ function DynamicInterviewVisual() {
   );
 }
 
-function Turn({ from, children }: { from: "ai" | "landlord"; children: ReactNode }) {
+function Turn({
+  from,
+  children,
+}: {
+  from: "ai" | "landlord";
+  children: ReactNode;
+}) {
   const isAi = from === "ai";
   return (
     <div className={`flex items-start gap-2 ${isAi ? "" : "flex-row-reverse"}`}>
       <span
         className={`flex size-6 shrink-0 items-center justify-center rounded-app-12xl ${
-          isAi ? "bg-app-brand2-64 text-app-text-brand1" : "bg-app-fade-48 text-app-text-secondary"
+          isAi
+            ? "bg-app-brand2-64 text-app-text-brand1"
+            : "bg-app-fade-48 text-app-text-secondary"
         }`}
       >
         {isAi ? (
@@ -298,7 +412,9 @@ function Turn({ from, children }: { from: "ai" | "landlord"; children: ReactNode
       </span>
       <span
         className={`border-w-2xs border-app-line bg-app-fade-48 px-2.5 py-2 text-body-2xs text-app-text ${
-          isAi ? "rounded-app-l rounded-tl-app-xs" : "rounded-app-l rounded-tr-app-xs font-medium"
+          isAi
+            ? "rounded-app-l rounded-tl-app-xs"
+            : "rounded-app-l rounded-tr-app-xs font-medium"
         }`}
       >
         {children}
@@ -325,11 +441,17 @@ function ResponsesValidatedVisual() {
       <MockPanel title="Response Validation">
         <ul className="flex flex-col gap-2">
           {validationRows.map((row) => (
-            <MockCheck key={row.label} label={row.label} caption={`Checked against ${row.source}`} />
+            <MockCheck
+              key={row.label}
+              label={row.label}
+              caption={`Checked against ${row.source}`}
+            />
           ))}
         </ul>
         <MockTile className="mt-auto flex items-center justify-between gap-2">
-          <span className="text-label-2xs text-app-text">Verification Complete</span>
+          <span className="text-label-2xs text-app-text">
+            Verification Complete
+          </span>
           <MockBadge tone="success">Validated</MockBadge>
         </MockTile>
       </MockPanel>
@@ -366,7 +488,9 @@ function ReportDeliveredVisual() {
           <div className="flex flex-col gap-2">
             {reportRows.map((row) => (
               <MockRow key={row.label} label={row.label}>
-                <span className="text-body-2xs text-app-success">{row.value}</span>
+                <span className="text-body-2xs text-app-success">
+                  {row.value}
+                </span>
               </MockRow>
             ))}
           </div>
@@ -381,9 +505,15 @@ function ReportDeliveredVisual() {
 
           <MockTile className="mt-auto flex items-center justify-between gap-3">
             <span className="block">
-              <span className="block text-body-2xs text-app-text-tertiary">Verification Score</span>
+              <span className="block text-body-2xs text-app-text-tertiary">
+                Verification Score
+              </span>
               <span className="block text-heading-s text-app-text-brand1">
-                92<span className="text-body-2xs text-app-text-tertiary"> / 100</span>
+                92
+                <span className="text-body-2xs text-app-text-tertiary">
+                  {" "}
+                  / 100
+                </span>
               </span>
             </span>
             <span className="rounded-app-4xl bg-app-brand1 px-3 py-1.5 text-body-2xs text-app-text-inverse">
