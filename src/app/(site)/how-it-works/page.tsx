@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Cpu, ShieldCheck, Zap, UserCheck, BarChart3 } from "lucide-react";
 import { HeroHowItWorks } from "@/components/marketing/HeroHowItWorks";
-import { ProcessSteps } from "@/components/marketing/ProcessSteps";
+import { HowItWorksStrip } from "@/components/marketing/HowItWorksStrip";
 import { PlatformVisibility } from "@/components/sections/PlatformVisibility";
 import { AiCallDemo } from "@/components/marketing/AiCallDemo";
 import { FeatureGrid } from "@/components/sections/FeatureGrid";
@@ -46,7 +46,9 @@ export default function HowItWorksPage() {
   return (
     <>
       <HeroHowItWorks />
-      <ProcessSteps />
+      {/* The same scroll-controlled treatment the homepage uses, telling this
+          page's own five-step process rather than the landlord workflow. */}
+      <HowItWorksStrip flow="general" />
       <PlatformVisibility
         eyebrow="Real-Time Visibility"
         title="Track Every Verification in Real Time"

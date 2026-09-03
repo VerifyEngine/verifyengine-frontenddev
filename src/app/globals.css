@@ -154,3 +154,95 @@ h3 {
     zoom: min(var(--mock-max-zoom, 1), tan(atan2(100cqw, var(--mock-native-width))));
   }
 }
+
+/*
+ * How It Works — the pinned, scroll-controlled step panel.
+ *
+ * The section pins on a wide screen. How tall the window is deliberately plays
+ * no part in that condition: a `position: sticky` element taller than the space
+ * it is pinned into can never be scrolled to its bottom, so rather than refuse
+ * to pin on a short window, the composition is scaled to the space it has.
+ *
+ * `.how-pin-fit` is that scaling. `--how-it-works-natural` is the height the
+ * composition is actually drawn at (measured, not guessed). When the viewport
+ * offers less, `zoom` paints the whole thing smaller — every gap, type size and
+ * product mockup shrinks by the same factor, so the proportions are the ones
+ * that were approved and nothing is ever clipped. With room to spare the zoom
+ * is 1 and the section renders at full size.
+ *
+ * `tan(atan2(a, b))` is how CSS turns two lengths into the plain ratio `zoom`
+ * needs — the same trick `mock-fit` above uses.
+ *
+ * The matching media query lives in HowItWorksStrip.tsx (PIN_QUERY) — the
+ * scroll handler must agree with this rule about when the section is pinned.
+ */
+@media (min-width: 80rem) {
+  .how-pin-track {
+    height: var(--how-it-works-scroll);
+  }
+
+  .how-pin-panel {
+    position: sticky;
+    top: var(--how-it-works-offset);
+    display: flex;
+    height: calc(100dvh - var(--how-it-works-offset));
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 0;
+  }
+
+  .how-pin-fit {
+    zoom: min(
+      1,
+      tan(
+        atan2(
+          calc(100dvh - var(--how-it-works-offset) - 1rem),
+          var(--how-it-works-natural)
+        )
+      )
+    );
+  }
+}
+
+/*
+ * On a short window the pinned How It Works composition has to give something
+ * up, and the subheading is the cheapest line to lose: it restates what the H2
+ * already says, and every pixel it frees goes straight into `.how-pin-fit`'s
+ * scale — which is what decides how big the step copy, the capability labels
+ * and the step titles are actually painted.
+ *
+ * Only while pinned (the width condition) and only when the window is genuinely
+ * short. Everywhere else the subheading stays.
+ */
+@media (min-width: 80rem) and (max-height: 840px) {
+  .how-pin-sub {
+    display: none;
+  }
+}
+
+/*
+ * The platform section's connector line.
+ *
+ * Drawn on demand when a capability card is engaged, so it gets a short
+ * draw-in rather than appearing all at once. `--ve-connector-length` is a
+ * generous over-estimate of the longest path the layout can produce; the
+ * dash offset only has to start beyond the path's own length.
+ */
+@keyframes ve-connector-draw {
+  from {
+    stroke-dashoffset: var(--ve-connector-length, 600px);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ve-connector {
+  animation: ve-connector-draw 0.35s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ve-connector {
+    animation: none;
+  }
+}
