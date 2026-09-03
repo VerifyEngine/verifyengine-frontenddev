@@ -62,8 +62,12 @@ export function PlatformShowcase() {
       return;
     }
 
-    const card = frame.querySelector<HTMLElement>(`[data-platform-card="${target}"]`);
-    const region = frame.querySelector<HTMLElement>(`[data-platform-target="${target}"]`);
+    const card = frame.querySelector<HTMLElement>(
+      `[data-platform-card="${target}"]`,
+    );
+    const region = frame.querySelector<HTMLElement>(
+      `[data-platform-target="${target}"]`,
+    );
     if (!card || !region) {
       setLine(null);
       return;
@@ -125,22 +129,20 @@ export function PlatformShowcase() {
         </RevealItem>
 
         {platformFeaturesLeft.map((feature, i) => (
-          <RevealItem key={feature.title} className={`lg:col-start-1 ${rows[i]}`}>
-            <FeatureCard
-              feature={feature}
-              active={active}
-              onEngage={engage}
-            />
+          <RevealItem
+            key={feature.title}
+            className={`lg:col-start-1 ${rows[i]}`}
+          >
+            <FeatureCard feature={feature} active={active} onEngage={engage} />
           </RevealItem>
         ))}
 
         {platformFeaturesRight.map((feature, i) => (
-          <RevealItem key={feature.title} className={`lg:col-start-3 ${rows[i]}`}>
-            <FeatureCard
-              feature={feature}
-              active={active}
-              onEngage={engage}
-            />
+          <RevealItem
+            key={feature.title}
+            className={`lg:col-start-3 ${rows[i]}`}
+          >
+            <FeatureCard feature={feature} active={active} onEngage={engage} />
           </RevealItem>
         ))}
       </RevealGroup>
@@ -154,11 +156,7 @@ export function PlatformShowcase() {
  * Drawn as a flat cubic so it leaves the card horizontally and arrives at the
  * product horizontally, which reads as a connection rather than a diagonal.
  */
-function Connector({
-  line,
-}: {
-  line: { from: Point; to: Point } | null;
-}) {
+function Connector({ line }: { line: { from: Point; to: Point } | null }) {
   if (!line) return null;
   const { from, to } = line;
   const dir = to.x > from.x ? 1 : -1;
@@ -170,7 +168,10 @@ function Connector({
    * reading as a connector; where the ends already differ in height the curve
    * does that on its own and no bow is needed.
    */
-  const bow = Math.abs(to.y - from.y) < 32 ? Math.min(56, Math.abs(to.x - from.x) * 0.22) : 0;
+  const bow =
+    Math.abs(to.y - from.y) < 32
+      ? Math.min(56, Math.abs(to.x - from.x) * 0.22)
+      : 0;
   const d = `M ${from.x} ${from.y} C ${from.x + dir * reach} ${from.y - bow}, ${
     to.x - dir * reach
   } ${to.y - bow}, ${to.x} ${to.y}`;
@@ -218,22 +219,26 @@ function FeatureCard({
       tabIndex={0}
       role="group"
       aria-label={feature.title}
-      className={`group flex h-full flex-col gap-4 rounded-2xl border bg-white p-5 shadow-card transition-all duration-200 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:outline-none motion-reduce:transition-none lg:gap-3 ${
+      className={`group flex h-full flex-row items-start gap-4 rounded-2xl border bg-white p-5 shadow-card sm:flex-col transition-all duration-200 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:outline-none motion-reduce:transition-none lg:gap-3 ${
         engaged
           ? "-translate-y-0.5 border-teal-500/40 shadow-lg"
           : "border-slate-200/70 hover:-translate-y-0.5 hover:border-teal-500/30 hover:shadow-lg"
       }`}
     >
       <span
-        className={`flex size-14 shrink-0 items-center justify-center rounded-full transition-colors duration-200 motion-reduce:transition-none ${
+        className={`flex size-12 shrink-0 items-center justify-center rounded-full transition-colors duration-200 motion-reduce:transition-none sm:size-14 ${
           engaged ? "bg-teal-500 text-white" : "bg-mint-100 text-teal-600"
         }`}
       >
-        <feature.icon className="size-7" strokeWidth={1.75} />
+        <feature.icon className="size-6 sm:size-7" strokeWidth={1.75} />
       </span>
       <div className="min-w-0">
-        <h3 className="text-xl leading-snug font-bold text-ink-900">{feature.title}</h3>
-        <p className="mt-2 text-base leading-relaxed text-slate-600">{feature.description}</p>
+        <h3 className="text-lg leading-snug font-bold text-ink-900 sm:text-xl">
+          {feature.title}
+        </h3>
+        <p className="mt-2 text-base leading-relaxed text-slate-600">
+          {feature.description}
+        </p>
       </div>
     </div>
   );

@@ -39,7 +39,14 @@ import { platformChecks, type PlatformTarget } from "@/lib/platform-features";
  * only, and the report body is drawn as neutral rules.
  */
 
-const railIcons = [IconHome, IconUser, IconShieldCheck, IconFileAnalytics, IconChartBar, IconSettings];
+const railIcons = [
+  IconHome,
+  IconUser,
+  IconShieldCheck,
+  IconFileAnalytics,
+  IconChartBar,
+  IconSettings,
+];
 
 /**
  * A region of the dashboard that a capability card can light up.
@@ -64,7 +71,9 @@ function Region({
     <div
       data-platform-target={target}
       className={`relative transition-all duration-200 motion-reduce:transition-none ${
-        engaged ? "ring-2 ring-app-line-brand2 ring-offset-2 ring-offset-[var(--ve-canvas)]" : ""
+        engaged
+          ? "ring-2 ring-app-line-brand2 ring-offset-2 ring-offset-[var(--ve-canvas)]"
+          : ""
       } ${dimmed ? "opacity-40" : "opacity-100"} ${className}`}
     >
       {children}
@@ -79,7 +88,11 @@ function faded(active: PlatformTarget | null) {
   }`;
 }
 
-export function PlatformVisual({ active = null }: { active?: PlatformTarget | null }) {
+export function PlatformVisual({
+  active = null,
+}: {
+  active?: PlatformTarget | null;
+}) {
   return (
     <div className="relative">
       {/* The soft mint field the concept art puts behind the product. */}
@@ -90,17 +103,32 @@ export function PlatformVisual({ active = null }: { active?: PlatformTarget | nu
       <div className="relative">
         <MockShell nativeWidth={480} nativeHeight={360} maxZoom={1.45}>
           <Region target="topbar" active={active} className="rounded-app-xl">
-            <MockTopBar right={<MockBadge tone="success">Verified</MockBadge>} />
+            <MockTopBar
+              right={<MockBadge tone="success">Verified</MockBadge>}
+            />
           </Region>
 
           <div className="flex gap-2">
-            <Region target="rail" active={active} className="rounded-app-xl">
+            {/* The rail is the platform's shell signature, but on a phone it
+                eats an eighth of the width the panels need to say anything,
+                and six dimmed icons is not what this section is selling. It
+                steps out below sm — the same call MockAppFrame makes. */}
+            <Region
+              target="rail"
+              active={active}
+              className="hidden rounded-app-xl sm:block"
+            >
               <MockRail icons={railIcons} />
             </Region>
 
             <div className="flex min-w-px flex-1 flex-col gap-2 sm:flex-row">
-              <MockPanel title="Verification Complete" className="min-w-px flex-[1.3]">
-                <p className={`text-body-2xs text-app-text-tertiary ${faded(active)}`}>
+              <MockPanel
+                title="Verification Complete"
+                className="min-w-px flex-[1.3]"
+              >
+                <p
+                  className={`text-body-2xs text-app-text-secondary sm:text-app-text-tertiary ${faded(active)}`}
+                >
                   All checks passed. Report is ready.
                 </p>
                 <ul className="flex flex-1 flex-col justify-center gap-2">
@@ -115,7 +143,10 @@ export function PlatformVisual({ active = null }: { active?: PlatformTarget | nu
                         <MockCheck label={check.label} />
                       </Region>
                     ) : (
-                      <div key={check.label} className={`px-1.5 py-0.5 ${faded(active)}`}>
+                      <div
+                        key={check.label}
+                        className={`px-1.5 py-0.5 ${faded(active)}`}
+                      >
                         <MockCheck label={check.label} />
                       </div>
                     ),
@@ -136,8 +167,15 @@ export function PlatformVisual({ active = null }: { active?: PlatformTarget | nu
                   <MockBar width="w-3/4" />
                 </div>
                 <MockTile className="mt-auto flex items-center justify-center gap-1.5">
-                  <IconShieldCheck size={15} stroke={1.8} className="text-app-success" aria-hidden />
-                  <span className="text-label-2xs text-app-success">Approved</span>
+                  <IconShieldCheck
+                    size={15}
+                    stroke={1.8}
+                    className="text-app-success"
+                    aria-hidden
+                  />
+                  <span className="text-label-2xs text-app-success">
+                    Approved
+                  </span>
                 </MockTile>
               </MockPanel>
             </div>
@@ -151,7 +189,7 @@ export function PlatformVisual({ active = null }: { active?: PlatformTarget | nu
               <span className="block text-label-2xs text-app-text">
                 Automated. Accurate. Trusted.
               </span>
-              <span className="block text-body-2xs text-app-text-tertiary">
+              <span className="block text-body-2xs text-app-text-secondary sm:text-app-text-tertiary">
                 Every verification, human reviewed
               </span>
             </span>
