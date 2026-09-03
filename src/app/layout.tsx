@@ -54,6 +54,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
     >
       <body className="min-h-full">
+        {/*
+          Entrance animations start at opacity 0, and that starting state is
+          server-rendered. With JavaScript unavailable nothing ever animates
+          them in, so the content would stay invisible. This rule only applies
+          when scripting is off, and restores every animated block to its
+          finished state.
+        */}
+        <noscript>
+          <style>{".ve-reveal{opacity:1!important;transform:none!important}"}</style>
+        </noscript>
         <ToastProvider>{children}</ToastProvider>
       </body>
     </html>

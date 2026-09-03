@@ -3,6 +3,14 @@
 import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 
+/*
+ * Entrance animations.
+ *
+ * Every wrapper here carries the `ve-reveal` class. The hidden state is
+ * server-rendered as `opacity: 0`, so without JavaScript nothing would ever
+ * reveal it; a <noscript> rule in the root layout keys off that class and
+ * paints these blocks in their finished state instead.
+ */
 const variants: Variants = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
@@ -27,7 +35,7 @@ export function Reveal({
       viewport={{ once: true, margin: "-80px" }}
       variants={variants}
       transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
+      className={`ve-reveal ${className}`}
     >
       {children}
     </MotionTag>
@@ -48,7 +56,7 @@ export function RevealGroup({
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
       transition={{ staggerChildren: 0.08 }}
-      className={className}
+      className={`ve-reveal ${className}`}
     >
       {children}
     </motion.div>
@@ -63,7 +71,11 @@ export function RevealItem({
   className?: string;
 }) {
   return (
-    <motion.div variants={variants} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }} className={className}>
+    <motion.div
+      variants={variants}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className={`ve-reveal ${className}`}
+    >
       {children}
     </motion.div>
   );
