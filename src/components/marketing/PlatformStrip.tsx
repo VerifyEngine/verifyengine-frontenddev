@@ -61,13 +61,15 @@ export function PlatformStrip() {
 function PlatformBadges() {
   return (
     <Reveal delay={0.45} className="mt-8">
-      <ul className="flex flex-wrap justify-center gap-2">
+      {/* Sized to be read at arm's length like the rest of the section: a
+          16px label and a 22px mark, not the small print the row started as. */}
+      <ul className="flex flex-wrap justify-center gap-2.5">
         {platformBadges.map((badge) => (
           <li
             key={badge.label}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white px-3.5 py-2 text-sm font-semibold text-ink-900 shadow-sm"
+            className="inline-flex items-center gap-2.5 rounded-full border border-slate-200/80 bg-white px-4 py-2.5 text-base font-semibold text-ink-900 shadow-sm"
           >
-            <badge.icon className="size-4 shrink-0 text-teal-600" strokeWidth={1.75} />
+            <badge.icon className="size-5.5 shrink-0 text-teal-600" strokeWidth={1.75} />
             {badge.label}
           </li>
         ))}
