@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { CheckCircle2, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { Button, Container, ArrowRight } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
-import { ScoreGauge } from "@/components/ui/ScoreGauge";
+import { ResourceHeroCard } from "@/components/marketing/ResourceHeroCard";
 import { GuideBrowser } from "@/components/marketing/GuideBrowser";
 
 export const metadata: Metadata = {
@@ -11,13 +11,6 @@ export const metadata: Metadata = {
   description:
     "Step-by-step resources, best practices, and how-to guides to help you streamline verification, reduce risk, and stay compliant.",
 };
-
-const heroChecks = [
-  "Identity Verified",
-  "Employment Verified",
-  "Income Verified",
-  "Background Check",
-];
 
 export default function GuidesPage() {
   return (
@@ -44,49 +37,26 @@ export default function GuidesPage() {
               </p>
             </Reveal>
 
-            {/* Laptop-and-ebook collage from the design, drawn rather than photographed. */}
-            <Reveal delay={0.12} className="hidden lg:block">
-              <div className="relative ml-auto w-full max-w-lg">
-                <div className="rounded-2xl bg-navy-800 p-5 shadow-2xl">
-                  <p className="text-xs font-bold text-white">
-                    VERIFY <span className="text-mint-200">ENGINE</span>
-                  </p>
-                  <p className="mt-4 text-xl font-bold text-white">
-                    Verification
-                    <br />
-                    Best Practices
-                  </p>
-                  <p className="mt-1 text-sm text-white/60">A Complete Guide</p>
+            {/*
+              The design stands an ebook cover beside a laptop showing the
+              product. The screen is the platform's own, like every other hero
+              on the site, and the cover overlaps its top corner — inside the
+              padding the wrapper reserves for it, because the section clips
+              anything that reaches past the site column.
+            */}
+            <Reveal delay={0.12}>
+              <div className="relative ml-auto w-full max-w-xl sm:pt-6 sm:pr-40 lg:pr-44">
+                <ResourceHeroCard
+                  title="Verification Best Practices"
+                  badge="Guide"
+                  score={95}
+                  caption="Low Risk"
+                  checks={["Identity", "Employment", "Income", "Background"]}
+                  note="Step-by-step, from request to report."
+                />
 
-                  <div
-                    data-ve-theme="light"
-                    className="font-app mt-5 grid grid-cols-[0.7fr_1fr] gap-4 rounded-app-xl border-w-2xs border-app-line-brand2 bg-[var(--ve-canvas)] p-4"
-                  >
-                    <div className="text-center">
-                      <p className="text-body-2xs text-app-text-secondary">
-                        VE Score<span className="align-super text-[7px]">™</span>
-                      </p>
-                      <ScoreGauge score={95} caption="Low Risk" />
-                    </div>
-                    <ul className="flex flex-col justify-center gap-2">
-                      {heroChecks.map((check) => (
-                        <li
-                          key={check}
-                          className="flex items-center gap-1.5 text-body-2xs text-app-text"
-                        >
-                          <CheckCircle2
-                            className="size-3.5 shrink-0 text-app-success"
-                            strokeWidth={1.8}
-                          />
-                          {check}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="absolute -top-4 -right-4 hidden w-44 rounded-lg border-l-4 border-mint-200 bg-navy-950 p-5 shadow-2xl xl:block">
-                  <p className="text-sm leading-snug font-bold text-white">
+                <div className="absolute top-0 right-0 hidden w-44 rounded-lg border-l-4 border-mint-200 bg-navy-950 p-5 shadow-2xl sm:block lg:w-48">
+                  <p className="text-base leading-snug font-bold text-white">
                     The Ultimate Guide to Tenant Screening
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-white/60">

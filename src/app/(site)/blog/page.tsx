@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Check } from "lucide-react";
 import { Container } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
-import { ScoreGauge } from "@/components/ui/ScoreGauge";
+import { ResourceHeroCard } from "@/components/marketing/ResourceHeroCard";
 import { BlogBrowser } from "@/components/marketing/BlogBrowser";
 import { NewsletterBand } from "@/components/sections/NewsletterBand";
 
@@ -12,14 +11,6 @@ export const metadata: Metadata = {
   description:
     "Expert insights and practical guidance to help you verify smarter, reduce risk, and make confident decisions.",
 };
-
-const heroChecks = [
-  "Identity Verified",
-  "Employment Verified",
-  "Income Verified",
-  "Background Check",
-  "References Verified",
-];
 
 export default function BlogPage() {
   return (
@@ -51,40 +42,22 @@ export default function BlogPage() {
               </p>
             </Reveal>
 
-            {/* Layered sample-report visual, matching the design's hero collage:
-                a blue panel set back behind a white report card, with the navy
-                strapline card breaking out over its lower-left corner. The
-                design also floats a photo of a building here; there is no such
-                asset in the design package, so that layer is omitted rather
-                than faked. */}
-            <Reveal delay={0.12} className="hidden lg:block">
-              <div data-ve-theme="light" className="font-app relative ml-auto w-full max-w-lg">
-                <div className="absolute inset-0 translate-x-6 translate-y-6 rounded-app-xl bg-[#1B3A6B]" />
-
-                <div className="relative grid grid-cols-[0.7fr_1fr] gap-5 rounded-app-xl bg-white p-6 shadow-2xl">
-                  <div className="text-center">
-                    <p className="text-body-2xs text-app-text-secondary">
-                      VE Score<span className="align-super text-[8px]">™</span>
-                    </p>
-                    <ScoreGauge score={94} caption="Low Risk" />
-                  </div>
-                  <ul className="flex flex-col justify-center gap-3">
-                    {heroChecks.map((check) => (
-                      <li key={check} className="flex items-center gap-2.5 text-body-2xs text-app-text">
-                        <Check className="size-3.5 shrink-0 text-teal-500" strokeWidth={3} />
-                        {check}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="absolute -bottom-8 -left-10 hidden w-56 rounded-xl bg-navy-950 p-5 shadow-2xl xl:block">
-                  <p className="text-sm leading-snug font-bold text-white">
-                    Reduce Risk.
-                    <br />
-                    Verify with Confidence.
-                  </p>
-                </div>
+            {/*
+              The product the writing is about, drawn in the platform's own
+              vocabulary like every other hero on the site. The design also
+              floats a photo of a building behind it; there is no such asset in
+              the design package, so that layer is omitted rather than faked.
+            */}
+            <Reveal delay={0.12}>
+              <div className="relative ml-auto w-full max-w-xl">
+                <ResourceHeroCard
+                  title="Verification Report"
+                  badge="VE Score"
+                  score={94}
+                  caption="Low Risk"
+                  checks={["Identity", "Employment", "Income", "References"]}
+                  note="Reduce risk. Verify with confidence."
+                />
               </div>
             </Reveal>
           </div>
