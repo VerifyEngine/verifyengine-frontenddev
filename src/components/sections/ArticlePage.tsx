@@ -89,12 +89,15 @@ export function ArticlePage({ config }: { config: ArticlePageConfig }) {
 
       <div className="bg-white py-12 sm:py-16">
         <Container>
-          {/* The site column is wider now, but a line of body copy still has to
-              stay readable. Rather than stretch the article, the whole
-              article-plus-sidebar block is capped and centred inside the wider
-              container. */}
-          <div className="mx-auto grid max-w-[1260px] grid-cols-1 gap-12 lg:grid-cols-[1fr_340px] lg:gap-14">
-            <article className="min-w-0">
+          {/* The block runs the full site column, so the article starts on the
+              same left edge as the header and breadcrumb above it and the
+              sidebar ends on the same right edge — which is how the design sets
+              it. A line of body copy still has to stay readable, so it is the
+              article's own measure that is capped, not the block: on a very
+              wide window the slack falls between the two columns rather than
+              stepping the whole page in from the site's gutter. */}
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-14">
+            <article className="min-w-0 lg:max-w-[880px]">
               <p className="inline-block rounded-md bg-mint-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-teal-700 uppercase">
                 {config.eyebrow}
               </p>
