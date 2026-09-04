@@ -151,9 +151,13 @@ export function PlatformVisual({
                         <MockCheck label={check.label} />
                       </Region>
                     ) : (
+                      /* The same box as an engaged row minus the ring, so
+                         every check in the list keeps one left edge: the
+                         padding a highlight needs is pulled back out by the
+                         negative margin either way. */
                       <div
                         key={check.label}
-                        className={`px-1.5 py-0.5 ${faded(active)}`}
+                        className={`-mx-1.5 px-1.5 py-0.5 ${faded(active)}`}
                       >
                         <MockCheck label={check.label} />
                       </div>
