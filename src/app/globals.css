@@ -221,6 +221,99 @@ h3 {
 }
 
 /*
+ * How It Works on a phone or a tablet — the same scroll-driven section, pinned
+ * one layer further in.
+ *
+ * A phone has nowhere near a screen's worth of room for the heading *and* a
+ * stacked step panel, and shrinking the composition until both fit is exactly
+ * the trade this section is not allowed to make. So the heading is left in the
+ * flow — the visitor reads it and scrolls past it — and only the step body
+ * pins, for the length of `--how-it-works-scroll-sm`. That is the whole screen
+ * the workflow then plays out in, one step per stroke of scroll, with nothing
+ * to tap.
+ *
+ * `svh` and not `dvh` throughout: the panel is sized to the viewport at its
+ * smallest, with the browser bars showing, so nothing resizes under the
+ * visitor's thumb as those bars slide away mid-scroll.
+ *
+ * `.how-pin-body-fit` is the same safety net `.how-pin-fit` is on a desktop:
+ * on a phone tall enough for the composition it does nothing, and on a short
+ * one it paints the whole thing proportionally smaller rather than clipping the
+ * bottom off it. The composition is built to `--how-it-works-natural-sm`, so a
+ * current phone sees it at full size.
+ *
+ * The matching media query lives in HowItWorksStrip.tsx (MOBILE_PIN) — the
+ * scroll handler must agree with this rule about which layout is on screen.
+ */
+/*
+ * The step mockups inside that pinned body.
+ *
+ * `MockShell` reserves a fixed height so switching between mockups never
+ * resizes the panel around them. On a phone that floor is 300px of reserved
+ * space inside a panel that has one screen to give, and the mockups there are
+ * already taller than it — so the floor buys nothing and costs the step copy
+ * its room. The mockups keep their own natural height instead.
+ */
+@media (max-width: 39.9375rem) {
+  .how-step-mock {
+    --mock-min-height: 0px;
+  }
+}
+
+@media (max-width: 79.9375rem) {
+  .how-pin-scroll {
+    height: var(--how-it-works-scroll-sm);
+    margin-top: 2.5rem;
+  }
+
+  .how-pin-body {
+    position: sticky;
+    top: var(--how-it-works-offset);
+    display: flex;
+    height: calc(100svh - var(--how-it-works-offset));
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /*
+   * Which natural height the fit is measured against depends on the layout on
+   * screen, and there are three of them below `xl`: the stacked phone panel,
+   * the same panel from `sm` up — where the mockup is painted large by its own
+   * `mock-fit` zoom — and the two-column panel with the seven-step rail that
+   * takes over at `lg`. One denominator for all three would either overflow
+   * the tallest or paint the phone far smaller than it needs to be.
+   */
+  .how-pin-body-fit {
+    --how-it-works-natural-pin: var(--how-it-works-natural-sm);
+    display: flex;
+    width: 100%;
+    height: var(--how-it-works-natural-pin);
+    flex-direction: column;
+    zoom: min(
+      1,
+      tan(
+        atan2(
+          calc(100svh - var(--how-it-works-offset) - 1rem),
+          var(--how-it-works-natural-pin)
+        )
+      )
+    );
+  }
+}
+
+@media (min-width: 40rem) and (max-width: 63.9375rem) {
+  .how-pin-body-fit {
+    --how-it-works-natural-pin: var(--how-it-works-natural-md);
+  }
+}
+
+@media (min-width: 64rem) and (max-width: 79.9375rem) {
+  .how-pin-body-fit {
+    --how-it-works-natural-pin: var(--how-it-works-natural-lg);
+  }
+}
+
+/*
  * The platform section's connector line.
  *
  * Drawn on demand when a capability card is engaged, so it gets a short

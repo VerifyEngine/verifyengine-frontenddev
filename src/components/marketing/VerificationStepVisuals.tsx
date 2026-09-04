@@ -70,7 +70,7 @@ const submittedDetails = [
 
 function ApplicantSubmittedVisual() {
   return (
-    <MockShell nativeWidth={450} nativeHeight={300}>
+    <MockShell nativeWidth={450} nativeHeight={300} className="how-step-mock">
       <MockTopBar right={<MockBadge tone="brand">New Request</MockBadge>} />
       <MockPanel
         title="Verification Request Received"
@@ -81,8 +81,8 @@ function ApplicantSubmittedVisual() {
             <MockCheck key={detail} label={detail} value="Received" />
           ))}
         </ul>
-        <MockDivider />
-        <div className="flex flex-col gap-2">
+        <MockDivider className="hidden sm:block" />
+        <div className="hidden flex-col gap-2 sm:flex">
           <p className="text-nav-heading text-app-text-secondary">
             Verification Requested
           </p>
@@ -114,7 +114,7 @@ function ApplicantSubmittedVisual() {
  * ------------------------------------------------------------------ */
 function FraudDetectionVisual() {
   return (
-    <MockShell nativeWidth={450} nativeHeight={300}>
+    <MockShell nativeWidth={450} nativeHeight={300} className="how-step-mock">
       <MockTopBar right={<MockBadge tone="neutral">Analyzing</MockBadge>} />
       <MockPanel title="Fraud Analysis">
         <div className="flex flex-1 items-center gap-3.5">
@@ -123,7 +123,7 @@ function FraudDetectionVisual() {
             <MockCheck label="Identity Match" value="Pass" />
             <MockCheck label="Phone Validation" value="Pass" />
             <MockCheck label="Property Match" value="Pass" />
-            <MockCheck label="Data Consistency" value="Pass" />
+            <MockCheck label="Data Consistency" value="Pass" className="hidden sm:flex" />
           </ul>
         </div>
         <MockTile className="mt-auto">
@@ -151,7 +151,7 @@ const qaChecklist = [
 
 function HumanQaReviewVisual() {
   return (
-    <MockShell nativeWidth={450} nativeHeight={300}>
+    <MockShell nativeWidth={450} nativeHeight={300} className="how-step-mock">
       <MockTopBar right={<MockBadge tone="brand">QA Queue</MockBadge>} />
       <MockPanel
         title="QA Review"
@@ -169,11 +169,16 @@ function HumanQaReviewVisual() {
           </span>
         </MockTile>
         <ul className="flex flex-1 flex-col justify-center gap-2">
-          {qaChecklist.map((item) => (
-            <MockCheck key={item} label={item} value="Confirmed" />
+          {qaChecklist.map((item, i) => (
+            <MockCheck
+              key={item}
+              label={item}
+              value="Confirmed"
+              className={i === qaChecklist.length - 1 ? "hidden sm:flex" : ""}
+            />
           ))}
         </ul>
-        <MockTile className="mt-auto flex items-center justify-between gap-2">
+        <MockTile className="mt-auto hidden items-center justify-between gap-2 sm:flex">
           <span className="text-label-2xs text-app-text">
             Ready for Verification
           </span>
@@ -208,7 +213,7 @@ function AiCallsLandlordVisual() {
   return (
     // The spec draws the phone UI beside the interview panel, so the two sit
     // side by side inside the app shell rather than floating over each other.
-    <MockShell nativeWidth={450} nativeHeight={300}>
+    <MockShell nativeWidth={450} nativeHeight={300} className="how-step-mock">
       <MockTopBar
         right={
           <MockBadge tone="neutral" live>
@@ -219,7 +224,7 @@ function AiCallsLandlordVisual() {
       <div className="flex flex-col gap-2 sm:flex-row">
         <MockPanel
           title="Interview in Progress"
-          className="min-w-px flex-1"
+          className="hidden min-w-px flex-1 sm:flex"
           badge={<MockBadge tone="success">Recording</MockBadge>}
         >
           <ul className="flex flex-col gap-2">
@@ -288,7 +293,7 @@ function AiCallsLandlordVisual() {
  */
 function PhoneFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="relative mx-auto w-[132px] shrink-0 self-stretch sm:mx-0">
+    <div className="relative mx-auto w-[152px] shrink-0 self-stretch sm:mx-0 sm:w-[132px]">
       {/* Side buttons. Decorative, and small enough to read as hardware rather
           than as controls a visitor might try to press. */}
       <span
@@ -312,7 +317,7 @@ function PhoneFrame({ children }: { children: ReactNode }) {
             aria-hidden="true"
             className="absolute top-1.5 left-1/2 z-10 h-[11px] w-10 -translate-x-1/2 rounded-full bg-navy-900"
           />
-          <div className="flex flex-1 flex-col items-center gap-2 px-2.5 pt-6 pb-3 text-center">
+          <div className="flex flex-1 flex-col items-center gap-1.5 px-2.5 pt-5 pb-2.5 text-center sm:gap-2 sm:pt-6 sm:pb-3">
             {children}
           </div>
         </div>
@@ -343,7 +348,7 @@ function Waveform() {
  * ------------------------------------------------------------------ */
 function DynamicInterviewVisual() {
   return (
-    <MockShell nativeWidth={450} nativeHeight={300}>
+    <MockShell nativeWidth={450} nativeHeight={300} className="how-step-mock">
       <MockTopBar right={<MockBadge tone="neutral">Question 4</MockBadge>} />
       <MockPanel
         title="Dynamic Interview"
@@ -369,7 +374,7 @@ function DynamicInterviewVisual() {
           </span>
         </div>
 
-        <MockTile className="mt-auto flex items-center gap-2">
+        <MockTile className="mt-auto hidden items-center gap-2 sm:flex">
           <span className="flex gap-0.5">
             {[0, 1, 2].map((i) => (
               <span
@@ -436,15 +441,16 @@ const validationRows = [
 
 function ResponsesValidatedVisual() {
   return (
-    <MockShell nativeWidth={450} nativeHeight={300}>
+    <MockShell nativeWidth={450} nativeHeight={300} className="how-step-mock">
       <MockTopBar right={<MockBadge tone="brand">5 of 5</MockBadge>} />
       <MockPanel title="Response Validation">
         <ul className="flex flex-col gap-2">
-          {validationRows.map((row) => (
+          {validationRows.map((row, i) => (
             <MockCheck
               key={row.label}
               label={row.label}
               caption={`Checked against ${row.source}`}
+              className={i >= 3 ? "hidden sm:flex" : ""}
             />
           ))}
         </ul>
@@ -476,10 +482,10 @@ const reportRows = [
 
 function ReportDeliveredVisual() {
   return (
-    <MockShell nativeWidth={450} nativeHeight={300}>
+    <MockShell nativeWidth={450} nativeHeight={300} className="how-step-mock">
       <MockTopBar right={<MockBadge tone="success">Delivered</MockBadge>} />
       <div className="flex gap-2">
-        <MockRail icons={railIcons} />
+        <MockRail icons={railIcons} className="hidden sm:flex" />
         <MockPanel
           title="Landlord Verification"
           className="min-w-px flex-1"
@@ -495,9 +501,9 @@ function ReportDeliveredVisual() {
             ))}
           </div>
 
-          <MockDivider />
+          <MockDivider className="hidden sm:block" />
 
-          <div className="flex flex-1 flex-col justify-center gap-1.5">
+          <div className="hidden flex-1 flex-col justify-center gap-1.5 sm:flex">
             <MockBar />
             <MockBar width="w-4/5" />
             <MockBar width="w-2/3" />

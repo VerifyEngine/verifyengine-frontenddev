@@ -71,7 +71,12 @@ export function MockShell({
         style={
           {
             "--mock-native-width": `${nativeWidth}px`,
-            minHeight: nativeHeight,
+            // A floor, so switching mockups never resizes the panel around
+            // them. `--mock-min-height` lets a caller lift it where the
+            // reserved space costs more than it buys — a phone, where the
+            // mockup lays out at 1:1 and every pixel is one the pinned step
+            // panel does not have.
+            minHeight: `var(--mock-min-height, ${nativeHeight}px)`,
             // The platform's own type scale on a desktop, where the whole
             // composition is magnified; a touch larger on a phone, where it is
             // painted 1:1 and would otherwise sit at the Figma sizes.
@@ -115,9 +120,17 @@ export function MockTopBar({ right }: { right?: ReactNode }) {
 }
 
 /** The side rail, as its own floating panel — the platform's shell signature. */
-export function MockRail({ icons }: { icons: TablerIcon[] }) {
+export function MockRail({
+  icons,
+  className = "",
+}: {
+  icons: TablerIcon[];
+  className?: string;
+}) {
   return (
-    <nav className="flex shrink-0 flex-col items-center gap-1.5 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 px-1.5 py-2.5 backdrop-blur-[12px]">
+    <nav
+      className={`flex shrink-0 flex-col items-center gap-1.5 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 px-1.5 py-2.5 backdrop-blur-[12px] ${className}`}
+    >
       {icons.map((Icon, i) => (
         <span
           key={i}
@@ -246,13 +259,15 @@ export function MockCheck({
   label,
   caption,
   value,
+  className = "",
 }: {
   label: string;
   caption?: string;
   value?: string;
+  className?: string;
 }) {
   return (
-    <li className="flex items-center gap-2.5">
+    <li className={`flex items-center gap-2.5 ${className}`}>
       <MockTick />
       <span className="min-w-px flex-1">
         <span className="block text-label-2xs text-app-text">{label}</span>
@@ -317,8 +332,8 @@ export function MockBar({ width = "w-full" }: { width?: string }) {
   );
 }
 
-export function MockDivider() {
-  return <span className="block h-px bg-app-line" />;
+export function MockDivider({ className = "" }: { className?: string }) {
+  return <span className={`block h-px bg-app-line ${className}`} />;
 }
 
 export function MockAvatar({

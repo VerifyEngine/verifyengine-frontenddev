@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, ChevronLeft, ChevronRight, FileSearch } from "lucide-react";
+import { Check, FileSearch } from "lucide-react";
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import Link from "next/link";
 import { useCallback, useRef, useState, type CSSProperties } from "react";
@@ -22,33 +22,52 @@ import {
  * seven-step timeline, the compact phone progress and the product
  * visualisation beside it.
  *
- * From `xl` (80rem) the whole composition pins and reads the active step off
- * the scroll position, forwards and backwards. Narrower than that it does not
- * pin at all, and keeps the site's own section rhythm: a phone would either
- * squeeze seven timeline labels into 390px or trap the scroll, so below `lg`
- * it gets a compact dots + "n / 7" control with real buttons, and the section
- * is only as tall as its content. The tightened spacing is xl-only for the
- * same reason — it exists to fit the pinned panel into one screen, and applied
- * any wider it just left the section looking starved.
+ * The section is scroll-driven at every width — scrolling is what moves the
+ * workflow forward, and it never degrades into a slider you have to tap. What
+ * changes with the width is *what* gets pinned:
+ *
+ * - From `xl` (80rem) the whole composition pins, heading included, and the
+ *   two-column panel reads the active step off the scroll position.
+ * - Below `xl` there is not a screen's worth of room for the heading *and* a
+ *   stacked step, so the heading scrolls away first and only the step body
+ *   pins. The body then carries a phone-sized version of the same panel: no
+ *   "Step n of 7" pill (the progress rail under it already says so), compact
+ *   capability chips, and the supporting callout left to the wider layouts.
+ *
+ * Both regimes are declared in globals.css (`.how-pin-*`) and both are read
+ * back here through DESKTOP_PIN / MOBILE_PIN, which must stay in step with it.
  */
 
 // How much scrolling each step is given while the section is pinned.
 const VH_PER_STEP = 58;
+// The phone regime measures in `svh` — the viewport at its smallest, with the
+// browser bars showing — so the track never changes length as they slide away.
+const VH_PER_STEP_SM = 64;
 // The site header is `h-18`; the pinned panel starts just below it.
 const HEADER_OFFSET = "4.5rem";
 /*
- * The height the pinned composition is drawn at. When the window offers less,
+ * The height each pinned composition is drawn at. When the window offers less,
  * globals.css scales the whole thing down rather than clipping it — see the
- * `.how-pin-fit` rule there.
+ * `.how-pin-fit` / `.how-pin-body-fit` rules there.
  */
 const NATURAL_HEIGHT = "790px";
 /*
- * When the section is pinned and scroll-controlled. It must stay in step with
- * the `.how-pin-track` / `.how-pin-panel` rules in globals.css: on anything
- * narrower or shorter the section is a plain block, and reading the active
- * step off the page scroll would shuffle the panel as the visitor scrolls past.
+ * Below `xl` there are three of them, one per layout: the stacked panel on a
+ * phone, the same panel from `sm` up with the mockup painted large by its own
+ * zoom, and the two-column panel with the step rail from `lg`. Each is the
+ * tallest step of that layout, measured rather than guessed.
  */
-const PIN_QUERY = "(min-width: 80rem)";
+const NATURAL_HEIGHT_SM = "690px";
+const NATURAL_HEIGHT_MD = "840px";
+const NATURAL_HEIGHT_LG = "760px";
+/*
+ * The two pinned regimes. They must stay in step with the `.how-pin-*` rules
+ * in globals.css: each scroll handler only runs while its own layout is the
+ * one on screen, so the step never advances from a scroll position that is not
+ * driving it.
+ */
+const DESKTOP_PIN = "(min-width: 80rem)";
+const MOBILE_PIN = "(max-width: 79.9375rem)";
 
 /**
  * @param flow which verification story to tell — the homepage's landlord
@@ -60,6 +79,7 @@ const PIN_QUERY = "(min-width: 80rem)";
  */
 export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlowId }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const reduceMotion = useReducedMotion();
   const { eyebrow, title, subtitle, steps, cta } = verificationFlows[flow];
@@ -67,31 +87,45 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
   const stepCount = steps.length;
   const lastIndex = stepCount - 1;
 
+  // Two scroll ranges, because the two regimes pin different elements: the
+  // whole section on a desktop, and only the step body below `xl`.
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
     offset: ["start start", "end end"],
   });
+  const { scrollYProgress: trackProgress } = useScroll({
+    target: trackRef,
+    offset: ["start start", "end end"],
+  });
+
+  const stepFromProgress = useCallback(
+    (v: number) => Math.min(lastIndex, Math.max(0, Math.floor(v * stepCount))),
+    [lastIndex, stepCount],
+  );
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    // Only the pinned desktop layout is scroll-driven. On smaller screens the
-    // section is a normal block, so scrolling past it must not shuffle steps.
-    if (!window.matchMedia(PIN_QUERY).matches) return;
-    const idx = Math.min(lastIndex, Math.max(0, Math.floor(v * stepCount)));
-    setActive(idx);
+    if (!window.matchMedia(DESKTOP_PIN).matches) return;
+    setActive(stepFromProgress(v));
+  });
+
+  useMotionValueEvent(trackProgress, "change", (v) => {
+    if (!window.matchMedia(MOBILE_PIN).matches) return;
+    setActive(stepFromProgress(v));
   });
 
   /*
    * Jumping to a step has to move the page, not just the state: while the
    * section is pinned the scroll position *is* the active step, so setting
-   * state alone would be undone by the next scroll event.
+   * state alone would be undone by the next scroll event. Which element
+   * carries that scroll depends on the regime.
    */
   const goTo = useCallback(
     (index: number) => {
       const next = Math.min(lastIndex, Math.max(0, index));
       setActive(next);
 
-      const el = wrapperRef.current;
-      if (!el || !window.matchMedia(PIN_QUERY).matches) return;
+      const el = window.matchMedia(DESKTOP_PIN).matches ? wrapperRef.current : trackRef.current;
+      if (!el) return;
 
       const top = el.getBoundingClientRect().top + window.scrollY;
       const range = el.offsetHeight - window.innerHeight;
@@ -118,15 +152,19 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
       style={
         {
           "--how-it-works-scroll": `${steps.length * VH_PER_STEP}vh`,
+          "--how-it-works-scroll-sm": `${steps.length * VH_PER_STEP_SM}svh`,
           "--how-it-works-offset": HEADER_OFFSET,
           "--how-it-works-natural": NATURAL_HEIGHT,
+          "--how-it-works-natural-sm": NATURAL_HEIGHT_SM,
+          "--how-it-works-natural-md": NATURAL_HEIGHT_MD,
+          "--how-it-works-natural-lg": NATURAL_HEIGHT_LG,
         } as CSSProperties
       }
       aria-labelledby="how-it-works-title"
     >
       <div className="how-pin-panel py-20 sm:py-24">
         <Container className="how-pin-fit">
-          <Reveal className="text-center">
+          <Reveal className="how-pin-head text-center">
             <Eyebrow>{eyebrow}</Eyebrow>
             <h2
               id="how-it-works-title"
@@ -140,94 +178,113 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
           </Reveal>
 
           {/*
-            The one large active-step area.
-            Three blocks — headline copy, product visualisation, supporting
-            capabilities — placed into two columns on a desktop. On a phone
-            they simply flow in DOM order, which is the order the spec asks
-            for: heading, description, visualisation, then features and
-            callout.
+            Below `xl` this wrapper is the scroll track the pinned body reads;
+            from `xl` up it is a plain block inside the already-pinned panel.
           */}
-          <div className="mt-10 rounded-3xl border border-slate-200/70 bg-bg-muted p-6 sm:mt-12 sm:p-7 xl:mt-4 xl:p-4">
-            <div className="grid gap-6 lg:min-h-[340px] lg:grid-cols-[minmax(0,92fr)_minmax(0,100fr)] lg:grid-rows-[1fr_auto_auto_1fr] lg:items-center lg:gap-x-12 lg:gap-y-3">
-              <div className="lg:col-start-1 lg:row-start-2">
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={step.id}
-                    initial={enter}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={exit}
-                    transition={transition}
+          <div ref={trackRef} className="how-pin-scroll">
+            <div className="how-pin-body">
+              <div className="how-pin-body-fit">
+                {/*
+                  The one large active-step area.
+                  Three blocks — headline copy, product visualisation,
+                  supporting capabilities — placed into two columns on a
+                  desktop. On a phone they simply flow in DOM order, which is
+                  the order the spec asks for: heading, description,
+                  visualisation, then features.
+                */}
+                <div className="flex flex-1 flex-col justify-center rounded-3xl border border-slate-200/70 bg-bg-muted p-4 sm:p-6 xl:mt-4 xl:block xl:flex-none xl:p-4">
+                  <div className="grid gap-4 sm:gap-6 lg:min-h-[340px] lg:grid-cols-[minmax(0,92fr)_minmax(0,100fr)] lg:grid-rows-[1fr_auto_auto_1fr] lg:items-center lg:gap-x-12 lg:gap-y-3">
+                    <div className="lg:col-start-1 lg:row-start-2">
+                      <AnimatePresence mode="wait" initial={false}>
+                        <motion.div
+                          key={step.id}
+                          initial={enter}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={exit}
+                          transition={transition}
 
-                    className="ve-reveal"
-                  >
-                    <span className="inline-flex items-center rounded-full border border-teal-500/30 bg-white px-3.5 py-1.5 text-sm font-bold tracking-wide text-teal-600 uppercase">
-                      Step {step.number.replace(/^0/, "")} of {steps.length}
-                    </span>
-                    <p className="mt-4 text-base font-semibold tracking-wide text-teal-600 uppercase">
-                      {step.category}
-                    </p>
-                    <h3 className="font-display mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl lg:text-[2.25rem] lg:leading-[1.15]">
-                      {step.title}
-                    </h3>
-                    <p className="mt-3 min-h-[5rem] max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg lg:text-[1.2rem] lg:leading-[1.6]">
-                      {step.description}
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              <div className="flex min-h-[280px] items-center justify-center sm:min-h-[300px] lg:col-start-2 lg:row-span-4 lg:row-start-1">
-                <AnimatePresence mode="wait" initial={false}>
-                  {/* Visualisations crossfade with a touch of scale rather than
-                      the vertical move the copy uses — the spec asks for a
-                      crossfade here. */}
-                  <motion.div
-                    key={step.id}
-                    initial={reduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
-                    transition={transition}
-                    className="ve-reveal flex w-full justify-center"
-                  >
-                    <StepVisual id={step.id} />
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              <div className="lg:col-start-1 lg:row-start-3">
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={step.id}
-                    initial={enter}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={exit}
-                    transition={transition}
-
-                    className="ve-reveal"
-                  >
-                    <ul className="flex flex-wrap gap-x-6 gap-y-3">
-                      {step.features.map((feature) => (
-                        <li key={feature.label} className="flex items-center gap-2">
-                          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-mint-100 text-teal-600">
-                            <feature.icon className="size-4.5" strokeWidth={1.75} />
+                          className="ve-reveal"
+                        >
+                          {/* The pill only earns its height where the step
+                              number is not already spelled out under the
+                              panel — the phone rail below carries it. */}
+                          <span className="hidden items-center rounded-full border border-teal-500/30 bg-white px-3.5 py-1.5 text-sm font-bold tracking-wide text-teal-600 uppercase lg:inline-flex">
+                            Step {step.number.replace(/^0/, "")} of {steps.length}
                           </span>
-                          <span className="text-base font-semibold text-ink-900">{feature.label}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-4 flex items-start gap-3 rounded-2xl border border-mint-100 bg-bg-mint-50 px-4 py-3">
-                      <SparkMark />
-                      <p className="text-base leading-relaxed text-slate-600">{step.callout}</p>
+                          <p className="text-base font-semibold tracking-wide text-teal-600 uppercase lg:mt-4">
+                            {step.category}
+                          </p>
+                          <h3 className="font-display mt-1.5 text-2xl font-bold tracking-tight text-ink-900 sm:mt-2 sm:text-3xl lg:text-[2.25rem] lg:leading-[1.15]">
+                            {step.title}
+                          </h3>
+                          <p className="mt-2 max-w-xl text-base leading-relaxed text-slate-600 sm:mt-3 sm:text-lg lg:min-h-[5rem] lg:text-[1.2rem] lg:leading-[1.6]">
+                            {step.description}
+                          </p>
+                        </motion.div>
+                      </AnimatePresence>
                     </div>
-                  </motion.div>
-                </AnimatePresence>
+
+                    <div className="flex items-center justify-center sm:min-h-[300px] lg:col-start-2 lg:row-span-4 lg:row-start-1">
+                      <AnimatePresence mode="wait" initial={false}>
+                        {/* Visualisations crossfade with a touch of scale rather than
+                            the vertical move the copy uses — the spec asks for a
+                            crossfade here. */}
+                        <motion.div
+                          key={step.id}
+                          initial={reduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.98 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+                          transition={transition}
+                          className="ve-reveal flex w-full justify-center"
+                        >
+                          <StepVisual id={step.id} />
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
+
+                    <div className="lg:col-start-1 lg:row-start-3">
+                      <AnimatePresence mode="wait" initial={false}>
+                        <motion.div
+                          key={step.id}
+                          initial={enter}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={exit}
+                          transition={transition}
+
+                          className="ve-reveal"
+                        >
+                          {/* Chips on a phone, where they have to sit two to a
+                              row without reading as a list; the desktop row of
+                              large icon and label is unchanged. */}
+                          <ul className="flex flex-wrap gap-2 lg:gap-x-6 lg:gap-y-3">
+                            {step.features.map((feature) => (
+                              <li
+                                key={feature.label}
+                                className="flex items-center gap-2 rounded-full bg-white px-3 py-1 lg:rounded-none lg:bg-transparent lg:px-0 lg:py-0"
+                              >
+                                <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-mint-100 text-teal-600 lg:size-9">
+                                  <feature.icon className="size-4 lg:size-4.5" strokeWidth={1.75} />
+                                </span>
+                                <span className="text-base font-semibold text-ink-900">{feature.label}</span>
+                              </li>
+                            ))}
+                          </ul>
+
+                          <div className="mt-4 hidden items-start gap-3 rounded-2xl border border-mint-100 bg-bg-mint-50 px-4 py-3 lg:flex">
+                            <SparkMark />
+                            <p className="text-base leading-relaxed text-slate-600">{step.callout}</p>
+                          </div>
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </div>
+
+                <Timeline steps={steps} active={active} onSelect={goTo} />
+                <CompactProgress steps={steps} active={active} onSelect={goTo} />
               </div>
             </div>
           </div>
-
-          <Timeline steps={steps} active={active} onSelect={goTo} />
-          <CompactProgress steps={steps} active={active} onSelect={goTo} />
         </Container>
       </div>
     </section>
@@ -359,7 +416,15 @@ function Timeline({
   );
 }
 
-/** Phone and tablet progress: dots, a counter and real previous/next buttons. */
+/**
+ * Phone and tablet progress rail.
+ *
+ * Scrolling is what moves the workflow on here, exactly as it does on a
+ * desktop, so this reads as progress rather than as a control: a seven-segment
+ * rail that fills behind the step you are on, and the step number beside it.
+ * The segments stay tappable — someone who wants the last step should not have
+ * to scroll through six — but nothing here depends on being tapped.
+ */
 function CompactProgress({
   steps,
   active,
@@ -369,52 +434,32 @@ function CompactProgress({
   active: number;
   onSelect: (index: number) => void;
 }) {
-  const lastIndex = steps.length - 1;
   return (
-    <div className="mt-8 flex items-center justify-between gap-4 lg:hidden">
-      <button
-        type="button"
-        onClick={() => onSelect(active - 1)}
-        disabled={active === 0}
-        aria-label="Previous step"
-        className="flex size-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition-colors hover:border-teal-500 hover:text-teal-600 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-40 disabled:hover:border-slate-200 disabled:hover:text-slate-600"
-      >
-        <ChevronLeft className="size-5" strokeWidth={2} />
-      </button>
-
-      <div className="flex min-w-0 flex-1 flex-col items-center gap-2">
-        <div className="flex items-center gap-1.5">
-          {steps.map((step, i) => (
-            <button
-              key={step.id}
-              type="button"
-              onClick={() => onSelect(i)}
-              aria-label={`Step ${i + 1}: ${step.title}`}
-              aria-current={i === active ? "step" : undefined}
-              className="rounded-full p-1 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none"
-            >
-              <span
-                className={`block h-1.5 rounded-full transition-all duration-300 ${
-                  i === active ? "w-6 bg-teal-500" : i < active ? "w-1.5 bg-teal-500/40" : "w-1.5 bg-slate-200"
-                }`}
+    <div className="mt-4 flex items-center justify-center gap-3 lg:hidden">
+      <p className="text-base font-semibold whitespace-nowrap tabular-nums text-slate-500">
+        <span className="text-teal-600">{steps[active].number}</span> / {String(steps.length).padStart(2, "0")}
+      </p>
+      <div className="flex flex-1 items-center gap-1.5" role="group" aria-label="Verification workflow steps">
+        {steps.map((step, i) => (
+          <button
+            key={step.id}
+            type="button"
+            onClick={() => onSelect(i)}
+            aria-label={`Step ${i + 1}: ${step.title}`}
+            aria-current={i === active ? "step" : undefined}
+            className="min-w-0 flex-1 cursor-pointer py-2 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none"
+          >
+            <span className="block h-1 overflow-hidden rounded-full bg-slate-200">
+              <motion.span
+                className="block h-full rounded-full bg-teal-500"
+                initial={false}
+                animate={{ width: i <= active ? "100%" : "0%" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
               />
-            </button>
-          ))}
-        </div>
-        <p className="text-base font-semibold text-slate-500">
-          <span className="text-teal-600">{active + 1}</span> / {steps.length}
-        </p>
+            </span>
+          </button>
+        ))}
       </div>
-
-      <button
-        type="button"
-        onClick={() => onSelect(active + 1)}
-        disabled={active === lastIndex}
-        aria-label="Next step"
-        className="flex size-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition-colors hover:border-teal-500 hover:text-teal-600 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-40 disabled:hover:border-slate-200 disabled:hover:text-slate-600"
-      >
-        <ChevronRight className="size-5" strokeWidth={2} />
-      </button>
     </div>
   );
 }
