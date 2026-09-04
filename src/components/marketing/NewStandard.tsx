@@ -64,7 +64,7 @@ export function NewStandard() {
               />
             </div>
 
-            <div className="relative z-10 -mt-24 w-[78%] sm:-mt-28 sm:w-[62%] lg:-ml-6">
+            <div className="relative z-10 -mt-20 w-[92%] sm:-mt-28 sm:w-[62%] lg:-ml-6">
               <AiCallCard />
             </div>
 

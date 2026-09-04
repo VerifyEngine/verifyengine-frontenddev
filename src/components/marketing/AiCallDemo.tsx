@@ -113,11 +113,17 @@ export function AiCallDemo() {
                         }`}
                       >
                         <p className="text-sm leading-relaxed text-ink-900">{line.text}</p>
-                        {/* Each bubble carries its own audio scrubber in the design. */}
+                        {/*
+                          Each bubble carries its own audio scrubber in the
+                          design: where the clip is on the left, how long it
+                          runs on the right. Only the waveform between them may
+                          shrink, so the two times stay aligned to the bubble
+                          however narrow the screen gets.
+                        */}
                         <div className="mt-2.5 flex items-center gap-2.5">
-                          <span className="text-base text-slate-400">{line.time}</span>
+                          <span className="shrink-0 text-base tabular-nums text-slate-400">00:00</span>
                           <BubbleWave active={playing && i < revealed} />
-                          <span className="text-base text-slate-400">{line.time}</span>
+                          <span className="shrink-0 text-base tabular-nums text-slate-400">{line.time}</span>
                         </div>
                       </div>
                     </motion.div>
@@ -204,7 +210,7 @@ export function AiCallDemo() {
                   transition={{ duration: 0.5, ease: "easeOut" }}
                 />
               </div>
-              <span className="shrink-0 text-base text-slate-400">02:34 / 03:12</span>
+              <span className="shrink-0 text-base tabular-nums text-slate-400">02:34 / 03:12</span>
               <Volume2 className="size-4 shrink-0 text-slate-400" strokeWidth={1.75} />
             </div>
           </div>
@@ -218,7 +224,7 @@ export function AiCallDemo() {
 function BubbleWave({ active }: { active: boolean }) {
   const bars = [5, 9, 14, 8, 16, 11, 6, 13, 9, 15, 7, 11, 5, 9, 12, 6];
   return (
-    <div className="flex flex-1 items-center gap-0.5">
+    <div className="flex min-w-0 flex-1 items-center gap-0.5 overflow-hidden">
       {bars.map((h, i) => (
         <motion.span
           key={i}
