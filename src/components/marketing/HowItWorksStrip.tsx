@@ -57,7 +57,7 @@ const NATURAL_HEIGHT = "790px";
  * zoom, and the two-column panel with the step rail from `lg`. Each is the
  * tallest step of that layout, measured rather than guessed.
  */
-const NATURAL_HEIGHT_SM = "690px";
+const NATURAL_HEIGHT_SM = "705px";
 const NATURAL_HEIGHT_MD = "840px";
 const NATURAL_HEIGHT_LG = "760px";
 /*
@@ -192,8 +192,8 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
                   the order the spec asks for: heading, description,
                   visualisation, then features.
                 */}
-                <div className="flex flex-1 flex-col justify-center rounded-3xl border border-slate-200/70 bg-bg-muted p-4 sm:p-6 xl:mt-4 xl:block xl:flex-none xl:p-4">
-                  <div className="grid gap-4 sm:gap-6 lg:min-h-[340px] lg:grid-cols-[minmax(0,92fr)_minmax(0,100fr)] lg:grid-rows-[1fr_auto_auto_1fr] lg:items-center lg:gap-x-12 lg:gap-y-3">
+                <div className="flex flex-1 flex-col justify-center rounded-3xl border border-slate-200/70 bg-bg-muted p-3.5 sm:p-6 xl:mt-4 xl:block xl:flex-none xl:p-4">
+                  <div className="grid gap-3.5 sm:gap-6 lg:min-h-[340px] lg:grid-cols-[minmax(0,92fr)_minmax(0,100fr)] lg:grid-rows-[1fr_auto_auto_1fr] lg:items-center lg:gap-x-12 lg:gap-y-3">
                     <div className="lg:col-start-1 lg:row-start-2">
                       <AnimatePresence mode="wait" initial={false}>
                         <motion.div
@@ -205,13 +205,17 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
 
                           className="ve-reveal"
                         >
-                          {/* The pill only earns its height where the step
-                              number is not already spelled out under the
-                              panel — the phone rail below carries it. */}
+                          {/* The full pill costs a line of its own, which a
+                              phone panel does not have. There the number rides
+                              on the category line instead, drawn as the node
+                              the desktop rail uses for the step it is on. */}
                           <span className="hidden items-center rounded-full border border-teal-500/30 bg-white px-3.5 py-1.5 text-sm font-bold tracking-wide text-teal-600 uppercase lg:inline-flex">
                             Step {step.number.replace(/^0/, "")} of {steps.length}
                           </span>
-                          <p className="text-base font-semibold tracking-wide text-teal-600 uppercase lg:mt-4">
+                          <p className="flex items-center gap-2.5 text-base font-semibold tracking-wide text-teal-600 uppercase lg:mt-4">
+                            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-teal-500 text-sm font-bold text-white lg:hidden">
+                              {step.number}
+                            </span>
                             {step.category}
                           </p>
                           <h3 className="font-display mt-1.5 text-2xl font-bold tracking-tight text-ink-900 sm:mt-2 sm:text-3xl lg:text-[2.25rem] lg:leading-[1.15]">
@@ -260,7 +264,7 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
                             {step.features.map((feature) => (
                               <li
                                 key={feature.label}
-                                className="flex items-center gap-2 rounded-full bg-white px-3 py-1 lg:rounded-none lg:bg-transparent lg:px-0 lg:py-0"
+                                className="flex items-center gap-2 rounded-full bg-white px-3 py-0.5 lg:rounded-none lg:bg-transparent lg:px-0 lg:py-0"
                               >
                                 <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-mint-100 text-teal-600 lg:size-9">
                                   <feature.icon className="size-4 lg:size-4.5" strokeWidth={1.75} />

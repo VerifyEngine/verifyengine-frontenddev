@@ -293,7 +293,7 @@ function AiCallsLandlordVisual() {
  */
 function PhoneFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="relative mx-auto w-[152px] shrink-0 self-stretch sm:mx-0 sm:w-[132px]">
+    <div className="relative mx-auto min-h-[230px] w-[122px] shrink-0 self-stretch sm:mx-0 sm:min-h-0 sm:w-[132px]">
       {/* Side buttons. Decorative, and small enough to read as hardware rather
           than as controls a visitor might try to press. */}
       <span
