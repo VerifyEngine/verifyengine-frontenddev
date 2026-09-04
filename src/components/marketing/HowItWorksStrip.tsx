@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, FileSearch } from "lucide-react";
-import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
+import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import Link from "next/link";
 import { useCallback, useRef, useState, type CSSProperties } from "react";
 import { Container, ArrowRight } from "@/components/ui/Button";
@@ -45,6 +45,7 @@ const VH_PER_STEP = 58;
 const VH_PER_STEP_SM = 64;
 // The site header is `h-18`; the pinned panel starts just below it.
 const HEADER_OFFSET = "4.5rem";
+const HEADER_OFFSET_PX = 72;
 /*
  * The height each pinned composition is drawn at. When the window offers less,
  * globals.css scales the whole thing down rather than clipping it — see the
@@ -80,6 +81,7 @@ const MOBILE_PIN = "(max-width: 79.9375rem)";
 export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlowId }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const reduceMotion = useReducedMotion();
   const { eyebrow, title, subtitle, steps, cta } = verificationFlows[flow];
@@ -87,30 +89,48 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
   const stepCount = steps.length;
   const lastIndex = stepCount - 1;
 
-  // Two scroll ranges, because the two regimes pin different elements: the
-  // whole section on a desktop, and only the step body below `xl`.
+  // The whole section is what pins on a desktop, so its own scroll range is
+  // the step position there.
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
     offset: ["start start", "end end"],
   });
-  const { scrollYProgress: trackProgress } = useScroll({
-    target: trackRef,
-    offset: ["start start", "end end"],
-  });
+  const { scrollY } = useScroll();
 
   const stepFromProgress = useCallback(
     (v: number) => Math.min(lastIndex, Math.max(0, Math.floor(v * stepCount))),
     [lastIndex, stepCount],
   );
 
+  /*
+   * How far through the phone track the pinned body is, measured against the
+   * body's own height rather than the window's.
+   *
+   * The two are the same on a desktop, but not on a phone: the panel is sized
+   * in `svh`, so it keeps its height when the browser bars slide away, while
+   * `innerHeight` grows by around 80px. Measuring against the window would
+   * shrink the range under the visitor mid-scroll and shunt the workflow
+   * forward a step for no reason.
+   */
+  const trackProgress = useCallback(() => {
+    const track = trackRef.current;
+    const body = bodyRef.current;
+    if (!track || !body) return null;
+    const range = track.offsetHeight - body.offsetHeight;
+    if (range <= 0) return null;
+    return (HEADER_OFFSET_PX - track.getBoundingClientRect().top) / range;
+  }, []);
+
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     if (!window.matchMedia(DESKTOP_PIN).matches) return;
     setActive(stepFromProgress(v));
   });
 
-  useMotionValueEvent(trackProgress, "change", (v) => {
+  useMotionValueEvent(scrollY, "change", () => {
     if (!window.matchMedia(MOBILE_PIN).matches) return;
-    setActive(stepFromProgress(v));
+    const v = trackProgress();
+    if (v === null) return;
+    setActive(stepFromProgress(Math.min(1, Math.max(0, v))));
   });
 
   /*
@@ -124,14 +144,31 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
       const next = Math.min(lastIndex, Math.max(0, index));
       setActive(next);
 
-      const el = window.matchMedia(DESKTOP_PIN).matches ? wrapperRef.current : trackRef.current;
-      if (!el) return;
-
-      const top = el.getBoundingClientRect().top + window.scrollY;
-      const range = el.offsetHeight - window.innerHeight;
       const progress = (next + 0.5) / stepCount;
+
+      if (window.matchMedia(DESKTOP_PIN).matches) {
+        const el = wrapperRef.current;
+        if (!el) return;
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        const range = el.offsetHeight - window.innerHeight;
+        window.scrollTo({
+          top: top + range * progress,
+          behavior: reduceMotion ? "auto" : "smooth",
+        });
+        return;
+      }
+
+      // The phone track, measured the same way the scroll handler reads it.
+      const track = trackRef.current;
+      const body = bodyRef.current;
+      if (!track || !body) return;
+      const range = track.offsetHeight - body.offsetHeight;
       window.scrollTo({
-        top: top + range * progress,
+        top:
+          window.scrollY +
+          track.getBoundingClientRect().top -
+          HEADER_OFFSET_PX +
+          range * progress,
         behavior: reduceMotion ? "auto" : "smooth",
       });
     },
@@ -142,7 +179,6 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
     ? { duration: 0 }
     : { duration: 0.3, ease: [0.22, 1, 0.36, 1] as const };
   const enter = reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 };
-  const exit = reduceMotion ? { opacity: 0, y: 0 } : { opacity: 0, y: -14 };
 
   return (
     <>
@@ -182,7 +218,7 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
             from `xl` up it is a plain block inside the already-pinned panel.
           */}
           <div ref={trackRef} className="how-pin-scroll">
-            <div className="how-pin-body">
+            <div ref={bodyRef} className="how-pin-body">
               <div className="how-pin-body-fit">
                 {/*
                   The one large active-step area.
@@ -195,16 +231,20 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
                 <div className="flex flex-1 flex-col justify-center rounded-3xl border border-slate-200/70 bg-bg-muted p-3.5 sm:p-6 xl:mt-4 xl:block xl:flex-none xl:p-4">
                   <div className="grid gap-3.5 sm:gap-6 lg:min-h-[340px] lg:grid-cols-[minmax(0,92fr)_minmax(0,100fr)] lg:grid-rows-[1fr_auto_auto_1fr] lg:items-center lg:gap-x-12 lg:gap-y-3">
                     <div className="lg:col-start-1 lg:row-start-2">
-                      <AnimatePresence mode="wait" initial={false}>
-                        <motion.div
-                          key={step.id}
-                          initial={enter}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={exit}
-                          transition={transition}
-
-                          className="ve-reveal"
-                        >
+                      {/*
+                        Keyed, and animated on the way in only. An exit
+                        animation would have to finish before the next step
+                        could be mounted, and scrolling crosses steps faster
+                        than that: a stroke that passed two boundaries showed
+                        01 then 03, with the step between them never drawn.
+                      */}
+                      <motion.div
+                        key={step.id}
+                        initial={enter}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={transition}
+                        className="ve-reveal"
+                      >
                           {/* The full pill costs a line of its own, which a
                               phone panel does not have. There the number rides
                               on the category line instead, drawn as the node
@@ -224,39 +264,31 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
                           <p className="mt-2 max-w-xl text-base leading-relaxed text-slate-600 sm:mt-3 sm:text-lg lg:min-h-[5rem] lg:text-[1.2rem] lg:leading-[1.6]">
                             {step.description}
                           </p>
-                        </motion.div>
-                      </AnimatePresence>
+                      </motion.div>
                     </div>
 
                     <div className="flex items-center justify-center sm:min-h-[300px] lg:col-start-2 lg:row-span-4 lg:row-start-1">
-                      <AnimatePresence mode="wait" initial={false}>
-                        {/* Visualisations crossfade with a touch of scale rather than
-                            the vertical move the copy uses — the spec asks for a
-                            crossfade here. */}
-                        <motion.div
-                          key={step.id}
-                          initial={reduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.98 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
-                          transition={transition}
-                          className="ve-reveal flex w-full justify-center"
-                        >
-                          <StepVisual id={step.id} />
-                        </motion.div>
-                      </AnimatePresence>
+                      {/* Visualisations come in with a touch of scale rather
+                          than the vertical move the copy uses. */}
+                      <motion.div
+                        key={step.id}
+                        initial={reduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={transition}
+                        className="ve-reveal flex w-full justify-center"
+                      >
+                        <StepVisual id={step.id} />
+                      </motion.div>
                     </div>
 
                     <div className="lg:col-start-1 lg:row-start-3">
-                      <AnimatePresence mode="wait" initial={false}>
-                        <motion.div
-                          key={step.id}
-                          initial={enter}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={exit}
-                          transition={transition}
-
-                          className="ve-reveal"
-                        >
+                      <motion.div
+                        key={step.id}
+                        initial={enter}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={transition}
+                        className="ve-reveal"
+                      >
                           {/* Chips on a phone, where they have to sit two to a
                               row without reading as a list; the desktop row of
                               large icon and label is unchanged. */}
@@ -278,8 +310,7 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
                             <SparkMark />
                             <p className="text-base leading-relaxed text-slate-600">{step.callout}</p>
                           </div>
-                        </motion.div>
-                      </AnimatePresence>
+                      </motion.div>
                     </div>
                   </div>
                 </div>
