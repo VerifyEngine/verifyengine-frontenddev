@@ -75,7 +75,7 @@ function Region({
         engaged
           ? "ring-2 ring-app-line-brand2 ring-offset-2 ring-offset-[var(--ve-canvas)]"
           : ""
-      } ${dimmed ? "opacity-40" : "opacity-100"} ${className}`}
+      } ${dimmed ? "opacity-60 lg:opacity-40" : "opacity-100"} ${className}`}
     >
       {children}
     </div>
@@ -83,9 +83,16 @@ function Region({
 }
 
 /** Everything the active card does not claim simply steps back. */
+/*
+ * How far back the rest of the dashboard sits while one region is engaged.
+ *
+ * Gentler below `lg`: there the highlight is not a passing hover state but how
+ * the pinned section reads for as long as the visitor is in it, and at 40% the
+ * product stops looking like a product that is switched on.
+ */
 function faded(active: PlatformTarget | null) {
   return `transition-opacity duration-200 motion-reduce:transition-none ${
-    active ? "opacity-40" : "opacity-100"
+    active ? "opacity-60 lg:opacity-40" : "opacity-100"
   }`;
 }
 
@@ -205,10 +212,20 @@ export function PlatformVisual({
               would put it — last, under the content. Without it the mockup stops
               reading as software at all and becomes stacked marketing cards.
               MockShell stretches its last child to fill the frame, and a
-              stretched nav bar is not a nav bar, hence flex-none!. */}
-          <div className="flex-none! sm:hidden">
+              stretched nav bar is not a nav bar, hence flex-none!.
+
+              It answers to the same capability the rail does, so that below
+              `sm` — where the rail has stepped out — Workflow Automation still
+              has something of its own to light up. The connector only ever
+              measures the rail: it is drawn from `lg` up, where this is
+              hidden, and querySelector takes the first match either way. */}
+          <Region
+            target="rail"
+            active={active}
+            className="flex-none! rounded-app-xl sm:hidden"
+          >
             <MockTabBar icons={railIcons} />
-          </div>
+          </Region>
         </MockShell>
       </div>
     </div>

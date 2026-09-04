@@ -1,8 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { PinRail } from "@/components/ui/PinRail";
 import { PlatformVisual } from "@/components/marketing/PlatformVisual";
+import { usePinnedScroll } from "@/lib/usePinnedScroll";
 import {
   platformFeaturesLeft,
   platformFeaturesRight,
@@ -19,29 +22,61 @@ import {
  * to it. That link is what carries the section's actual argument — six
  * capabilities running inside one platform, rather than six features listed.
  *
- * It is deliberately an *extra layer*, never the only way to understand the
- * section: every card already states what it does, and with nothing engaged the
- * dashboard sits at full strength. That matters because hover does not exist on
- * touch, so below `lg` — where the cards stack under the product rather than
- * beside it — the whole interaction is simply switched off and the section
- * reads as plain content.
- *
- * Nothing animates on its own. There is no autoplay and no loop; the only
- * motion is the 200ms fade of a state the visitor asked for, and even that is
- * dropped under `prefers-reduced-motion`.
+ * Below `lg` there is no room to put six cards around the product, and no
+ * hover to engage one with, so the section is pinned instead: the dashboard is
+ * held on screen and the page scroll walks through the capabilities one at a
+ * time, each lighting its own region of the product above it. It is the same
+ * argument the desktop layout makes, made by scrolling — the shared machinery
+ * is `usePinnedScroll` and the `pin-*` utilities in globals.css.
  */
 
 // Where each card sits in the three-column desktop grid. The visual holds the
 // middle column across all three rows.
 const rows = ["lg:row-start-1", "lg:row-start-2", "lg:row-start-3"];
 
+/*
+ * The reading order below `lg`, which is also the order the pinned panel walks
+ * through: the left column top to bottom, then the right.
+ */
+const features = [...platformFeaturesLeft, ...platformFeaturesRight];
+
+/** The pinned regime, and how much scrolling each capability is given in it. */
+const PIN_QUERY = "(max-width: 63.9375rem)";
+const VH_PER_FEATURE = 56;
+const HEADER_OFFSET = "4.5rem";
+const HEADER_OFFSET_PX = 72;
+
 type Point = { x: number; y: number };
 
 export function PlatformShowcase() {
-  const [active, setActive] = useState<PlatformTarget | null>(null);
+  const [hovered, setHovered] = useState<PlatformTarget | null>(null);
   const [line, setLine] = useState<{ from: Point; to: Point } | null>(null);
+  const [pinned, setPinned] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   const frameRef = useRef<HTMLDivElement>(null);
+
+  const { trackRef, bodyRef, active: index, setActive, scrollToIndex } = usePinnedScroll({
+    count: features.length,
+    query: PIN_QUERY,
+    offset: HEADER_OFFSET_PX,
+  });
+
+  /*
+   * Which layout is on screen decides what engages the dashboard: the scroll
+   * position while pinned, the pointer otherwise. Read after mount, so the
+   * server and the first client render agree on the unengaged dashboard.
+   */
+  useEffect(() => {
+    const query = window.matchMedia(PIN_QUERY);
+    const sync = () => setPinned(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+
+  const feature = features[index];
+  const active = pinned ? feature.target : hovered;
 
   /*
    * The connector is measured rather than positioned in CSS: the card and its
@@ -98,7 +133,7 @@ export function PlatformShowcase() {
    */
   const engage = useCallback(
     (target: PlatformTarget | null) => {
-      setActive(target);
+      setHovered(target);
       measure(target);
     },
     [measure],
@@ -106,7 +141,7 @@ export function PlatformShowcase() {
 
   useEffect(() => {
     const frame = frameRef.current;
-    if (!active || !frame) return;
+    if (pinned || !active || !frame) return;
     // The grid reflows with the window and the mockup rescales with it, so both
     // ends move; re-measure rather than freeze the line where it started.
     const remeasure = () => measure(active);
@@ -117,35 +152,101 @@ export function PlatformShowcase() {
       observer.disconnect();
       window.removeEventListener("scroll", remeasure);
     };
-  }, [active, measure]);
+  }, [active, measure, pinned]);
 
   return (
     <div ref={frameRef} className="relative">
       <Connector line={line} />
 
-      <RevealGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-[minmax(0,7fr)_minmax(0,12fr)_minmax(0,7fr)] lg:grid-rows-3 lg:items-stretch lg:gap-x-8 lg:gap-y-6 xl:gap-x-12">
-        <RevealItem className="sm:col-span-2 lg:col-span-1 lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:self-center">
-          <PlatformVisual active={active} />
-        </RevealItem>
+      <div
+        ref={trackRef}
+        className="max-lg:pin-scroll"
+        style={
+          {
+            "--pin-scroll-height": `${features.length * VH_PER_FEATURE}svh`,
+            "--pin-offset": HEADER_OFFSET,
+          } as CSSProperties
+        }
+      >
+        <div ref={bodyRef} className="max-lg:pin-body">
+          {/*
+            The frame's height, per layout. The narrowest phones are their own
+            band: the capability copy under the product wraps to two more lines
+            at 360px than it does at 430px, and that is the tallest this panel
+            ever gets.
+          */}
+          <div className="max-lg:pin-body-fit [--pin-natural:725px] min-[26rem]:[--pin-natural:690px]">
+            <RevealGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-[minmax(0,7fr)_minmax(0,12fr)_minmax(0,7fr)] lg:grid-rows-3 lg:items-stretch lg:gap-x-8 lg:gap-y-6 xl:gap-x-12">
+              <RevealItem className="sm:col-span-2 lg:col-span-1 lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:self-center">
+                <PlatformVisual active={active} />
+              </RevealItem>
 
-        {platformFeaturesLeft.map((feature, i) => (
-          <RevealItem
-            key={feature.title}
-            className={`lg:col-start-1 ${rows[i]}`}
-          >
-            <FeatureCard feature={feature} active={active} onEngage={engage} />
-          </RevealItem>
-        ))}
+              {/* The six cards are the desktop composition. While the section
+                  is pinned the panel shows the one the scroll is on instead,
+                  under the product rather than beside it. */}
+              {platformFeaturesLeft.map((feature, i) => (
+                <RevealItem
+                  key={feature.title}
+                  className={`max-lg:hidden lg:col-start-1 ${rows[i]}`}
+                >
+                  <FeatureCard feature={feature} active={active} onEngage={engage} />
+                </RevealItem>
+              ))}
 
-        {platformFeaturesRight.map((feature, i) => (
-          <RevealItem
-            key={feature.title}
-            className={`lg:col-start-3 ${rows[i]}`}
-          >
-            <FeatureCard feature={feature} active={active} onEngage={engage} />
-          </RevealItem>
-        ))}
-      </RevealGroup>
+              {platformFeaturesRight.map((feature, i) => (
+                <RevealItem
+                  key={feature.title}
+                  className={`max-lg:hidden lg:col-start-3 ${rows[i]}`}
+                >
+                  <FeatureCard feature={feature} active={active} onEngage={engage} />
+                </RevealItem>
+              ))}
+            </RevealGroup>
+
+            <div className="mt-3.5 lg:hidden">
+              {/*
+                Keyed, and animated on the way in only: an exit animation would
+                have to finish before the next capability could mount, and a
+                single scroll stroke can cross two of them.
+              */}
+              <motion.div
+                key={feature.target}
+                initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { duration: 0.3, ease: [0.22, 1, 0.36, 1] }
+                }
+                className="flex items-start gap-3.5 rounded-2xl border border-teal-500/40 bg-white p-3.5 shadow-card"
+              >
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-teal-500 text-white">
+                  <feature.icon className="size-5.5" strokeWidth={1.75} />
+                </span>
+                <div className="min-w-0">
+                  <h3 className="text-lg leading-snug font-bold text-ink-900">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-1 text-base leading-normal text-slate-600">
+                    {feature.description}
+                  </p>
+                </div>
+              </motion.div>
+
+              <PinRail
+                labels={features.map((f) => f.title)}
+                active={index}
+                onSelect={(i) => {
+                  setActive(i);
+                  scrollToIndex(i);
+                }}
+                groupLabel="Platform capabilities"
+                className="mt-3"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
