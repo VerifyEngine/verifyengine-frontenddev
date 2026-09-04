@@ -120,13 +120,16 @@ export function GlossaryBrowser() {
                           type="button"
                           onClick={() => setOpen(isOpen ? null : entry.term)}
                           aria-expanded={isOpen}
-                          className="flex w-full cursor-pointer items-start gap-4 px-5 py-5 text-left"
+                          className="flex w-full cursor-pointer items-start gap-5 px-5 py-6 text-left sm:px-6"
                         >
-                          <span className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-lg bg-mint-100 text-teal-600">
-                            <entry.icon className="size-5" strokeWidth={1.75} />
+                          {/* The design draws these as large outline marks
+                              rather than small icons in a tile — it is what
+                              gives the list its rhythm at a glance. */}
+                          <span className="flex size-10 shrink-0 items-center justify-center text-teal-600">
+                            <entry.icon className="size-9" strokeWidth={1.4} />
                           </span>
                           <span className="min-w-0 flex-1">
-                            <span className="block text-base font-bold text-ink-900">
+                            <span className="block text-lg font-bold text-ink-900">
                               {entry.term}
                             </span>
                             <span className="mt-1 block text-base leading-relaxed text-slate-600">
@@ -151,7 +154,7 @@ export function GlossaryBrowser() {
                               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                               className="overflow-hidden"
                             >
-                              <p className="px-5 pb-5 pl-19 text-base leading-relaxed text-slate-600">
+                              <p className="px-5 pb-6 pl-20 text-base leading-relaxed text-slate-600 sm:px-6 sm:pl-21">
                                 {entry.detail}
                               </p>
                             </motion.div>

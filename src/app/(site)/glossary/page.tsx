@@ -36,7 +36,7 @@ export default function GlossaryPage() {
               </p>
             </Reveal>
 
-            <Reveal delay={0.12} className="hidden lg:block">
+            <Reveal delay={0.12}>
               <div className="ml-auto flex max-w-lg items-center gap-6 rounded-2xl border border-white/10 bg-white/[0.04] p-8">
                 <BookOpen className="size-24 shrink-0 text-mint-200" strokeWidth={1} />
                 <div>
@@ -56,7 +56,11 @@ export default function GlossaryPage() {
 
       <section className="bg-white pb-20 sm:pb-24">
         <Container>
-          <Reveal>
+          {/* Same two-column grid the browser above uses, so the band starts on
+              the terms column's edge instead of floating across the page. */}
+          <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] lg:gap-12">
+            <div className="hidden lg:block" />
+            <Reveal>
             <div className="flex flex-col items-center gap-6 rounded-2xl bg-bg-mint-50 px-6 py-8 text-center sm:flex-row sm:justify-between sm:px-10 sm:text-left">
               <div className="flex items-center gap-4">
                 <span className="hidden size-14 shrink-0 items-center justify-center rounded-full bg-white text-teal-600 sm:flex">
@@ -73,7 +77,8 @@ export default function GlossaryPage() {
                 Book a Demo <ArrowRight />
               </Button>
             </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </Container>
       </section>
     </>
