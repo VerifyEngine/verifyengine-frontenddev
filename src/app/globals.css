@@ -221,32 +221,7 @@ h3 {
 }
 
 /*
- * How It Works on a phone or a tablet — the same scroll-driven section, pinned
- * one layer further in.
- *
- * A phone has nowhere near a screen's worth of room for the heading *and* a
- * stacked step panel, and shrinking the composition until both fit is exactly
- * the trade this section is not allowed to make. So the heading is left in the
- * flow — the visitor reads it and scrolls past it — and only the step body
- * pins, for the length of `--how-it-works-scroll-sm`. That is the whole screen
- * the workflow then plays out in, one step per stroke of scroll, with nothing
- * to tap.
- *
- * `svh` and not `dvh` throughout: the panel is sized to the viewport at its
- * smallest, with the browser bars showing, so nothing resizes under the
- * visitor's thumb as those bars slide away mid-scroll.
- *
- * `.how-pin-body-fit` is the same safety net `.how-pin-fit` is on a desktop:
- * on a phone tall enough for the composition it does nothing, and on a short
- * one it paints the whole thing proportionally smaller rather than clipping the
- * bottom off it. The composition is built to `--how-it-works-natural-sm`, so a
- * current phone sees it at full size.
- *
- * The matching media query lives in HowItWorksStrip.tsx (MOBILE_PIN) — the
- * scroll handler must agree with this rule about which layout is on screen.
- */
-/*
- * The step mockups inside that pinned body.
+ * The step mockups inside the pinned How It Works panel.
  *
  * `MockShell` reserves a fixed height so switching between mockups never
  * resizes the panel around them. On a phone that floor is 300px of reserved
@@ -260,58 +235,57 @@ h3 {
   }
 }
 
-@media (max-width: 79.9375rem) {
-  .how-pin-scroll {
-    height: var(--how-it-works-scroll-sm);
-    margin-top: 2.5rem;
-  }
-
-  .how-pin-body {
-    position: sticky;
-    top: var(--how-it-works-offset);
-    display: flex;
-    height: calc(100svh - var(--how-it-works-offset));
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  /*
-   * Which natural height the fit is measured against depends on the layout on
-   * screen, and there are three of them below `xl`: the stacked phone panel,
-   * the same panel from `sm` up — where the mockup is painted large by its own
-   * `mock-fit` zoom — and the two-column panel with the seven-step rail that
-   * takes over at `lg`. One denominator for all three would either overflow
-   * the tallest or paint the phone far smaller than it needs to be.
-   */
-  .how-pin-body-fit {
-    --how-it-works-natural-pin: var(--how-it-works-natural-sm);
-    display: flex;
-    width: 100%;
-    height: var(--how-it-works-natural-pin);
-    flex-direction: column;
-    zoom: min(
-      1,
-      tan(
-        atan2(
-          calc(100svh - var(--how-it-works-offset) - 1rem),
-          var(--how-it-works-natural-pin)
-        )
-      )
-    );
-  }
+/*
+ * A section pinned to the screen while its own scroll drives what it shows.
+ *
+ * Three parts, and a component opts each one in at the width where its own
+ * desktop layout stops fitting — `max-xl:pin-scroll`, `max-lg:pin-body` and so
+ * on — so one mechanism serves sections whose breakpoints differ.
+ *
+ *   pin-scroll     the track: how much scrolling the section is given.
+ *   pin-body       the screen it plays out in, stuck under the site header.
+ *   pin-body-fit   a frame of exactly --pin-natural, painted to fill that
+ *                  screen. Everything inside is laid out once, at one size,
+ *                  so moving between states never resizes the panel; when the
+ *                  window is shorter than the frame, `zoom` paints the whole
+ *                  composition proportionally smaller rather than clipping the
+ *                  bottom off it. Set --pin-natural to the tallest state the
+ *                  layout produces — measured, not guessed — per breakpoint.
+ *
+ * `svh` and not `dvh` throughout: the panel is sized to the viewport at its
+ * smallest, with the browser bars showing, so nothing resizes under the
+ * visitor's thumb as those bars slide away mid-scroll. Scroll handlers must
+ * measure against the body's own height for the same reason — see the phone
+ * track in HowItWorksStrip.tsx.
+ *
+ * `tan(atan2(a, b))` is how CSS turns two lengths into the plain ratio `zoom`
+ * needs — the same trick `mock-fit` above uses.
+ */
+@utility pin-scroll {
+  height: var(--pin-scroll-height);
 }
 
-@media (min-width: 40rem) and (max-width: 63.9375rem) {
-  .how-pin-body-fit {
-    --how-it-works-natural-pin: var(--how-it-works-natural-md);
-  }
+@utility pin-body {
+  position: sticky;
+  top: var(--pin-offset);
+  display: flex;
+  height: calc(100svh - var(--pin-offset));
+  flex-direction: column;
+  justify-content: center;
 }
 
-@media (min-width: 64rem) and (max-width: 79.9375rem) {
-  .how-pin-body-fit {
-    --how-it-works-natural-pin: var(--how-it-works-natural-lg);
-  }
+@utility pin-body-fit {
+  display: flex;
+  width: 100%;
+  height: var(--pin-natural);
+  flex-direction: column;
+  justify-content: center;
+  zoom: min(
+    1,
+    tan(atan2(calc(100svh - var(--pin-offset) - 1rem), var(--pin-natural)))
+  );
 }
+
 
 /*
  * The platform section's connector line.

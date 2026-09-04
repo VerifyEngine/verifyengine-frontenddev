@@ -3,10 +3,12 @@
 import { Check, FileSearch } from "lucide-react";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import Link from "next/link";
-import { useCallback, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useRef, type CSSProperties } from "react";
 import { Container, ArrowRight } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
+import { PinRail } from "@/components/ui/PinRail";
+import { usePinnedScroll } from "@/lib/usePinnedScroll";
 import { StepVisual } from "@/components/marketing/VerificationStepVisuals";
 import {
   verificationFlows,
@@ -49,18 +51,18 @@ const HEADER_OFFSET_PX = 72;
 /*
  * The height each pinned composition is drawn at. When the window offers less,
  * globals.css scales the whole thing down rather than clipping it — see the
- * `.how-pin-fit` / `.how-pin-body-fit` rules there.
+ * `.how-pin-fit` rule and the `pin-body-fit` utility there.
  */
 const NATURAL_HEIGHT = "790px";
 /*
- * Below `xl` there are three of them, one per layout: the stacked panel on a
- * phone, the same panel from `sm` up with the mockup painted large by its own
- * zoom, and the two-column panel with the step rail from `lg`. Each is the
- * tallest step of that layout, measured rather than guessed.
+ * The pinned frame below `xl` has three of them, one per layout: the stacked
+ * panel on a phone, the same panel from `sm` up with the mockup painted large
+ * by its own zoom, and the two-column panel with the step rail from `lg`. Each
+ * is the tallest step that layout produces, measured rather than guessed, and
+ * declared on the frame itself — see the `pin-*` utilities in globals.css.
  */
-const NATURAL_HEIGHT_SM = "705px";
-const NATURAL_HEIGHT_MD = "840px";
-const NATURAL_HEIGHT_LG = "760px";
+const PIN_NATURAL =
+  "[--pin-natural:705px] sm:[--pin-natural:840px] lg:[--pin-natural:760px]";
 /*
  * The two pinned regimes. They must stay in step with the `.how-pin-*` rules
  * in globals.css: each scroll handler only runs while its own layout is the
@@ -80,57 +82,29 @@ const MOBILE_PIN = "(max-width: 79.9375rem)";
  */
 export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlowId }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const bodyRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
   const reduceMotion = useReducedMotion();
   const { eyebrow, title, subtitle, steps, cta } = verificationFlows[flow];
-  const step = steps[active];
   const stepCount = steps.length;
   const lastIndex = stepCount - 1;
 
-  // The whole section is what pins on a desktop, so its own scroll range is
-  // the step position there.
+  // Below `xl` the step body is what pins, and the shared hook drives it.
+  const { trackRef, bodyRef, active, setActive, scrollToIndex } = usePinnedScroll({
+    count: stepCount,
+    query: MOBILE_PIN,
+    offset: HEADER_OFFSET_PX,
+  });
+  const step = steps[active];
+
+  // On a desktop the whole section pins, so its own scroll range is the step
+  // position there.
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
     offset: ["start start", "end end"],
   });
-  const { scrollY } = useScroll();
-
-  const stepFromProgress = useCallback(
-    (v: number) => Math.min(lastIndex, Math.max(0, Math.floor(v * stepCount))),
-    [lastIndex, stepCount],
-  );
-
-  /*
-   * How far through the phone track the pinned body is, measured against the
-   * body's own height rather than the window's.
-   *
-   * The two are the same on a desktop, but not on a phone: the panel is sized
-   * in `svh`, so it keeps its height when the browser bars slide away, while
-   * `innerHeight` grows by around 80px. Measuring against the window would
-   * shrink the range under the visitor mid-scroll and shunt the workflow
-   * forward a step for no reason.
-   */
-  const trackProgress = useCallback(() => {
-    const track = trackRef.current;
-    const body = bodyRef.current;
-    if (!track || !body) return null;
-    const range = track.offsetHeight - body.offsetHeight;
-    if (range <= 0) return null;
-    return (HEADER_OFFSET_PX - track.getBoundingClientRect().top) / range;
-  }, []);
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     if (!window.matchMedia(DESKTOP_PIN).matches) return;
-    setActive(stepFromProgress(v));
-  });
-
-  useMotionValueEvent(scrollY, "change", () => {
-    if (!window.matchMedia(MOBILE_PIN).matches) return;
-    const v = trackProgress();
-    if (v === null) return;
-    setActive(stepFromProgress(Math.min(1, Math.max(0, v))));
+    setActive(Math.min(lastIndex, Math.max(0, Math.floor(v * stepCount))));
   });
 
   /*
@@ -144,35 +118,21 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
       const next = Math.min(lastIndex, Math.max(0, index));
       setActive(next);
 
-      const progress = (next + 0.5) / stepCount;
-
-      if (window.matchMedia(DESKTOP_PIN).matches) {
-        const el = wrapperRef.current;
-        if (!el) return;
-        const top = el.getBoundingClientRect().top + window.scrollY;
-        const range = el.offsetHeight - window.innerHeight;
-        window.scrollTo({
-          top: top + range * progress,
-          behavior: reduceMotion ? "auto" : "smooth",
-        });
+      if (!window.matchMedia(DESKTOP_PIN).matches) {
+        scrollToIndex(next);
         return;
       }
 
-      // The phone track, measured the same way the scroll handler reads it.
-      const track = trackRef.current;
-      const body = bodyRef.current;
-      if (!track || !body) return;
-      const range = track.offsetHeight - body.offsetHeight;
+      const el = wrapperRef.current;
+      if (!el) return;
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      const range = el.offsetHeight - window.innerHeight;
       window.scrollTo({
-        top:
-          window.scrollY +
-          track.getBoundingClientRect().top -
-          HEADER_OFFSET_PX +
-          range * progress,
+        top: top + range * ((next + 0.5) / stepCount),
         behavior: reduceMotion ? "auto" : "smooth",
       });
     },
-    [lastIndex, stepCount, reduceMotion],
+    [lastIndex, stepCount, reduceMotion, scrollToIndex, setActive],
   );
 
   const transition = reduceMotion
@@ -188,12 +148,10 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
       style={
         {
           "--how-it-works-scroll": `${steps.length * VH_PER_STEP}vh`,
-          "--how-it-works-scroll-sm": `${steps.length * VH_PER_STEP_SM}svh`,
           "--how-it-works-offset": HEADER_OFFSET,
           "--how-it-works-natural": NATURAL_HEIGHT,
-          "--how-it-works-natural-sm": NATURAL_HEIGHT_SM,
-          "--how-it-works-natural-md": NATURAL_HEIGHT_MD,
-          "--how-it-works-natural-lg": NATURAL_HEIGHT_LG,
+          "--pin-scroll-height": `${steps.length * VH_PER_STEP_SM}svh`,
+          "--pin-offset": HEADER_OFFSET,
         } as CSSProperties
       }
       aria-labelledby="how-it-works-title"
@@ -217,9 +175,9 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
             Below `xl` this wrapper is the scroll track the pinned body reads;
             from `xl` up it is a plain block inside the already-pinned panel.
           */}
-          <div ref={trackRef} className="how-pin-scroll">
-            <div ref={bodyRef} className="how-pin-body">
-              <div className="how-pin-body-fit">
+          <div ref={trackRef} className="max-xl:mt-10 max-xl:pin-scroll">
+            <div ref={bodyRef} className="max-xl:pin-body">
+              <div className={`max-xl:pin-body-fit ${PIN_NATURAL}`}>
                 {/*
                   The one large active-step area.
                   Three blocks — headline copy, product visualisation,
@@ -316,7 +274,13 @@ export function HowItWorksStrip({ flow = "landlord" }: { flow?: VerificationFlow
                 </div>
 
                 <Timeline steps={steps} active={active} onSelect={goTo} />
-                <CompactProgress steps={steps} active={active} onSelect={goTo} />
+                <PinRail
+                  labels={steps.map((s) => s.title)}
+                  active={active}
+                  onSelect={goTo}
+                  groupLabel="Verification workflow steps"
+                  className="mt-4 lg:hidden"
+                />
               </div>
             </div>
           </div>
@@ -447,54 +411,6 @@ function Timeline({
           );
         })}
       </ol>
-    </div>
-  );
-}
-
-/**
- * Phone and tablet progress rail.
- *
- * Scrolling is what moves the workflow on here, exactly as it does on a
- * desktop, so this reads as progress rather than as a control: a seven-segment
- * rail that fills behind the step you are on, and the step number beside it.
- * The segments stay tappable — someone who wants the last step should not have
- * to scroll through six — but nothing here depends on being tapped.
- */
-function CompactProgress({
-  steps,
-  active,
-  onSelect,
-}: {
-  steps: VerificationStep[];
-  active: number;
-  onSelect: (index: number) => void;
-}) {
-  return (
-    <div className="mt-4 flex items-center justify-center gap-3 lg:hidden">
-      <p className="text-base font-semibold whitespace-nowrap tabular-nums text-slate-500">
-        <span className="text-teal-600">{steps[active].number}</span> / {String(steps.length).padStart(2, "0")}
-      </p>
-      <div className="flex flex-1 items-center gap-1.5" role="group" aria-label="Verification workflow steps">
-        {steps.map((step, i) => (
-          <button
-            key={step.id}
-            type="button"
-            onClick={() => onSelect(i)}
-            aria-label={`Step ${i + 1}: ${step.title}`}
-            aria-current={i === active ? "step" : undefined}
-            className="min-w-0 flex-1 cursor-pointer py-2 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none"
-          >
-            <span className="block h-1 overflow-hidden rounded-full bg-slate-200">
-              <motion.span
-                className="block h-full rounded-full bg-teal-500"
-                initial={false}
-                animate={{ width: i <= active ? "100%" : "0%" }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-              />
-            </span>
-          </button>
-        ))}
-      </div>
     </div>
   );
 }
