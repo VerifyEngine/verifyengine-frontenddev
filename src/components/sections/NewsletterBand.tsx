@@ -7,7 +7,7 @@ import { Alert, Spinner } from "@/components/ui/Feedback";
 import { Reveal } from "@/components/ui/Reveal";
 import { useForm } from "@/lib/useForm";
 import { required, email } from "@/lib/validation";
-import { api } from "@/lib/api";
+import { subscribeToNewsletter } from "@/lib/api-endpoints";
 
 /** Navy newsletter sign-up band used across the resource pages. */
 export function NewsletterBand({
@@ -21,7 +21,7 @@ export function NewsletterBand({
     initialValues: { email: "" },
     rules: { email: [required("Enter your email"), email()] },
     onSubmit: async (values) => {
-      await api.post("/newsletter", values, { mock: { ok: true } });
+      await subscribeToNewsletter(values);
     },
   });
 

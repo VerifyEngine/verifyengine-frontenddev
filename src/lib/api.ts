@@ -32,7 +32,16 @@ type RequestOptions<TMock> = {
   mock?: TMock;
   /** Simulated latency for the mock path, so loading states are exercised. */
   mockDelayMs?: number;
+  /**
+   * How long to wait before giving up, in milliseconds. A backend that accepts
+   * the connection and then stalls would otherwise leave a form spinning with
+   * no way out, so every request carries a deadline.
+   */
+  timeoutMs?: number;
 };
+
+/** The deadline every request gets unless the caller sets its own. */
+const DEFAULT_TIMEOUT_MS = 15_000;
 
 export async function apiRequest<TResponse>(
   path: string,
@@ -45,6 +54,7 @@ export async function apiRequest<TResponse>(
     signal,
     mock,
     mockDelayMs = 600,
+    timeoutMs = DEFAULT_TIMEOUT_MS,
   } = options;
 
   if (!isApiConfigured) {
@@ -72,15 +82,40 @@ export async function apiRequest<TResponse>(
     return mock;
   }
 
-  const response = await fetch(`${env.apiBaseUrl}${path}`, {
-    method,
-    signal,
-    headers: {
-      ...(body ? { "Content-Type": "application/json" } : {}),
-      ...headers,
-    },
-    ...(body ? { body: JSON.stringify(body) } : {}),
-  });
+  /*
+   * The caller's own signal and the deadline both have to be able to abort the
+   * request, so they are combined into one controller rather than passing
+   * either straight through.
+   */
+  const controller = new AbortController();
+  const timedOut = { value: false };
+  const timer = setTimeout(() => {
+    timedOut.value = true;
+    controller.abort();
+  }, timeoutMs);
+  const abortFromCaller = () => controller.abort();
+  signal?.addEventListener("abort", abortFromCaller);
+
+  let response: Response;
+  try {
+    response = await fetch(`${env.apiBaseUrl}${path}`, {
+      method,
+      signal: controller.signal,
+      headers: {
+        ...(body ? { "Content-Type": "application/json" } : {}),
+        ...headers,
+      },
+      ...(body ? { body: JSON.stringify(body) } : {}),
+    });
+  } catch (error) {
+    if (timedOut.value) {
+      throw new ApiError("The request timed out. Please try again.", 0);
+    }
+    throw error;
+  } finally {
+    clearTimeout(timer);
+    signal?.removeEventListener("abort", abortFromCaller);
+  }
 
   // Read the payload once, tolerating empty and non-JSON bodies.
   const text = await response.text();

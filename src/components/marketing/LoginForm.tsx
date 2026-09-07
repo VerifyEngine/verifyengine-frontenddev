@@ -8,7 +8,7 @@ import { GoogleMark } from "@/components/ui/GoogleMark";
 import { useForm } from "@/lib/useForm";
 import { useState } from "react";
 import { required, email } from "@/lib/validation";
-import { api } from "@/lib/api";
+import { submitLogin } from "@/lib/api-endpoints";
 
 export function LoginForm() {
   // Password recovery and Google sign-in are both in the approved design and
@@ -26,7 +26,7 @@ export function LoginForm() {
     onSubmit: async (values) => {
       // Real authentication arrives with the platform milestone; until the
       // backend endpoint exists this resolves through the mock path.
-      await api.post("/auth/login", values, { mock: { ok: true } });
+      await submitLogin(values);
       throw new Error(
         "Sign-in is not available yet — the client platform is still in development.",
       );

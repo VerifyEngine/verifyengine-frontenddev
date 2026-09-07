@@ -8,7 +8,7 @@ import { Alert, Spinner } from "@/components/ui/Feedback";
 import { useToast } from "@/components/ui/Toast";
 import { useForm } from "@/lib/useForm";
 import { required, email, workEmail, phone } from "@/lib/validation";
-import { api } from "@/lib/api";
+import { submitDemoRequest } from "@/lib/api-endpoints";
 
 const industries = [
   "Landlord / Property Management",
@@ -69,7 +69,7 @@ export function BookDemoForm() {
       volume: [required("Select your monthly volume")],
     },
     onSubmit: async (values) => {
-      await api.post("/demo-requests", { ...values, focusAreas: focus }, { mock: { ok: true } });
+      await submitDemoRequest({ ...values, focusAreas: focus });
       toast({
         tone: "success",
         title: "Demo requested",

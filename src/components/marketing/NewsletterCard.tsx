@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/Field";
 import { Alert, Spinner } from "@/components/ui/Feedback";
 import { useForm } from "@/lib/useForm";
 import { required, email } from "@/lib/validation";
-import { api } from "@/lib/api";
+import { subscribeToNewsletter } from "@/lib/api-endpoints";
 
 /** Compact newsletter sign-up for article sidebars. */
 export function NewsletterCard() {
@@ -13,7 +13,7 @@ export function NewsletterCard() {
     initialValues: { email: "" },
     rules: { email: [required("Enter your email"), email()] },
     onSubmit: async (values) => {
-      await api.post("/newsletter", values, { mock: { ok: true } });
+      await subscribeToNewsletter(values);
     },
   });
 

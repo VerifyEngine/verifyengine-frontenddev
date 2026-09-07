@@ -8,7 +8,7 @@ import { GoogleMark } from "@/components/ui/GoogleMark";
 import { useToast } from "@/components/ui/Toast";
 import { useForm } from "@/lib/useForm";
 import { required, email, workEmail, phone } from "@/lib/validation";
-import { api } from "@/lib/api";
+import { submitSignup } from "@/lib/api-endpoints";
 import { useState } from "react";
 
 const industries = [
@@ -48,7 +48,7 @@ export function CreateAccountForm() {
     onSubmit: async (values) => {
       // Runs against the mock path until NEXT_PUBLIC_API_BASE_URL is set; the
       // call site does not change once the backend endpoint exists.
-      await api.post("/signup", values, { mock: { ok: true } });
+      await submitSignup(values);
       toast({
         tone: "success",
         title: "Account request received",

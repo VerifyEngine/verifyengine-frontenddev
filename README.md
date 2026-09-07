@@ -90,6 +90,18 @@ Two conventions worth knowing before editing:
   carry `"use client"`. Icon *components* must never be passed as props into a Client
   Component — render them instead. `npm run lint:boundaries` enforces this.
 
+## Backend integration
+
+The site talks to the backend in six places, all typed in
+`src/lib/api-endpoints.ts` and specified in **[docs/api-contract.md](docs/api-contract.md)**:
+request and response shapes, status codes, the error format, and the questions
+still open with the backend team.
+
+Until `NEXT_PUBLIC_API_BASE_URL` is set, each call resolves against a mock of the
+same type, so every form works end to end locally. Setting the variable switches
+all of them to real requests with no code change. In production, a submission
+with no API configured fails visibly rather than pretending to succeed.
+
 ## Content
 
 Blog posts, guides, case studies, glossary terms, and FAQ entries are data, not pages: each

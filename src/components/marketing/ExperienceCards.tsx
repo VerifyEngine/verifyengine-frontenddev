@@ -8,7 +8,7 @@ import { Container } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Badge";
 import { Alert, Spinner } from "@/components/ui/Feedback";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { api } from "@/lib/api";
+import { requestDemoCall } from "@/lib/api-endpoints";
 import { useForm } from "@/lib/useForm";
 import { required, phone as phoneRule } from "@/lib/validation";
 
@@ -132,7 +132,7 @@ function LiveDemoCard() {
     initialValues: { phone: "" },
     rules: { phone: [required("Enter your phone number"), phoneRule()] },
     onSubmit: async (values) => {
-      await api.post("/demo-calls", values, { mock: { ok: true } });
+      await requestDemoCall(values);
     },
   });
 
