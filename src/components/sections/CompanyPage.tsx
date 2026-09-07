@@ -2,7 +2,9 @@ import type { ReactNode } from "react";
 import { Container } from "@/components/ui/Button";
 import { PillBadge } from "@/components/ui/Badge";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { ArticleToc } from "@/components/marketing/ArticleToc";
 import { FinalCta } from "@/components/sections/FinalCta";
+import { sectionId } from "@/components/sections/LegalPage";
 
 export type CompanySection = {
   heading: string;
@@ -24,6 +26,12 @@ export type CompanyHighlight = {
  * dot field and closing CTA every other section page uses — so they read as
  * part of the site rather than as something bolted on. Each page supplies a
  * config object and no layout of its own.
+ *
+ * The prose runs in the two-column shell the legal and article pages use: a
+ * sticky index of the page's own sections, then the copy at a readable measure.
+ * On its own a capped column of text sits against the left edge of a very wide
+ * container with nothing beside it, which reads as a page that failed to lay
+ * out rather than as a choice.
  */
 export function CompanyPage({
   badge,
@@ -82,22 +90,42 @@ export function CompanyPage({
 
       <section className="bg-white py-16 sm:py-20">
         <Container>
-          <div className="max-w-3xl space-y-10">
-            {sections.map((section) => (
-              <Reveal key={section.heading}>
-                <h2 className="text-2xl font-bold text-ink-900">{section.heading}</h2>
-                <div className="mt-3 space-y-3">
-                  {section.paragraphs.map((paragraph, i) => (
-                    <p key={i} className="text-base leading-relaxed text-slate-600">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-14">
+            <aside className="hidden lg:sticky lg:top-24 lg:block lg:self-start">
+              <div className="rounded-2xl border border-slate-100 p-5">
+                <ArticleToc
+                  items={sections.map((section) => ({
+                    id: sectionId(section.heading),
+                    label: section.heading,
+                  }))}
+                />
+              </div>
+            </aside>
 
-          {children}
+            <div className="min-w-0 lg:max-w-[880px]">
+              <div className="space-y-10">
+                {sections.map((section) => (
+                  <Reveal key={section.heading}>
+                    <h2
+                      id={sectionId(section.heading)}
+                      className="scroll-mt-28 text-2xl font-bold text-ink-900"
+                    >
+                      {section.heading}
+                    </h2>
+                    <div className="mt-3 space-y-3">
+                      {section.paragraphs.map((paragraph, i) => (
+                        <p key={i} className="text-base leading-relaxed text-slate-600">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+
+              {children}
+            </div>
+          </div>
         </Container>
       </section>
 
