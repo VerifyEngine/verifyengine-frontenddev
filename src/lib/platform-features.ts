@@ -109,6 +109,24 @@ export const platformChecks: { label: string; target?: PlatformTarget }[] = [
   { label: "No Fraud Detected", target: "check-fraud" },
 ];
 
+/**
+ * The rules the mockups show the engine evaluating.
+ *
+ * These are the client's own preconfigured screening rules, not Verify Engine's
+ * criteria — the verified result on the left is what the workflow established,
+ * and the evaluation on the right is only whether that result meets the rule
+ * the client configured. The same six rows back the "Client Rules Applied"
+ * step and the homepage closing mockup, so the two never drift apart.
+ */
+export const clientRules: { rule: string; result: string }[] = [
+  { rule: "Identity Confirmed", result: "Yes" },
+  { rule: "Property Ownership", result: "Confirmed" },
+  { rule: "Tenancy Dates", result: "24 Months" },
+  { rule: "Late Payments", result: "0" },
+  { rule: "Lease Violations", result: "None" },
+  { rule: "Eviction History", result: "None Reported" },
+];
+
 /** Smaller capabilities shown as badges under the central visualisation. */
 export const platformBadges: { icon: LucideIcon; label: string }[] = [
   { icon: UserCheck, label: "Human QA" },

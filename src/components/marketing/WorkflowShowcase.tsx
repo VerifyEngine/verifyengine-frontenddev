@@ -2,10 +2,10 @@
 
 import { motion, useAnimationFrame, useMotionValue, useSpring } from "motion/react";
 import {
+  IconAdjustmentsHorizontal,
   IconBell,
   IconChartDots3,
   IconBuildingSkyscraper,
-  IconClipboardCheck,
   IconFileAnalytics,
   IconFileCheck,
   IconHeadset,
@@ -57,7 +57,7 @@ const steps = [
   { icon: IconUserCheck, title: "Human QA Review", desc: "Experts review and ensure accuracy" },
   { icon: IconPhoneCall, title: "AI Calls Previous Landlord", desc: "AI voice agent contacts the previous landlord" },
   { icon: IconWaveSine, title: "Dynamic Interview", desc: "Natural conversation gathers detailed rental history" },
-  { icon: IconClipboardCheck, title: "Responses Validated", desc: "AI validates answers and cross-checks data" },
+  { icon: IconAdjustmentsHorizontal, title: "Client Rules Applied", desc: "Verified results are evaluated against your screening rules" },
   { icon: IconFileCheck, title: "Report Delivered", desc: "Complete, accurate report delivered instantly" },
 ];
 

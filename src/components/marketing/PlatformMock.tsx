@@ -1,12 +1,15 @@
 import {
   IconChartBar,
   IconCheck,
+  IconClock,
+  IconExclamationMark,
   IconFileAnalytics,
   IconHome,
   IconSearch,
   IconSettings,
   IconShieldCheck,
   IconUser,
+  IconX,
   type Icon as TablerIcon,
 } from "@tabler/icons-react";
 import type { CSSProperties, ReactNode } from "react";
@@ -210,13 +213,15 @@ export function MockPanel({
   );
 }
 
-type BadgeTone = "success" | "neutral" | "brand" | "quiet";
+type BadgeTone = "success" | "neutral" | "brand" | "quiet" | "accent" | "warning";
 
 const badgeTones: Record<BadgeTone, string> = {
   success: "bg-app-success text-app-text-inverse",
   neutral: "bg-app-neutral text-app-text-inverse",
   brand: "bg-app-brand2-64 text-app-text-brand1",
   quiet: "border-w-2xs border-app-line bg-app-fade-48 text-app-text-secondary",
+  accent: "bg-app-accent text-app-text-inverse",
+  warning: "bg-app-warning text-app-text-inverse",
 };
 
 export function MockBadge({
@@ -281,6 +286,127 @@ export function MockCheck({
         <span className="shrink-0 text-body-2xs text-app-success">{value}</span>
       ) : null}
     </li>
+  );
+}
+
+/*
+ * The same checklist line as MockCheck, but for a file that is still moving.
+ *
+ * A green tick against every row says the work is already finished, which is
+ * the wrong story wherever the mockup is meant to show something the platform
+ * has flagged. Each state carries the platform's own functional colour: green
+ * for a settled item, accent orange for one a reviewer has to look at, warning
+ * red for a conflict, and the tertiary grey for anything not back yet.
+ */
+export type MockStatusTone = "success" | "accent" | "warning" | "pending";
+
+const statusMarks: Record<
+  MockStatusTone,
+  { icon: TablerIcon; mark: string; value: string }
+> = {
+  success: {
+    icon: IconCheck,
+    mark: "bg-app-success text-app-text-inverse",
+    value: "text-app-success",
+  },
+  accent: {
+    icon: IconExclamationMark,
+    mark: "bg-app-accent text-app-text-inverse",
+    value: "text-app-accent",
+  },
+  warning: {
+    icon: IconX,
+    mark: "bg-app-warning text-app-text-inverse",
+    value: "text-app-warning",
+  },
+  pending: {
+    icon: IconClock,
+    mark: "border-w-xs border-app-line bg-app-fade-48 text-app-text-tertiary",
+    value: "text-app-text-tertiary",
+  },
+};
+
+export function MockStatus({
+  label,
+  value,
+  tone,
+  className = "",
+}: {
+  label: string;
+  value: string;
+  tone: MockStatusTone;
+  className?: string;
+}) {
+  const { icon: Icon, mark, value: valueClass } = statusMarks[tone];
+  return (
+    <li className={`flex items-center gap-2.5 ${className}`}>
+      <span
+        className={`flex size-[17px] shrink-0 items-center justify-center rounded-app-12xl ${mark}`}
+      >
+        <Icon size={11} stroke={3} aria-hidden />
+      </span>
+      <span className="min-w-px flex-1 text-label-2xs text-app-text">
+        {label}
+      </span>
+      <span className={`shrink-0 text-body-2xs ${valueClass}`}>{value}</span>
+    </li>
+  );
+}
+
+/*
+ * The rules table, shared by the "Client Rules Applied" step and the homepage
+ * closing mockup so both read as the same screen of the product.
+ *
+ * Three columns — the rule, the result the verification established, and
+ * whether that result meets the rule. The evaluation column deliberately says
+ * "Meets Rule" rather than "Approved": the client keeps the decision, Verify
+ * Engine only reports which of their rules the verified data satisfies.
+ *
+ * `visibleRows` trims the table on a phone, where the composition lays out at
+ * 1:1 and a six-row table would push the panel past the viewport.
+ */
+export function MockRuleTable({
+  rows,
+  visibleRows,
+}: {
+  rows: { rule: string; result: string }[];
+  visibleRows?: number;
+}) {
+  return (
+    <div className="flex flex-col">
+      <div className="flex items-center gap-2 border-b-[0.6px] border-app-line pb-1.5">
+        <span className="min-w-px flex-1 text-nav-heading text-app-text-secondary">
+          Rule
+        </span>
+        <span className="hidden w-[68px] shrink-0 text-nav-heading text-app-text-secondary sm:block">
+          Verified Result
+        </span>
+        <span className="w-[76px] shrink-0 text-nav-heading text-app-text-secondary">
+          Evaluation
+        </span>
+      </div>
+      <ul className="flex flex-col">
+        {rows.map((row, i) => (
+          <li
+            key={row.rule}
+            className={`flex items-center gap-2 py-[5px] ${
+              visibleRows !== undefined && i >= visibleRows ? "hidden sm:flex" : ""
+            }`}
+          >
+            <span className="min-w-px flex-1 truncate text-body-2xs text-app-text">
+              {row.rule}
+            </span>
+            <span className="hidden w-[68px] shrink-0 truncate text-body-2xs text-app-text-secondary sm:block">
+              {row.result}
+            </span>
+            <span className="flex w-[76px] shrink-0 items-center gap-1.5">
+              <MockTick size={13} />
+              <span className="text-body-2xs text-app-success">Meets Rule</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

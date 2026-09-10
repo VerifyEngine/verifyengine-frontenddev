@@ -1,5 +1,6 @@
 import {
   IconChartBar,
+  IconClock,
   IconFileAnalytics,
   IconHome,
   IconPhoneCall,
@@ -22,11 +23,15 @@ import {
   MockRail,
   MockRing,
   MockRow,
+  MockRuleTable,
   MockShell,
+  MockStatus,
   MockTag,
   MockTile,
   MockTopBar,
+  type MockStatusTone,
 } from "@/components/marketing/PlatformMock";
+import { clientRules } from "@/lib/platform-features";
 import type { VerificationStepId } from "@/lib/verification-steps";
 
 /*
@@ -142,11 +147,19 @@ function FraudDetectionVisual() {
 /* ------------------------------------------------------------------ *
  * 03 — Human QA Review
  * ------------------------------------------------------------------ */
-const qaChecklist = [
-  "Applicant Information",
-  "Landlord Information",
-  "Property Match",
-  "Contact Information",
+/*
+ * The file as it reaches the QA queue, not as it leaves it.
+ *
+ * The step exists because something did not line up — public ownership records
+ * disagree with what the applicant provided — so the panel has to show a file
+ * still in review. Marking every row confirmed and the request approved told
+ * the opposite story to the copy beside it.
+ */
+const qaChecklist: { label: string; value: string; tone: MockStatusTone }[] = [
+  { label: "Applicant Information", value: "Received", tone: "success" },
+  { label: "Landlord Information", value: "Needs Review", tone: "accent" },
+  { label: "Property Ownership", value: "Mismatch Detected", tone: "warning" },
+  { label: "Contact Information", value: "Pending", tone: "pending" },
 ];
 
 function HumanQaReviewVisual() {
@@ -155,7 +168,7 @@ function HumanQaReviewVisual() {
       <MockTopBar right={<MockBadge tone="brand">QA Queue</MockBadge>} />
       <MockPanel
         title="QA Review"
-        badge={<MockBadge tone="success">Approved</MockBadge>}
+        badge={<MockBadge tone="accent">Review Required</MockBadge>}
       >
         <MockTile className="flex items-center gap-2.5">
           <MockAvatar initials="QA" />
@@ -170,22 +183,23 @@ function HumanQaReviewVisual() {
         </MockTile>
         <ul className="flex flex-1 flex-col justify-center gap-2">
           {qaChecklist.map((item, i) => (
-            <MockCheck
-              key={item}
-              label={item}
-              value="Confirmed"
+            <MockStatus
+              key={item.label}
+              label={item.label}
+              value={item.value}
+              tone={item.tone}
               className={i === qaChecklist.length - 1 ? "hidden sm:flex" : ""}
             />
           ))}
         </ul>
         <MockTile className="mt-auto hidden items-center justify-between gap-2 sm:flex">
           <span className="text-label-2xs text-app-text">
-            Ready for Verification
+            Awaiting QA Review
           </span>
-          <IconShieldCheck
+          <IconClock
             size={16}
             stroke={1.6}
-            className="text-app-success"
+            className="text-app-accent"
             aria-hidden
           />
         </MockTile>
@@ -429,36 +443,34 @@ function Turn({
 }
 
 /* ------------------------------------------------------------------ *
- * 06 — Responses Validated
+ * 06 — Client Rules Applied
  * ------------------------------------------------------------------ */
-const validationRows = [
-  { label: "Identity Confirmed", source: "identity records" },
-  { label: "Property Confirmed", source: "property records" },
-  { label: "Tenancy Dates Confirmed", source: "lease data" },
-  { label: "Payment History Confirmed", source: "landlord responses" },
-  { label: "Responses Cross-Checked", source: "trusted data sources" },
-];
-
-function ResponsesValidatedVisual() {
+/*
+ * The rules engine, shown as the table it actually is.
+ *
+ * The panel it replaced listed the checks the workflow had run, which read as
+ * Verify Engine deciding the outcome. Laying the client's own rules beside the
+ * verified result makes the division visible: the client configures the rules,
+ * Verify Engine reports which of them the verified data meets.
+ */
+function ClientRulesAppliedVisual() {
   return (
     <MockShell nativeWidth={450} nativeHeight={300} className="how-step-mock">
-      <MockTopBar right={<MockBadge tone="brand">5 of 5</MockBadge>} />
-      <MockPanel title="Response Validation">
-        <ul className="flex flex-col gap-2">
-          {validationRows.map((row, i) => (
-            <MockCheck
-              key={row.label}
-              label={row.label}
-              caption={`Checked against ${row.source}`}
-              className={i >= 3 ? "hidden sm:flex" : ""}
-            />
-          ))}
-        </ul>
-        <MockTile className="mt-auto flex items-center justify-between gap-2">
-          <span className="text-label-2xs text-app-text">
-            Verification Complete
+      <MockTopBar
+        right={
+          <span className="flex items-center gap-1.5">
+            <span className="hidden text-body-2xs text-app-text-tertiary sm:inline">
+              Rules Evaluated
+            </span>
+            <MockBadge tone="brand">6</MockBadge>
           </span>
-          <MockBadge tone="success">Validated</MockBadge>
+        }
+      />
+      <MockPanel title="Rules Evaluation">
+        <MockRuleTable rows={clientRules} visibleRows={4} />
+        <MockTile className="mt-auto flex items-center justify-between gap-2">
+          <span className="text-label-2xs text-app-text">Screening Result</span>
+          <MockBadge tone="success">Meets Configured Criteria</MockBadge>
         </MockTile>
       </MockPanel>
     </MockShell>
@@ -540,7 +552,7 @@ const visuals: Record<VerificationStepId, () => ReactNode> = {
   "human-qa-review": HumanQaReviewVisual,
   "ai-calls-landlord": AiCallsLandlordVisual,
   "dynamic-interview": DynamicInterviewVisual,
-  "responses-validated": ResponsesValidatedVisual,
+  "client-rules-applied": ClientRulesAppliedVisual,
   "report-delivered": ReportDeliveredVisual,
 };
 

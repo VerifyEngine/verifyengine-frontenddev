@@ -1,10 +1,9 @@
 import {
   AudioLines,
+  BadgeCheck,
   Bot,
-  CheckCircle2,
-  ClipboardCheck,
   ClipboardList,
-  Database,
+  Cpu,
   FileCheck2,
   FileText,
   Fingerprint,
@@ -12,10 +11,12 @@ import {
   ListChecks,
   MessageSquareText,
   PhoneCall,
+  Scale,
   ScanSearch,
   Send,
   ShieldAlert,
   ShieldCheck,
+  SlidersHorizontal,
   Sparkles,
   UserCheck,
   UserPlus,
@@ -45,7 +46,7 @@ export type VerificationStepId =
   | "human-qa-review"
   | "ai-calls-landlord"
   | "dynamic-interview"
-  | "responses-validated"
+  | "client-rules-applied"
   | "report-delivered";
 
 export type VerificationStep = {
@@ -103,14 +104,14 @@ export const verificationSteps: VerificationStep[] = [
     category: "Quality Control",
     title: "Human QA Review",
     description:
-      "Our verification team reviews the request and confirms the information needed before outreach begins.",
+      "A mismatch was detected between the applicant-provided information and public ownership records. Our QA Team reviews the request before verification proceeds.",
     features: [
       { icon: UserCheck, label: "Expert Review" },
       { icon: ListChecks, label: "Compliance Checklist" },
       { icon: ShieldCheck, label: "Release Approval" },
     ],
     callout:
-      "Every verification passes through human quality assurance — automation never runs unsupervised.",
+      "When automated checks identify missing, inconsistent, or conflicting information, the request is automatically routed to the Verify Engine QA Team for review.",
     icon: Users,
   },
   {
@@ -146,20 +147,20 @@ export const verificationSteps: VerificationStep[] = [
     icon: AudioLines,
   },
   {
-    id: "responses-validated",
+    id: "client-rules-applied",
     number: "06",
-    category: "Response Analysis",
-    title: "Responses Validated",
+    category: "Rules Engine",
+    title: "Client Rules Applied",
     description:
-      "Responses are analyzed, cross-checked, and reviewed for accuracy and inconsistencies.",
+      "Verified responses are evaluated against your organization's preconfigured screening rules to determine whether the applicant meets your requirements.",
     features: [
-      { icon: Database, label: "Cross-Checked Sources" },
-      { icon: CheckCircle2, label: "Consistency Rules" },
-      { icon: ClipboardCheck, label: "Exception Handling" },
+      { icon: SlidersHorizontal, label: "Custom Screening Rules" },
+      { icon: Cpu, label: "Automated Rule Evaluation" },
+      { icon: BadgeCheck, label: "Decision Outcome" },
     ],
     callout:
-      "Answers that do not line up are flagged for review instead of quietly passing through.",
-    icon: CheckCircle2,
+      "Your rules drive the decision. Verify Engine consistently applies your configured criteria to every completed verification.",
+    icon: Scale,
   },
   {
     id: "report-delivered",
@@ -175,96 +176,6 @@ export const verificationSteps: VerificationStep[] = [
     ],
     callout:
       "Reports return in minutes, not days, with everything your team needs to make the decision.",
-    icon: FileText,
-  },
-];
-
-/**
- * The general verification process, as the How It Works page tells it.
- *
- * Same shape and the same seven product visualisations as the landlord flow —
- * this page describes the process across every industry, so the copy is the
- * page's own rather than a second copy of the homepage's landlord story.
- */
-export const generalProcessSteps: VerificationStep[] = [
-  {
-    id: "applicant-submitted",
-    number: "01",
-    category: "Verification Started",
-    title: "Submit Applicant",
-    description:
-      "You submit the applicant's information and verification requirements — one at a time, in a batch, or straight from your platform through the API.",
-    features: [
-      { icon: Send, label: "Instant Intake" },
-      { icon: ClipboardList, label: "Batch or Single" },
-      { icon: Workflow, label: "API or Dashboard" },
-    ],
-    callout:
-      "Verify Engine validates the request and queues it the moment it arrives.",
-    icon: UserPlus,
-  },
-  {
-    id: "ai-calls-landlord",
-    number: "02",
-    category: "AI-Powered Outreach",
-    title: "AI Contacts the Source",
-    description:
-      "Our AI voice agents reach the landlord, employer or institution by phone, email or SMS, handling voicemail and gatekeepers along the way.",
-    features: [
-      { icon: PhoneCall, label: "Automated Outreach" },
-      { icon: MessageSquareText, label: "Multi-Channel" },
-      { icon: ShieldCheck, label: "Recorded Responses" },
-    ],
-    callout:
-      "The agent retries on its own schedule until it reaches a real person — your team never chases anyone.",
-    icon: PhoneCall,
-  },
-  {
-    id: "dynamic-interview",
-    number: "03",
-    category: "Intelligent Verification",
-    title: "AI Gathers and Validates",
-    description:
-      "A dynamic interview adapts to every answer, cross-checks responses against the application, and flags inconsistencies as they surface.",
-    features: [
-      { icon: Sparkles, label: "Generated Follow-Ups" },
-      { icon: Database, label: "Cross-Checked Sources" },
-      { icon: Gauge, label: "Risk Signals" },
-    ],
-    callout:
-      "No two conversations are the same — the interview follows the answers it receives.",
-    icon: AudioLines,
-  },
-  {
-    id: "human-qa-review",
-    number: "04",
-    category: "Quality Control",
-    title: "Human QA Review",
-    description:
-      "A trained reviewer listens to the call, confirms the extracted data, and adds confidence notes before anything is released.",
-    features: [
-      { icon: UserCheck, label: "Expert Review" },
-      { icon: ListChecks, label: "Compliance Checklist" },
-      { icon: ShieldCheck, label: "Release Approval" },
-    ],
-    callout:
-      "Every verification passes through human quality assurance — automation never runs unsupervised.",
-    icon: Users,
-  },
-  {
-    id: "report-delivered",
-    number: "05",
-    category: "Verification Complete",
-    title: "Report Delivered",
-    description:
-      "The finished report lands in your dashboard with the full transcript, audit trail, and a downloadable PDF — ready to attach to your decision.",
-    features: [
-      { icon: FileCheck2, label: "Complete Report" },
-      { icon: ShieldCheck, label: "Audit Trail" },
-      { icon: Send, label: "Instant Delivery" },
-    ],
-    callout:
-      "Reports return in minutes, not days, with everything your team needs to decide.",
     icon: FileText,
   },
 ];
@@ -301,12 +212,16 @@ export const verificationFlows: Record<VerificationFlowId, VerificationFlow> = {
       href: "/how-it-works/landlord-verification",
     },
   },
+  // The How It Works page tells the same seven-step story as the homepage,
+  // under its own heading — the client asked for the page's older five-step
+  // version to be replaced by the updated one, so there is a single sequence
+  // of the process across the site rather than two that can drift apart.
   general: {
     eyebrow: "Our Verification Process",
     title: "How Verify Engine Works",
     subtitle:
       "From the moment a request arrives to the moment the report lands, every step in one place.",
-    steps: generalProcessSteps,
+    steps: verificationSteps,
     cta: {
       prompt: "Want the landlord verification process in full?",
       label: "View the Full Landlord Verification Process",
