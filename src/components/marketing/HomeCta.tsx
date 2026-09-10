@@ -13,14 +13,14 @@ import { Button, Container, ArrowRight } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import {
   MockBadge,
-  MockCheck,
   MockPanel,
   MockRail,
+  MockRuleTable,
   MockShell,
   MockTile,
   MockTopBar,
 } from "@/components/marketing/PlatformMock";
-import { platformChecks } from "@/lib/platform-features";
+import { clientRules } from "@/lib/platform-features";
 
 /*
  * The homepage conversion section.
@@ -122,14 +122,14 @@ const railIcons = [IconHome, IconUser, IconShieldCheck, IconFileAnalytics, IconC
 function CtaVisual() {
   return (
     <div className="relative">
-      <MockShell nativeWidth={520} nativeHeight={330} maxZoom={1.4}>
+      <MockShell nativeWidth={560} nativeHeight={330} maxZoom={1.4}>
         <MockTopBar
           right={
             <span className="flex items-center gap-1.5">
               <span className="hidden text-body-2xs text-app-text-tertiary sm:inline">
-                Reports Today
+                Rules Evaluated
               </span>
-              <MockBadge tone="brand">248</MockBadge>
+              <MockBadge tone="brand">6</MockBadge>
             </span>
           }
         />
@@ -138,20 +138,25 @@ function CtaVisual() {
           <MockRail icons={railIcons} />
 
           <div className="flex min-w-px flex-1 flex-col gap-2 sm:flex-row">
-            <MockPanel title="Verification Complete" className="min-w-px flex-[1.35]">
-              <ul className="flex flex-1 flex-col justify-center gap-2">
-                {platformChecks.map((check) => (
-                  <MockCheck key={check.label} label={check.label} />
-                ))}
-              </ul>
+            <MockPanel title="Rules Evaluation" className="min-w-px flex-[1.55]">
+              <p className="-mt-1.5 text-nav-heading text-app-text-tertiary">
+                Client Rules Evaluated
+              </p>
+              <MockRuleTable rows={clientRules} visibleRows={4} />
             </MockPanel>
 
-            <MockPanel title="Report" className="min-w-px flex-1">
+            <MockPanel title="Evaluation Result" className="min-w-px flex-1">
               <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
                 <span className="flex size-11 items-center justify-center rounded-app-12xl bg-app-success text-app-text-inverse">
                   <IconCheck size={24} stroke={3} aria-hidden />
                 </span>
-                <span className="text-label-2xs text-app-success">APPROVED</span>
+                <span className="text-label-2xs uppercase text-app-success">
+                  Meets Configured Criteria
+                </span>
+                <span className="text-body-2xs text-app-text-tertiary">
+                  All evaluated verification results meet the client&apos;s
+                  configured rules.
+                </span>
               </div>
               <MockTile className="mt-auto text-center">
                 <span className="text-body-2xs text-app-text">View Report</span>
