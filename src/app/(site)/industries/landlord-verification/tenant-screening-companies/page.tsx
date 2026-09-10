@@ -12,11 +12,14 @@ import {
   ScanSearch,
   FileBarChart2,
   Clock,
-  UserRound,
-  UploadCloud,
+  Monitor,
+  CloudUpload,
   ShieldCheck,
   CircleCheck,
   FileText,
+  Handshake,
+  Users,
+  DollarSign,
 } from "lucide-react";
 import { AudiencePage, type AudiencePageConfig } from "@/components/sections/audience/AudiencePage";
 
@@ -96,7 +99,8 @@ const config: AudiencePageConfig = {
       {
         icon: Puzzle,
         title: "Easy Integration",
-        description: "Plug into your platform with our API and automate workflows effortlessly.",
+        description:
+          "Connect through our Chrome Extension or API and add landlord verification without replacing your existing workflow.",
       },
       {
         icon: BarChart3,
@@ -107,44 +111,60 @@ const config: AudiencePageConfig = {
   },
   flow: {
     eyebrow: "Power Your Platform",
-    title: "Designed to Fit Your Workflow",
+    title: "Keep Your Platform. Add Verify Engine.",
     panelTitle: "How It Works",
     description:
-      "Verify Engine integrates seamlessly with leading screening platforms and CRMs, automating verifications and updating results in real time.",
+      "Connect through our Chrome Extension or API. Verify Engine works behind the scenes while your team continues using its existing screening platform.",
     checklist: [
-      "Real-time status updates via API",
-      "Webhook notifications",
-      "Custom workflows and business rules",
+      "Chrome Extension or API",
+      "No platform replacement",
+      "Automated verification workflow",
+      "Reports returned to your system",
     ],
     ctaLabel: "View API Documentation",
     ctaHref: "/how-it-works",
     highlight: 2,
     numbered: false,
     steps: [
+      { icon: Monitor, title: "1. Your Platform", description: "Submit applicant data" },
+      { icon: CloudUpload, title: "2. Verify Engine", description: "Data securely received" },
+      { icon: ShieldCheck, title: "3. We Verify", description: "Outreach, follow-up & verification" },
+      { icon: FileText, title: "4. Report Created", description: "Results compiled" },
+      { icon: CircleCheck, title: "5. Results Returned", description: "Back to your platform" },
+    ],
+    banner: {
+      icon: Handshake,
+      title: "Your Clients Stay With You",
+      description:
+        "Verify Engine works behind the scenes while you maintain the client relationship.",
+      tags: ["Your Platform", "Your Pricing", "Your Clients", "Your Brand"],
+    },
+  },
+  benefits: {
+    eyebrow: "Grow Your Screening Business",
+    title: "Add Landlord Verification Without Adding Overhead",
+    subtitle:
+      "Give clients a more complete screening service while creating new revenue—without adding verification staff.",
+    items: [
       {
-        icon: UserRound,
-        title: "Applicant Submission",
-        description: "Applicant data is submitted on your platform.",
+        icon: Users,
+        title: "Expand Your Offering",
+        description: "Add landlord verification to your screening packages.",
       },
       {
-        icon: UploadCloud,
-        title: "Verification Request",
-        description: "API sends verification requests to Verify Engine.",
+        icon: BarChart3,
+        title: "Increase Client Value",
+        description: "Give clients more complete rental-history insights.",
       },
       {
-        icon: ShieldCheck,
-        title: "AI + Human Verification",
-        description: "Our AI agents and human verifiers validate the data across trusted sources.",
+        icon: DollarSign,
+        title: "Create New Revenue",
+        description: "Bundle verification or offer it as an add-on.",
       },
       {
-        icon: CircleCheck,
-        title: "Results Returned",
-        description: "Results are returned to your platform instantly.",
-      },
-      {
-        icon: FileText,
-        title: "Report Delivered",
-        description: "You deliver a more accurate, faster report to your customers.",
+        icon: Clock,
+        title: "Reduce Overhead",
+        description: "We handle the verification calls and follow-up.",
       },
     ],
   },

@@ -12,6 +12,12 @@ import type { AudienceStat, BreakdownRow } from "./AudienceDashboardCard";
 
 export type FlowStep = { icon: LucideIcon; title: string; description: string };
 export type TrustStat = { icon: LucideIcon; value: string; label: string };
+export type FlowBanner = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  tags: string[];
+};
 
 export type AudiencePageConfig = {
   breadcrumb: { label: string; href?: string }[];
@@ -43,10 +49,14 @@ export type AudiencePageConfig = {
     ctaLabel: string;
     ctaHref: string;
     steps: FlowStep[];
+    /** Reassurance strip below the steps, inside the same panel. */
+    banner?: FlowBanner;
     highlight?: number;
     /** Numbers sit under the icon, or are already part of the step title. */
     numbered?: boolean;
   };
+  /** Optional business-case band between the flow panel and the closing bands. */
+  benefits?: { eyebrow: string; title: string; subtitle?: string; items: Feature[] };
   /** Closing band above the CTA — either trust stats or partner logos. */
   trust?: { eyebrow: string; stats: TrustStat[] };
   logos?: { label: string; items: string[] };
@@ -187,11 +197,74 @@ export function AudiencePage({ config }: { config: AudiencePageConfig }) {
                     );
                   })}
                 </RevealGroup>
+
+                {flow.banner && (
+                  <div className="mt-5 rounded-xl bg-bg-mint-50 px-5 py-5 sm:px-6">
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                      <div className="flex items-start gap-4">
+                        <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-mint-100 text-navy-900">
+                          <flow.banner.icon className="size-6" strokeWidth={1.75} />
+                        </span>
+                        <div>
+                          <h4 className="text-base font-bold text-ink-900">{flow.banner.title}</h4>
+                          <p className="mt-1 text-base leading-relaxed text-slate-600">
+                            {flow.banner.description}
+                          </p>
+                        </div>
+                      </div>
+                      <ul className="flex flex-wrap gap-x-5 gap-y-2 lg:shrink-0">
+                        {flow.banner.tags.map((tag) => (
+                          <li
+                            key={tag}
+                            className="flex items-center gap-2 text-sm font-medium text-ink-900"
+                          >
+                            <CheckCircle2 className="size-4 shrink-0 text-teal-500" strokeWidth={2} />
+                            {tag}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
               </div>
             </Reveal>
           </div>
         </Container>
       </section>
+
+      {/* business case for adding the service */}
+      {config.benefits && (
+        <section className="bg-white py-20 sm:py-24">
+          <Container>
+            <Reveal className="mx-auto max-w-3xl text-center">
+              <Eyebrow>{config.benefits.eyebrow}</Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">
+                {config.benefits.title}
+              </h2>
+              {config.benefits.subtitle && (
+                <p className="mt-4 text-base text-slate-600">{config.benefits.subtitle}</p>
+              )}
+            </Reveal>
+
+            <RevealGroup className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {config.benefits.items.map((item) => (
+                <RevealItem
+                  key={item.title}
+                  className="flex h-full flex-col rounded-2xl border border-slate-100 bg-white px-6 py-7 shadow-card"
+                >
+                  <span className="flex size-14 items-center justify-center rounded-full bg-mint-100 text-navy-900">
+                    <item.icon className="size-6" strokeWidth={1.75} />
+                  </span>
+                  <h3 className="mt-5 text-lg font-bold text-ink-900">{item.title}</h3>
+                  <p className="mt-2 text-base leading-relaxed text-slate-600">
+                    {item.description}
+                  </p>
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          </Container>
+        </section>
+      )}
 
       {/* trust band */}
       {config.trust && (
