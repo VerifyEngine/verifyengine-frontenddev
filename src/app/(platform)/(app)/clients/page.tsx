@@ -23,8 +23,10 @@ export default function ClientsPage() {
       <PageHeader
         title="Clients"
         description="View list of all clients and edit, delete, suspend or delete clients. Manage their subscriptions & permissions"
-        secondaryAction={{ label: "Bulk Import Clients", icon: "users-plus" }}
-        primaryAction={{ label: "Add New Client", icon: "plus" }}
+        actions={[
+          { label: "Bulk Import Clients", icon: "users-plus" },
+          { label: "Add New Client", icon: "plus", primary: true },
+        ]}
       />
 
       <section
