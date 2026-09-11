@@ -21,7 +21,7 @@ export function MetricCard({ metric }: { metric: Metric }) {
       <div className="flex min-w-px flex-1 flex-col justify-between gap-2">
         <p className="text-label-2xs text-app-text-secondary">{metric.label}</p>
         <div className="flex items-end gap-1">
-          <p className="whitespace-nowrap text-heading-m text-app-text-brand1">
+          <p className="whitespace-nowrap text-heading-m text-app-text-emphasis">
             {metric.value}
           </p>
           {metric.unit ? (

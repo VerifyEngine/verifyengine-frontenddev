@@ -45,7 +45,7 @@ function ResetPasswordForm() {
       title="Set a new password"
       description="Choose a new password for your account"
       footer={
-        <Link href="/login" className="text-app-text-brand1 underline">
+        <Link href="/login" className="text-app-text-emphasis underline">
           Back to sign in
         </Link>
       }

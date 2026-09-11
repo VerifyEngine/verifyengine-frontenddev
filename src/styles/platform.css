@@ -24,6 +24,10 @@
   --ve-surface-brand2-16: #a5f3d429;      /* Surface/Fade (Brand 2)/16% */
   --ve-surface-brand2-40: #a5f3d466;      /* Surface/Fade (Brand 2)/40% */
   --ve-surface-brand2-64: #a5f3d4a3;      /* Surface/Fade (Brand 2)/64% */
+  --ve-surface-brand2-secondary: #63927f; /* Surface/Brand 2/Secondary */
+  --ve-surface-brand2-tertiary: #e4fbf2;  /* Surface/Brand 2/Tertiary */
+  --ve-surface-fade-64: #ffffffa3;        /* Surface/Fade/64% */
+  --ve-surface-brand1-quaternary: #e9ebef; /* Surface/Brand 1/Quaternary */
 
   /* Text */
   --ve-text-primary: #333333;             /* Text/Default/Primary */
@@ -43,6 +47,21 @@
      unreadable on the lilac highlight, so dark uses Brand 2, as drawn. */
   --ve-nav-active-text: #233364;
 
+  /*
+   * Two more places where the design swaps the *token* between themes rather
+   * than the value behind it, so neither can live in the shared block:
+   *
+   *   emphasis  the large metric figure on a card. Text/Brand 1 on light,
+   *             Text/Brand 2 on dark (Figma node 18046:23458 vs 18172:6356).
+   *   heading   a panel title such as "Verification Queue Table" or "Live
+   *             Alert". Text/Brand 1 on light, Text/Default/Primary on dark.
+   *
+   * Status chips are the counter-example and deliberately keep Brand 1 in both
+   * themes: their text sits on a mint pill, where navy stays readable.
+   */
+  --ve-text-emphasis: #233364;
+  --ve-text-heading: #233364;
+
   /* Page canvas — the frame fill the whole app sits on. */
   --ve-canvas: #fcfcfc;
   /* Off, like dark — see the note in the dark block. */
@@ -61,6 +80,8 @@
   --ve-surface-brand2-64: #a5f3d4a3;
   --ve-surface-brand2-secondary: #63927f; /* Surface/Brand 2/Secondary */
   --ve-surface-brand2-tertiary: #426155;  /* Surface/Brand 2/Tertiary */
+  --ve-surface-fade-64: #000000a3;        /* Surface/Fade/64% */
+  --ve-surface-brand1-quaternary: #070a14; /* Surface/Brand 1/Quaternary */
 
   --ve-text-primary: #ffffff;
   --ve-text-secondary: #cccccc;
@@ -72,6 +93,9 @@
 
   --ve-wordmark: #a5f3d4;
   --ve-nav-active-text: #a5f3d4;
+
+  --ve-text-emphasis: #a5f3d4;          /* Text/Brand 2/Primary */
+  --ve-text-heading: #ffffff;           /* Text/Default/Primary */
 
   --ve-canvas: #071942;
   /*
@@ -94,8 +118,11 @@
 
 /* ---- Shared across both themes ---------------------------------------- */
 [data-ve-theme] {
-  --ve-surface-brand2-secondary: var(--ve-surface-brand2-secondary, #63927f);
   --ve-border-brand2: #a5f3d4;            /* Border/Brand 2/Primary */
+  --ve-surface-brand2: #a5f3d4;           /* Surface/Brand 2/Primary */
+  /* The purple the New Order aside is painted with. Same base as the Brand 1
+     fades already here, so it does not change between themes. */
+  --ve-surface-brand1-80: #5026a2cc;      /* Surface/Fade (Brand 1)/80% */
   --ve-text-brand1: #233364;              /* Text/Brand 1/Primary */
   --ve-text-brand2: #a5f3d4;              /* Text/Brand 2/Primary */
   --ve-text-inverse: #ffffff;             /* Text/Inverse/Primary */
@@ -129,22 +156,32 @@
   --color-app-surface: var(--ve-surface-default);
   --color-app-fade-40: var(--ve-surface-fade-40);
   --color-app-fade-48: var(--ve-surface-fade-48);
+  --color-app-fade-64: var(--ve-surface-fade-64);
   --color-app-brand1: var(--ve-surface-brand1);
   --color-app-brand1-16: var(--ve-surface-brand1-16);
   --color-app-brand2-16: var(--ve-surface-brand2-16);
   --color-app-brand2-40: var(--ve-surface-brand2-40);
   --color-app-brand2-64: var(--ve-surface-brand2-64);
+  --color-app-brand2: var(--ve-surface-brand2);
+  --color-app-brand2-tertiary: var(--ve-surface-brand2-tertiary);
+  --color-app-brand1-80: var(--ve-surface-brand1-80);
+  --color-app-brand1-quaternary: var(--ve-surface-brand1-quaternary);
 
   --color-app-text: var(--ve-text-primary);
   --color-app-text-secondary: var(--ve-text-secondary);
   --color-app-text-tertiary: var(--ve-text-tertiary);
   --color-app-text-brand1: var(--ve-text-brand1);
   --color-app-nav-active: var(--ve-nav-active-text);
+  --color-app-text-emphasis: var(--ve-text-emphasis);
+  --color-app-heading: var(--ve-text-heading);
   --color-app-text-brand2: var(--ve-text-brand2);
   --color-app-text-inverse: var(--ve-text-inverse);
 
   --color-app-line: var(--ve-border-line);
   --color-app-line-brand2: var(--ve-border-brand2);
+  /* Border/Brand 1/Primary carries the same navy as Surface/Brand 1 in both
+     themes, so it binds to that token rather than repeating the hex. */
+  --color-app-line-brand1: var(--ve-surface-brand1);
 
   --color-app-success: var(--ve-success);
   --color-app-warning: var(--ve-warning);
@@ -169,7 +206,12 @@
  * design uses 0.6px hairlines throughout, and rounding them to 1px visibly
  * thickens every card and nav row.
  */
+@utility ve-canvas {
+  background-color: var(--ve-canvas);
+}
+
 @utility border-w-2xs { border-width: 0.6px; }   /* Width/2XS */
+@utility border-w-s   { border-width: 1px; }     /* Width/S   */
 @utility border-w-xs  { border-width: 0.8px; }   /* Width/XS  */
 @utility border-w-m   { border-width: 1.2px; }   /* Width/M   */
 
@@ -225,11 +267,29 @@
   font-weight: 700;
   letter-spacing: 0;
 }
+@utility text-body-s {
+  font-size: calc(14px * var(--ve-type-scale));
+  line-height: calc(16px * var(--ve-type-scale));
+  font-weight: 400;
+  letter-spacing: 0;
+}
+@utility text-heading-xs {
+  font-size: calc(16px * var(--ve-type-scale));
+  line-height: calc(20px * var(--ve-type-scale));
+  font-weight: 700;
+  letter-spacing: calc(-0.25px * var(--ve-type-scale));
+}
 @utility text-heading-s {
   font-size: calc(20px * var(--ve-type-scale));
   line-height: calc(24px * var(--ve-type-scale));
   font-weight: 700;
   letter-spacing: calc(-0.5px * var(--ve-type-scale));
+}
+@utility text-heading-l {
+  font-size: calc(32px * var(--ve-type-scale));
+  line-height: calc(36px * var(--ve-type-scale));
+  font-weight: 700;
+  letter-spacing: calc(-1px * var(--ve-type-scale));
 }
 @utility text-heading-m {
   font-size: calc(24px * var(--ve-type-scale));

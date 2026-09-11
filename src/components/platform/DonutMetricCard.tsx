@@ -55,7 +55,7 @@ export function DonutMetricCard({ metric }: { metric: DonutMetric }) {
         </ul>
 
         <div className="flex items-end gap-1">
-          <p className="whitespace-nowrap text-heading-m text-app-text-brand1">
+          <p className="whitespace-nowrap text-heading-m text-app-text-emphasis">
             {metric.value}
           </p>
           <span

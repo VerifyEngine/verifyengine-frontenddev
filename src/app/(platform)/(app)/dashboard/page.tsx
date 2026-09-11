@@ -74,7 +74,7 @@ export default function DashboardPage() {
           className="flex min-w-px flex-1 flex-col gap-4 overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]"
         >
           <div className="flex items-center gap-4">
-            <h2 className="min-w-px flex-1 text-heading-m text-app-text-brand1">
+            <h2 className="min-w-px flex-1 text-heading-m text-app-heading">
               Verification Queue Table
             </h2>
             <FilterField label="" placeholder="Search By" className="w-30" />

@@ -22,7 +22,7 @@ export default function ForgotPasswordPage() {
         title="Check your email"
         description="If an account matches that address, a reset link is on its way."
         footer={
-          <Link href="/login" className="text-app-text-brand1 underline">
+          <Link href="/login" className="text-app-text-emphasis underline">
             Back to sign in
           </Link>
         }
@@ -39,7 +39,7 @@ export default function ForgotPasswordPage() {
       title="Reset your password"
       description="Enter your email and we'll send you a reset link"
       footer={
-        <Link href="/login" className="text-app-text-brand1 underline">
+        <Link href="/login" className="text-app-text-emphasis underline">
           Back to sign in
         </Link>
       }

@@ -74,7 +74,7 @@ function IdentityCell({
   return (
     <div className="flex min-w-px flex-1 items-center gap-2">
       {variant === "company" ? (
-        <span className="flex size-[50px] shrink-0 items-center justify-center rounded-app-m border-w-2xs border-app-line bg-app-surface text-label-xs text-app-text-brand1">
+        <span className="flex size-[50px] shrink-0 items-center justify-center rounded-app-m border-w-2xs border-app-line bg-app-surface text-label-xs text-app-text-emphasis">
           {person.name.slice(0, 2).toUpperCase()}
         </span>
       ) : (
