@@ -136,6 +136,7 @@
   --ve-warning: #e74b3c;                  /* Surface|Text/Functional/Warning */
   --ve-accent: #ff8a00;                   /* Surface/Functional/Accent */
   --ve-neutral: #01a2ff;                  /* Surface/Functional/Neutral */
+  --ve-information: #1fa7c9;              /* Surface/Functional/Information */
   --ve-highlight: #edd501;                /* Surface/Functional/Highlight */
   --ve-white: #ffffff;                    /* Flat/Plain/White */
 
@@ -191,6 +192,7 @@
   --color-app-warning: var(--ve-warning);
   --color-app-accent: var(--ve-accent);
   --color-app-neutral: var(--ve-neutral);
+  --color-app-information: var(--ve-information);
   --color-app-highlight: var(--ve-highlight);
 
   --font-app: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
@@ -216,6 +218,9 @@
 
 @utility border-w-2xs { border-width: 0.6px; }   /* Width/2XS */
 @utility border-w-s   { border-width: 1px; }     /* Width/S   */
+
+/* Radius/S, used by the chart bars. */
+@utility rounded-app-s { border-radius: 8px; }
 @utility border-w-xs  { border-width: 0.8px; }   /* Width/XS  */
 @utility border-w-m   { border-width: 1.2px; }   /* Width/M   */
 
