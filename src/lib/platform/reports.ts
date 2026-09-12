@@ -2,6 +2,8 @@ import type { BarRow } from "@/components/platform/charts/BarCharts";
 import type { ChartSeries } from "@/components/platform/charts/ChartCard";
 import type { LineSeries } from "@/components/platform/charts/AreaLineChart";
 import type { FunnelStage } from "@/components/platform/charts/FunnelChart";
+import type { PieSlice } from "@/components/platform/charts/PieChart";
+import type { RadarPoint } from "@/components/platform/charts/RadarChart";
 
 /*
  * Reports — Figma node 18176:36360.
@@ -81,3 +83,56 @@ export const formatThousands = (value: number) =>
 
 export const formatDollars = (value: number) =>
   value === 0 ? "$0" : `$${Math.round(value / 1000)}k`;
+
+export const QUEUE_DISTRIBUTION: readonly PieSlice[] = [
+  { label: "Pending", tone: "accent", percent: 15 },
+  { label: "In Progress", tone: "highlight", percent: 7 },
+  { label: "Awaiting", tone: "warning", percent: 8 },
+  { label: "Escalated", tone: "neutral", percent: 7 },
+  { label: "Completed", tone: "success", percent: 70 },
+];
+
+export const QUEUE_TOTAL = "38,420";
+
+export const SLA_SERIES: readonly ChartSeries[] = [
+  { label: "12,094 - Within SLA", tone: "neutral" },
+  { label: "2,469 - Near Breach", tone: "accent" },
+  { label: "841 - Error", tone: "warning" },
+  { label: "841 - Breached", tone: "success" },
+];
+
+/*
+ * SLA Risk Monitor. Figma labels this axis 0, 50k, 100k, 250k, 400k, 500k, 1M —
+ * the steps are not even, so the drawn bar heights cannot be read back as
+ * values on a linear scale. These are the heights as drawn, against the 500k
+ * gridline the columns actually reach, which is what the analytics endpoint
+ * will replace. Flagged to the designer.
+ */
+export const SLA_RISK: readonly BarRow[] = [
+  { label: "2019", values: [205000, 250000, 235000, 195000] },
+  { label: "2020", values: [65000, 240000, 480000, 195000] },
+  { label: "2021", values: [455000, 95000, 525000, 410000] },
+  { label: "2022", values: [280000, 275000, 250000, 265000] },
+  { label: "2023", values: [300000, 265000, 90000, 105000] },
+  { label: "2024", values: [200000, 225000, 245000, 265000] },
+  { label: "2025", values: [255000, 90000, 110000, 40000] },
+  { label: "2026", values: [260000, 385000, 300000, 65000] },
+];
+
+export const SLA_SCOPES = ["Client", "Team", "Region"] as const;
+
+export const ESCALATION_RADAR: readonly RadarPoint[] = [
+  { label: "Fraud Risk", value: 2457 },
+  { label: "No Response", value: 1995 },
+  { label: "Ownership Mismatch", value: 1228 },
+  { label: "Consent Missing", value: 6448 },
+  { label: "AI Uncertainty", value: 4764 },
+];
+
+export const ESCALATION_LEGEND: readonly ChartSeries[] = [
+  { label: "24% Fraud Risk", tone: "warning" },
+  { label: "16% No Response", tone: "information" },
+  { label: "8% Ownership Mismatch", tone: "neutral" },
+  { label: "32% Consent Missing", tone: "success" },
+  { label: "20% AI Uncertainty", tone: "neutral" },
+];

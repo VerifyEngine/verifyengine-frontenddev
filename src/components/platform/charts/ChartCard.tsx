@@ -33,20 +33,24 @@ export const TONE_VAR: Record<ChartSeries["tone"], string> = {
   highlight: "var(--ve-highlight)",
 };
 
-function RangeToggle({
+function PillToggle({
+  label,
+  options,
   value,
   onChange,
 }: {
-  value: ChartRange;
-  onChange: (range: ChartRange) => void;
+  label: string;
+  options: readonly string[];
+  value: string;
+  onChange: (option: string) => void;
 }) {
   return (
     <div
       role="group"
-      aria-label="Date range"
+      aria-label={label}
       className="flex shrink-0 rounded-app-4xl border-w-2xs border-app-line bg-app-brand2-tertiary p-0.5"
     >
-      {CHART_RANGES.map((range) => {
+      {options.map((range) => {
         const isActive = range === value;
         return (
           <button
@@ -73,6 +77,9 @@ export function ChartCard({
   series,
   showRange = true,
   defaultRange = "Monthly",
+  /** Second pill group, as on SLA Risk Monitor's Client / Team / Region. */
+  scopes,
+  defaultScope,
   children,
 }: {
   title: string;
@@ -80,15 +87,28 @@ export function ChartCard({
   series?: readonly ChartSeries[];
   showRange?: boolean;
   defaultRange?: ChartRange;
+  scopes?: readonly string[];
+  defaultScope?: string;
   children: ReactNode;
 }) {
   const [range, setRange] = useState<ChartRange>(defaultRange);
+  const [scope, setScope] = useState(defaultScope ?? scopes?.[0] ?? "");
 
   return (
     <section className="flex h-full flex-col overflow-hidden rounded-app-xl border-w-2xs border-app-line bg-app-fade-48 backdrop-blur-[12px]">
       <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center">
         <h2 className="min-w-px flex-1 text-heading-m text-app-text">{title}</h2>
-        {showRange ? <RangeToggle value={range} onChange={setRange} /> : null}
+        {showRange ? (
+          <PillToggle
+            label="Date range"
+            options={CHART_RANGES}
+            value={range}
+            onChange={(next) => setRange(next as ChartRange)}
+          />
+        ) : null}
+        {scopes ? (
+          <PillToggle label="Grouping" options={scopes} value={scope} onChange={setScope} />
+        ) : null}
       </div>
 
       <div className="min-h-px flex-1">{children}</div>

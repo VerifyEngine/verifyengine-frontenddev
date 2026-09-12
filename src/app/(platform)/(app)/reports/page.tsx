@@ -1,15 +1,28 @@
 import type { Metadata } from "next";
 import { AreaLineChart } from "@/components/platform/charts/AreaLineChart";
-import { GroupedBarChart, StackedBarChart } from "@/components/platform/charts/BarCharts";
+import {
+  ColumnChart,
+  GroupedBarChart,
+  StackedBarChart,
+} from "@/components/platform/charts/BarCharts";
 import { ChartCard } from "@/components/platform/charts/ChartCard";
 import { FunnelChart } from "@/components/platform/charts/FunnelChart";
+import { PieChart } from "@/components/platform/charts/PieChart";
+import { RadarChart } from "@/components/platform/charts/RadarChart";
 import { PageHeader } from "@/components/platform/PageHeader";
 import {
   BILLING_SERIES,
+  ESCALATION_LEGEND,
+  ESCALATION_RADAR,
   FUNNEL_TOTAL,
   MONTHLY_VOLUME,
   MONTH_LABELS,
   OPERATIONAL_WORKLOAD,
+  QUEUE_DISTRIBUTION,
+  QUEUE_TOTAL,
+  SLA_RISK,
+  SLA_SCOPES,
+  SLA_SERIES,
   VERIFICATION_FUNNEL,
   VOLUME_SERIES,
   WORKLOAD_SERIES,
@@ -27,8 +40,8 @@ export const metadata: Metadata = { title: "Reports" };
  * pulled from a charting library, following the technique the dashboard's donut
  * and the order screen's gauge and radar already use.
  *
- * Blocks one and two are in place; the remaining eight — two more bar blocks, a
- * column block, three line blocks, a pie block and the United States map — are
+ * Blocks one to four are in place. The remaining six — three line blocks, a
+ * second funnel block, a channel breakdown and the United States map — are
  * still to come, and the map needs its outline exported from the design file
  * before it can be drawn at all.
  */
@@ -81,6 +94,48 @@ export default function ReportsPage() {
             totalLabel="Total"
             total={FUNNEL_TOTAL}
           />
+        </ChartCard>
+      </div>
+
+      <div className="grid grid-cols-1 gap-2 xl:grid-cols-[1fr_1.33fr]">
+        <ChartCard title="Queue Status Distribution" showRange={false}>
+          <PieChart
+            slices={QUEUE_DISTRIBUTION}
+            totalLabel="Total"
+            total={QUEUE_TOTAL}
+          />
+        </ChartCard>
+
+        <ChartCard title="Operational Workload" series={WORKLOAD_SERIES} defaultRange="Yearly">
+          <GroupedBarChart
+            rows={OPERATIONAL_WORKLOAD}
+            series={WORKLOAD_SERIES}
+            max={100000}
+            format={formatDollars}
+          />
+        </ChartCard>
+      </div>
+
+      <div className="grid grid-cols-1 gap-2 xl:grid-cols-[2fr_1fr]">
+        <ChartCard
+          title="SLA Risk Monitor"
+          series={SLA_SERIES}
+          defaultRange="Yearly"
+          scopes={SLA_SCOPES}
+          defaultScope="Region"
+        >
+          <ColumnChart
+            rows={SLA_RISK}
+            series={SLA_SERIES}
+            max={550000}
+            format={formatThousands}
+          />
+        </ChartCard>
+
+        <ChartCard title="Escalation Radar" series={ESCALATION_LEGEND} showRange={false}>
+          <div className="flex items-center justify-center px-5 pb-5">
+            <RadarChart points={ESCALATION_RADAR} max={7000} rings={5} showPointValues />
+          </div>
         </ChartCard>
       </div>
     </div>
