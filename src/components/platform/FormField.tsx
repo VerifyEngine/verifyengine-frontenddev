@@ -50,6 +50,7 @@ export function FormField({
   placeholder,
   icon,
   required,
+  defaultValue,
   type = "text",
 }: {
   name: string;
@@ -57,6 +58,8 @@ export function FormField({
   placeholder: string;
   icon?: FieldIcon;
   required?: boolean;
+  /** Screens that open with a value filled in, such as the rules editor. */
+  defaultValue?: string;
   type?: "text" | "email" | "tel";
 }) {
   const id = `field-${name}`;
@@ -71,7 +74,14 @@ export function FormField({
               <LeadingIcon icon={icon} />
             </span>
           ) : null}
-          <input id={id} name={name} type={type} placeholder={placeholder} className={TEXT} />
+          <input
+            id={id}
+            name={name}
+            type={type}
+            placeholder={placeholder}
+            defaultValue={defaultValue}
+            className={TEXT}
+          />
         </div>
       </div>
     </div>
@@ -89,6 +99,7 @@ export function FormSelect({
   placeholder,
   options,
   required,
+  defaultValue = "",
   className = "",
 }: {
   name: string;
@@ -96,6 +107,8 @@ export function FormSelect({
   placeholder: string;
   options: readonly string[];
   required?: boolean;
+  /** Screens that open with a value chosen, such as the rules editor. */
+  defaultValue?: string;
   className?: string;
 }) {
   const id = `field-${name}`;
@@ -108,7 +121,7 @@ export function FormSelect({
           <select
             id={id}
             name={name}
-            defaultValue=""
+            defaultValue={defaultValue}
             className={`${TEXT} appearance-none text-app-text-tertiary has-[option:checked:not([value=''])]:text-app-text`}
           >
             <option value="" disabled>

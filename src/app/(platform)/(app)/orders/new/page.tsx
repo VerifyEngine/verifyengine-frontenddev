@@ -44,6 +44,7 @@ export default function NewOrderPage() {
           { label: "Cancel", icon: "cancel" },
           { label: "Create Order", icon: "check", primary: true },
         ]}
+        utilities={[]}
         note="Auto saved 2 min ago"
       />
 

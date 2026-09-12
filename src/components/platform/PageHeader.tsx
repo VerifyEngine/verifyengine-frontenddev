@@ -93,7 +93,7 @@ export function PageHeader({
   actions?: readonly HeaderAction[];
   /** The quiet row underneath. Defaults to the list screens' Refresh / Export. */
   utilities?: readonly UtilityAction[];
-  /** Replaces the utility row entirely, e.g. "Auto saved 2 min ago". */
+  /** Status line at the start of the utility row, e.g. "Auto saved 2 min ago". */
   note?: string;
 }) {
   return (
@@ -159,13 +159,14 @@ export function PageHeader({
           ))}
         </div>
 
-        {note ? (
-          <p className="flex items-center gap-1 px-2 text-app-text-tertiary xl:justify-end">
-            <IconRefresh {...iconProps(16)} />
-            <span className="whitespace-nowrap text-label-2xs">{note}</span>
-          </p>
-        ) : utilities.length > 0 ? (
+        {note || utilities.length > 0 ? (
           <div className="flex flex-wrap items-center gap-5 px-2 xl:justify-end">
+            {note ? (
+              <p className="flex items-center gap-1 text-app-text-tertiary">
+                <IconRefresh {...iconProps(16)} />
+                <span className="whitespace-nowrap text-label-2xs">{note}</span>
+              </p>
+            ) : null}
             {utilities.map((utility) => (
               <button
                 key={utility.label}
