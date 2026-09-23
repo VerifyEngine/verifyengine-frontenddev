@@ -1,14 +1,17 @@
-import { TONE_VAR, type ChartSeries } from "./tones";
+"use client";
+
+import { Cell, Funnel, FunnelChart as RechartsFunnel, LabelList, ResponsiveContainer, Tooltip } from "recharts";
+import { ChartTooltip, toneVar } from "./chart-kit";
+import type { ChartSeries } from "./tones";
 
 /*
- * Verification Funnel — Figma node 18176:37194.
+ * Verification Funnel — Figma node 18176:37194, drawn with Recharts.
  *
- * Each stage is a trapezoid: it starts as wide as the stage above it ended and
- * narrows in proportion to its own share, so the silhouette tapers to the last
- * stage. Written as SVG polygons because a trapezoid is not a CSS box.
- *
- * The widths come from each stage's percentage, which means the shape follows
- * the data rather than the six fixed shapes the design happens to draw.
+ * Each stage is a trapezoid that starts as wide as the stage above it ended
+ * and narrows to its own share, so the silhouette follows the data. Recharts
+ * draws each trapezoid from its value down to the next one's, so the widths
+ * fed in are the stage boundaries: the full plot, then each stage's share
+ * (floored so a tiny stage still has room for its label).
  */
 
 export type FunnelStage = ChartSeries & {
@@ -16,8 +19,25 @@ export type FunnelStage = ChartSeries & {
   percent: number;
 };
 
-const VIEW_W = 100;
-const STAGE_H = 40;
+type Datum = { name: string; width: number; tone: FunnelStage["tone"]; value: string; percent: number };
+
+function StageLabel(props: { x?: number; y?: number; width?: number; height?: number; index?: number; data: Datum[] }) {
+  const { x = 0, y = 0, width = 0, height = 0, index = 0, data } = props;
+  const stage = data[index];
+  if (!stage) return null;
+  const cx = x + width / 2;
+  const cy = y + height / 2;
+  return (
+    <g pointerEvents="none">
+      <text x={cx} y={cy - 8} textAnchor="middle" dominantBaseline="central" className="fill-white text-body-2xs font-app opacity-80">
+        {stage.name}
+      </text>
+      <text x={cx} y={cy + 8} textAnchor="middle" dominantBaseline="central" className="fill-white text-label-2xs font-app">
+        {stage.value} ({stage.percent}%)
+      </text>
+    </g>
+  );
+}
 
 export function FunnelChart({
   stages,
@@ -28,55 +48,42 @@ export function FunnelChart({
   totalLabel: string;
   total: string;
 }) {
-  const height = stages.length * STAGE_H;
-
-  // Each boundary is the width at that point, from full width down to the
-  // narrowest stage. The first stage starts at 100% of the plot.
-  const widths = [100, ...stages.map((stage) => Math.max(stage.percent, 6))];
+  const data: Datum[] = stages.map((stage, index) => ({
+    name: stage.label,
+    width: index === 0 ? 100 : Math.max(stages[index - 1].percent, 6),
+    tone: stage.tone,
+    value: stage.value,
+    percent: stage.percent,
+  }));
 
   return (
     <div className="flex h-full flex-col gap-4 p-5">
       {/* The plot fills whatever height the row gives it — beside Operational
-          Workload that is the design's 604px block. Sized by its own viewBox it
-          would take its height from the card's width and grow to ~1400px. */}
+          Workload that is the design's 604px block. */}
       <div className="relative min-h-96 flex-1">
-        <svg
-          viewBox={`0 0 ${VIEW_W} ${height}`}
-          preserveAspectRatio="none"
-          className="absolute inset-0 size-full"
-          role="img"
-          aria-label={stages.map((s) => `${s.label} ${s.value}`).join(", ")}
-        >
-          {stages.map((stage, index) => {
-            const top = widths[index];
-            const bottom = widths[index + 1];
-            const y = index * STAGE_H;
-            const topLeft = (VIEW_W - top) / 2;
-            const bottomLeft = (VIEW_W - bottom) / 2;
-
-            return (
-              <polygon
-                key={stage.label}
-                points={`${topLeft},${y} ${topLeft + top},${y} ${bottomLeft + bottom},${y + STAGE_H} ${bottomLeft},${y + STAGE_H}`}
-                fill={TONE_VAR[stage.tone]}
+        <div className="absolute inset-0">
+          <ResponsiveContainer width="100%" height="100%">
+            <RechartsFunnel>
+              <Tooltip
+                content={({ active, payload }) => (
+                  <ChartTooltip
+                    active={active}
+                    format="plain"
+                    payload={payload?.map((entry) => {
+                      const stage = entry.payload as Datum;
+                      return { name: stage.name, value: `${stage.value} (${stage.percent}%)`, color: toneVar(stage.tone) };
+                    })}
+                  />
+                )}
               />
-            );
-          })}
-        </svg>
-
-        {/* Labels sit above the shape so they keep the platform's type scale. */}
-        <div className="absolute inset-0 flex flex-col">
-          {stages.map((stage) => (
-            <div
-              key={stage.label}
-              className="flex min-h-px flex-1 flex-col items-center justify-center text-center"
-            >
-              <span className="text-body-2xs text-app-text-inverse opacity-80">{stage.label}</span>
-              <span className="text-label-2xs text-app-text-inverse">
-                {stage.value} ({stage.percent}%)
-              </span>
-            </div>
-          ))}
+              <Funnel dataKey="width" data={data} isAnimationActive animationDuration={800} lastShapeType="rectangle" stroke="none">
+                {data.map((entry) => (
+                  <Cell key={entry.name} fill={toneVar(entry.tone)} />
+                ))}
+                <LabelList content={(props) => <StageLabel {...(props as object)} data={data} />} />
+              </Funnel>
+            </RechartsFunnel>
+          </ResponsiveContainer>
         </div>
       </div>
 

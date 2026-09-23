@@ -1,89 +1,64 @@
-import { TONE_VAR, type ChartSeries } from "./tones";
+"use client";
+
+import { PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer, Tooltip } from "recharts";
+import { ChartTooltip, toneVar } from "./chart-kit";
+import type { ChartSeries } from "./tones";
 
 /*
- * Compliance Completion — Figma node 18176:37915.
+ * Compliance Completion — Figma node 18176:37915, drawn with Recharts.
  *
- * Four concentric progress rings, outermost first. Each ring is a full track in
- * Surface/Brand 2/Secondary with its progress drawn over it from three o'clock,
- * clockwise, ending in a round cap; a thin ring in the surface colour parts
- * each ring from the next, and the same colour fills the dot in the middle.
- * The shares are read out in a row of badges along the three o'clock radius,
- * one on each ring.
- *
- * Same stroked-circle technique as DonutMetricCard: a circle's stroke starts at
- * three o'clock and runs clockwise, which is exactly where the design starts.
+ * Four concentric progress rings, outermost first, each over a full track in
+ * Surface/Brand 2/Secondary, running clockwise from three o'clock with round
+ * caps. The shares are read out in a row of navy pills along the three o'clock
+ * radius, one per ring.
  */
 
 export type RingProgress = ChartSeries & { percent: number };
 
-const SIZE = 448;
-const CENTRE = SIZE / 2;
-/** Outer edge of each ring, from the four groups in the design. */
-const RING_EDGES = [224, 171, 118, 65.5];
-const RING_WIDTH = 49;
-/** The surface-coloured hairline between rings. */
-const SEPARATOR = 4;
+/** Ring thickness and the gap between rings, as fractions of the radius. */
+const INNER = 12;
+const OUTER = 100;
 
 export function RingProgressChart({ rings }: { rings: readonly RingProgress[] }) {
+  // RadialBarChart draws its first entry innermost; the design lists outermost first.
+  const data = [...rings].reverse().map((ring) => ({
+    name: ring.label,
+    value: ring.percent,
+    fill: toneVar(ring.tone),
+  }));
+  const band = (OUTER - INNER) / rings.length;
+
   return (
     <div className="flex h-full items-center justify-center p-7">
       <div className="relative aspect-square w-full max-w-[448px]">
-        <svg
-          viewBox={`0 0 ${SIZE} ${SIZE}`}
-          className="size-full"
-          role="img"
-          aria-label={rings.map((r) => `${r.label} ${r.percent}%`).join(", ")}
-        >
-          {rings.map((ring, index) => {
-            const edge = RING_EDGES[index];
-            const radius = edge - RING_WIDTH / 2;
-            const circumference = 2 * Math.PI * radius;
-            return (
-              <g key={ring.label}>
-                <circle
-                  cx={CENTRE}
-                  cy={CENTRE}
-                  r={radius}
-                  fill="none"
-                  strokeWidth={RING_WIDTH}
-                  stroke="var(--ve-surface-brand2-secondary)"
-                />
-                <circle
-                  cx={CENTRE}
-                  cy={CENTRE}
-                  r={radius}
-                  fill="none"
-                  strokeWidth={RING_WIDTH}
-                  strokeLinecap="round"
-                  stroke={TONE_VAR[ring.tone]}
-                  strokeDasharray={`${(ring.percent / 100) * circumference} ${circumference}`}
-                />
-                <circle
-                  cx={CENTRE}
-                  cy={CENTRE}
-                  r={edge - RING_WIDTH - SEPARATOR / 2}
-                  fill="none"
-                  strokeWidth={SEPARATOR}
-                  stroke="var(--ve-surface-default)"
-                />
-              </g>
-            );
-          })}
-          <circle
-            cx={CENTRE}
-            cy={CENTRE}
-            r={RING_EDGES.at(-1)! - RING_WIDTH - SEPARATOR}
-            fill="var(--ve-surface-default)"
-          />
-        </svg>
+        <ResponsiveContainer width="100%" height="100%">
+          <RadialBarChart
+            data={data}
+            innerRadius={`${INNER}%`}
+            outerRadius={`${OUTER}%`}
+            startAngle={0}
+            endAngle={-360}
+            barCategoryGap="12%"
+          >
+            <PolarAngleAxis type="number" domain={[0, 100]} tick={false} axisLine={false} />
+            <Tooltip content={<ChartTooltip format="plain" />} cursor={false} />
+            <RadialBar
+              dataKey="value"
+              cornerRadius={999}
+              background={{ fill: "var(--ve-surface-brand2-secondary)" }}
+              animationDuration={900}
+            />
+          </RadialBarChart>
+        </ResponsiveContainer>
 
+        {/* The shares, on each ring's centre line at three o'clock. */}
         {rings.map((ring, index) => {
-          const radius = RING_EDGES[index] - RING_WIDTH / 2;
+          const radius = OUTER - band * index - band / 2;
           return (
             <span
               key={ring.label}
-              className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-app-l bg-app-brand1 p-1 text-body-2xs font-bold text-white"
-              style={{ left: `${((CENTRE + radius) / SIZE) * 100}%` }}
+              className="pointer-events-none absolute top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-app-l bg-app-brand1 p-1 text-body-2xs font-bold text-white"
+              style={{ left: `${50 + radius / 2}%` }}
             >
               {ring.percent}%
             </span>

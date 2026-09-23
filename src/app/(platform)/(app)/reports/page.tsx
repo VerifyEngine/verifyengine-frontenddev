@@ -9,7 +9,7 @@ import { ChartCard } from "@/components/platform/charts/ChartCard";
 import { DonutChart } from "@/components/platform/charts/DonutChart";
 import { FunnelChart } from "@/components/platform/charts/FunnelChart";
 import { PieChart } from "@/components/platform/charts/PieChart";
-import { RadarChart } from "@/components/platform/charts/RadarChart";
+import { ReportRadar } from "@/components/platform/charts/ReportRadar";
 import { RingProgressChart } from "@/components/platform/charts/RingProgressChart";
 import { StateActivityMap } from "@/components/platform/charts/StateActivityMap";
 import { TopClientsTable } from "@/components/platform/charts/TopClientsTable";
@@ -49,9 +49,6 @@ import {
   VERIFICATION_FUNNEL,
   VOLUME_SERIES,
   WORKLOAD_SERIES,
-  formatDollars,
-  formatMillions,
-  formatThousands,
 } from "@/lib/platform/reports";
 
 export const metadata: Metadata = { title: "Reports" };
@@ -62,11 +59,9 @@ const REPORT_FILTERS = ["Date Range", "Client", "Status", "Verification", "Order
  * Reports — Figma node 18176:36360.
  *
  * A row of six filters, then an analytics page of ten chart blocks down a 1656
- * column, each block one or two cards. The charts are written as SVG and CSS
- * in this project rather than pulled from a charting library, following the
- * technique the dashboard's donut and the order screen's gauge and radar
- * already use. The one drawn asset is the United States outline, exported from
- * the design file.
+ * column, each block one or two cards. The charts are drawn with Recharts, on
+ * the platform's colour tokens and type, with hover tooltips; the one drawn
+ * asset is the United States outline, exported from the design file.
  *
  * Below xl every two-card block stacks, and the filters fold into two and then
  * three columns, since the design has no narrower frame to follow.
@@ -95,7 +90,7 @@ export default function ReportsPage() {
             rows={MONTHLY_VOLUME}
             series={VOLUME_SERIES}
             max={400000}
-            format={formatThousands}
+            format="thousands"
           />
         </ChartCard>
 
@@ -104,7 +99,7 @@ export default function ReportsPage() {
             series={BILLING_SERIES}
             labels={MONTH_LABELS}
             max={100}
-            formatY={(value) => `${Math.round(value)}u`}
+            format="units"
             marker={{ seriesIndex: 0, pointIndex: 12, label: "203" }}
           />
         </ChartCard>
@@ -116,7 +111,7 @@ export default function ReportsPage() {
             rows={OPERATIONAL_WORKLOAD}
             series={WORKLOAD_SERIES}
             max={100000}
-            format={formatDollars}
+            format="dollars"
           />
         </ChartCard>
 
@@ -143,7 +138,7 @@ export default function ReportsPage() {
             rows={OPERATIONAL_WORKLOAD}
             series={WORKLOAD_SERIES}
             max={100000}
-            format={formatDollars}
+            format="dollars"
           />
         </ChartCard>
       </div>
@@ -160,13 +155,20 @@ export default function ReportsPage() {
             rows={SLA_RISK}
             series={SLA_SERIES}
             max={550000}
-            format={formatThousands}
+            format="thousands"
           />
         </ChartCard>
 
         <ChartCard title="Escalation Radar" series={ESCALATION_LEGEND} showRange={false}>
           <div className="flex items-center justify-center px-5 pb-5">
-            <RadarChart points={ESCALATION_RADAR} max={7000} rings={5} showPointValues />
+            <ReportRadar
+              points={ESCALATION_RADAR}
+              max={7000}
+              tone="neutral"
+              stroke="var(--ve-border-brand2)"
+              fill="var(--ve-surface-brand1-80)"
+              fillOpacity={0.7}
+            />
           </div>
         </ChartCard>
       </div>
@@ -176,11 +178,10 @@ export default function ReportsPage() {
           series={OUTREACH_SERIES}
           labels={MONTH_LABELS}
           max={5}
-          formatY={formatMillions}
+          format="millions"
+          yTicks={6}
           heightClass="h-96"
-          axisWidthClass="w-6"
           strokeWidth={2}
-          grid
           marker={{ seriesIndex: 0, at: 0.5, label: "203", labelAt: "bottom" }}
         />
       </ChartCard>
@@ -199,10 +200,9 @@ export default function ReportsPage() {
             series={OVERRIDE_SERIES}
             labels={MONTH_LABELS_UPPER}
             max={5000}
-            formatY={formatThousands}
+            format="thousands"
+            yTicks={6}
             heightClass="h-96"
-            axisWidthClass="w-6"
-            grid
             smooth
             marker={{ seriesIndex: 0, at: 0.52, label: "203", labelAt: "bottom" }}
           />
@@ -217,17 +217,7 @@ export default function ReportsPage() {
           legendDotClass="size-3"
         >
           <div className="flex h-full items-center justify-center p-7">
-            <RadarChart
-              points={CLIENT_RISK_RADAR}
-              max={7000}
-              rings={5}
-              showRingScale
-              showPointValues
-              strokeClass="stroke-app-accent"
-              fillClass="fill-app-accent/16"
-              shapeOpacityClass=""
-              labelClass="fill-app-text-secondary text-label-2xs"
-            />
+            <ReportRadar points={CLIENT_RISK_RADAR} max={7000} tone="accent" fillOpacity={0.16} showScale />
           </div>
         </ChartCard>
       </div>
@@ -281,11 +271,10 @@ export default function ReportsPage() {
           series={SYSTEM_FAILURE_SERIES}
           labels={MONTH_LABELS}
           max={5}
-          formatY={formatMillions}
+          format="millions"
+          yTicks={6}
           heightClass="h-96"
-          axisWidthClass="w-6"
           strokeWidth={2}
-          grid
           marker={{ seriesIndex: 0, at: 0.5, label: "203", labelAt: "bottom" }}
         />
       </ChartCard>

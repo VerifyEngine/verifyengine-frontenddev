@@ -82,12 +82,6 @@ export const VERIFICATION_FUNNEL: readonly FunnelStage[] = [
 
 export const FUNNEL_TOTAL = "2,373";
 
-export const formatThousands = (value: number) =>
-  value === 0 ? "0" : `${Math.round(value / 1000)}k`;
-
-export const formatDollars = (value: number) =>
-  value === 0 ? "$0" : `$${Math.round(value / 1000)}k`;
-
 export const QUEUE_DISTRIBUTION: readonly PieSlice[] = [
   { label: "Pending", tone: "accent", percent: 15 },
   { label: "In Progress", tone: "highlight", percent: 7 },
@@ -180,8 +174,6 @@ export const SYSTEM_FAILURE_SERIES = outreachSeries([
   "66 Call Delivery Issues (25%)",
   "66 AI Processing Delays (25%)",
 ]);
-
-export const formatMillions = (value: number) => (value === 0 ? "0" : `${Math.round(value)}m`);
 
 /*
  * Human Override Rate — Figma node 18176:37195.
