@@ -73,7 +73,7 @@ export const OPERATIONAL_WORKLOAD: readonly BarRow[] = [
 export const VERIFICATION_FUNNEL: readonly FunnelStage[] = [
   { label: "Orders Submitted", value: "40", percent: 5, tone: "warning" },
   { label: "Consent Received", value: "2850", percent: 35, tone: "neutral" },
-  { label: "Landlord Conacted", value: "2110", percent: 30, tone: "information" },
+  { label: "Landlord Contacted", value: "2110", percent: 30, tone: "information" },
   { label: "Response Received", value: "930", percent: 20, tone: "accent" },
   { label: "AI Verified", value: "240", percent: 16, tone: "success" },
   { label: "Human Verified", value: "40", percent: 7, tone: "highlight" },
