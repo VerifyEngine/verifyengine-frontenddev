@@ -41,7 +41,7 @@ const NAV_SECTIONS = [
     heading: "Workspace",
     items: [
       { label: "Dashboard", href: "/dashboard", Icon: IconChartDots3 },
-      { label: "Analytics", href: "/analytics", Icon: IconFileAnalytics },
+      { label: "Analytics", href: "/reports", Icon: IconFileAnalytics },
     ],
   },
   {
@@ -64,7 +64,7 @@ const NAV_SECTIONS = [
     items: [
       { label: "Billing Summary", href: "/billing", Icon: IconFileDollar },
       { label: "Invoices", href: "/invoices", Icon: IconFileBarcode },
-      { label: "Report Creator", href: "/reports", Icon: IconFileReport },
+      { label: "Report Creator", href: "/report-creator", Icon: IconFileReport },
       { label: "Tools", href: "/tools", Icon: IconTools },
     ],
   },

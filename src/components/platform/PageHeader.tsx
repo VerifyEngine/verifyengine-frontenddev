@@ -6,6 +6,7 @@ import {
   IconChevronRight,
   IconDownload,
   IconEye,
+  IconFileReport,
   IconFileText,
   IconMail,
   IconPlayerPlay,
@@ -40,9 +41,11 @@ import { iconProps } from "./icon";
 export type HeaderAction = {
   label: string;
   /** Matches the glyphs the design uses for these buttons. */
-  icon: "users-plus" | "plus" | "cancel" | "check" | "review" | "escalate";
+  icon: "users-plus" | "plus" | "cancel" | "check" | "review" | "escalate" | "file-report";
   /** Navy fill. Figma gives one button per header this treatment. */
   primary?: boolean;
+  /** Makes the action a link — Report Creator opens its dialog through the URL. */
+  href?: string;
 };
 
 function ActionIcon({ icon }: { icon: HeaderAction["icon"] }) {
@@ -51,6 +54,7 @@ function ActionIcon({ icon }: { icon: HeaderAction["icon"] }) {
   if (icon === "check") return <IconCheck {...iconProps(20)} />;
   if (icon === "review") return <IconEye {...iconProps(20)} />;
   if (icon === "escalate") return <IconTrendingUp {...iconProps(20)} />;
+  if (icon === "file-report") return <IconFileReport {...iconProps(20)} />;
   return <IconPlus {...iconProps(20)} />;
 }
 
@@ -141,22 +145,28 @@ export function PageHeader({
           </div>
           ) : null}
 
-          {actions?.map((action) => (
-            <button
-              key={action.label}
-              type="button"
-              className={
-                action.primary
-                  ? "flex shrink-0 items-center justify-center gap-3 rounded-app-l bg-app-brand1 px-4 py-3 text-app-text-inverse transition-opacity hover:opacity-90"
-                  : "flex shrink-0 items-center justify-center gap-3 rounded-app-l border-w-2xs border-app-line bg-app-fade-40 px-4 py-3 text-app-text transition-colors hover:bg-app-fade-48"
-              }
-            >
-              <span className={action.icon === "cancel" ? "text-app-warning" : ""}>
-                <ActionIcon icon={action.icon} />
-              </span>
-              <span className="whitespace-nowrap text-label-xs">{action.label}</span>
-            </button>
-          ))}
+          {actions?.map((action) => {
+            const className = action.primary
+              ? "flex shrink-0 items-center justify-center gap-3 rounded-app-l bg-app-brand1 px-4 py-3 text-app-text-inverse transition-opacity hover:opacity-90"
+              : "flex shrink-0 items-center justify-center gap-3 rounded-app-l border-w-2xs border-app-line bg-app-fade-40 px-4 py-3 text-app-text transition-colors hover:bg-app-fade-48";
+            const content = (
+              <>
+                <span className={action.icon === "cancel" ? "text-app-warning" : ""}>
+                  <ActionIcon icon={action.icon} />
+                </span>
+                <span className="whitespace-nowrap text-label-xs">{action.label}</span>
+              </>
+            );
+            return action.href ? (
+              <Link key={action.label} href={action.href} scroll={false} className={className}>
+                {content}
+              </Link>
+            ) : (
+              <button key={action.label} type="button" className={className}>
+                {content}
+              </button>
+            );
+          })}
         </div>
 
         {note || utilities.length > 0 ? (
