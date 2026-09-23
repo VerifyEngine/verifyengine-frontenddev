@@ -7,6 +7,7 @@ import {
   IconDownload,
   IconEye,
   IconFileDownload,
+  IconFileExport,
   IconFileReport,
   IconFileText,
   IconMail,
@@ -43,7 +44,7 @@ import { iconProps } from "./icon";
 export type HeaderAction = {
   label: string;
   /** Matches the glyphs the design uses for these buttons. */
-  icon: "users-plus" | "plus" | "cancel" | "check" | "review" | "escalate" | "file-report" | "mail" | "printer";
+  icon: "users-plus" | "plus" | "cancel" | "check" | "review" | "escalate" | "file-report" | "mail" | "printer" | "file-export";
   /** Navy fill. Figma gives one button per header this treatment. */
   primary?: boolean;
   /** Makes the action a link — Report Creator opens its dialog through the URL. */
@@ -59,6 +60,7 @@ function ActionIcon({ icon }: { icon: HeaderAction["icon"] }) {
   if (icon === "file-report") return <IconFileReport {...iconProps(20)} />;
   if (icon === "mail") return <IconMail {...iconProps(20)} />;
   if (icon === "printer") return <IconPrinter {...iconProps(20)} />;
+  if (icon === "file-export") return <IconFileExport {...iconProps(20)} />;
   return <IconPlus {...iconProps(20)} />;
 }
 
