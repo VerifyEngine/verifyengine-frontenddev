@@ -40,21 +40,26 @@ export function StackedBarChart({
   max,
   steps = 8,
   format,
+  labelWidth = 48,
+  heightClass = "h-80",
 }: {
   rows: readonly BarRow[];
   series: readonly ChartSeries[];
   max: number;
   steps?: number;
   format: ValueFormat;
+  /** Room for the row labels, when they are words rather than months. */
+  labelWidth?: number;
+  heightClass?: string;
 }) {
   const last = series.length - 1;
   return (
-    <div className="h-80 px-3 pb-2">
+    <div className={`px-3 pb-2 ${heightClass}`}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={toData(rows, series)} layout="vertical" barCategoryGap="30%" margin={{ top: 8, right: 16, bottom: 0, left: 0 }}>
           <CartesianGrid {...GRID_PROPS} horizontal={false} />
           <XAxis type="number" domain={[0, max]} ticks={ticks(max, steps)} tickFormatter={FORMATS[format]} tick={AXIS_TICK} axisLine={false} tickLine={false} />
-          <YAxis type="category" dataKey="label" width={48} tick={AXIS_TICK} axisLine={false} tickLine={false} />
+          <YAxis type="category" dataKey="label" width={labelWidth} tick={AXIS_TICK} axisLine={false} tickLine={false} />
           <Tooltip cursor={CURSOR} content={<ChartTooltip format={format} />} />
           {series.map((s, index) => (
             <Bar

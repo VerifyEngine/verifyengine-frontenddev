@@ -100,6 +100,7 @@ export function AreaLineChart({
   series,
   labels,
   max,
+  min = 0,
   yTicks = 5,
   format,
   marker,
@@ -107,10 +108,13 @@ export function AreaLineChart({
   grid = true,
   smooth = false,
   strokeWidth = 2,
+  dots = false,
 }: {
   series: readonly LineSeries[];
   labels: readonly string[];
   max: number;
+  /** Bottom of the value axis, when the readings sit in a narrow band. */
+  min?: number;
   yTicks?: number;
   format: ValueFormat;
   marker?: LineMarker;
@@ -118,10 +122,12 @@ export function AreaLineChart({
   grid?: boolean;
   smooth?: boolean;
   strokeWidth?: number;
+  /** Marks every sample, as the Client Profile trends draw them. */
+  dots?: boolean;
 }) {
   const id = useId().replace(/[^a-zA-Z0-9]/g, "");
   const rows = toRows(series);
-  const ticks = Array.from({ length: yTicks }, (_, index) => (max / (yTicks - 1)) * index);
+  const ticks = Array.from({ length: yTicks }, (_, index) => min + ((max - min) / (yTicks - 1)) * index);
   const labelTicks = labels.map((_, index) => (labels.length > 1 ? index / (labels.length - 1) : 0));
   const labelFor = (x: number) => labels[Math.round(x * (labels.length - 1))] ?? "";
 
@@ -133,7 +139,7 @@ export function AreaLineChart({
         : (marker.at ?? 0.5)
       : undefined;
   const markerY = markerLine && markerX !== undefined ? valueAt(markerLine, markerX) : undefined;
-  const pillY = marker?.labelAt === "bottom" ? max * 0.14 : markerY;
+  const pillY = marker?.labelAt === "bottom" ? min + (max - min) * 0.14 : markerY;
 
   return (
     <div className={`px-3 pb-2 ${heightClass}`}>
@@ -164,7 +170,7 @@ export function AreaLineChart({
             tickMargin={10}
           />
           <YAxis
-            domain={[0, max]}
+            domain={[min, max]}
             ticks={ticks}
             tickFormatter={FORMATS[format]}
             width={40}
@@ -188,7 +194,7 @@ export function AreaLineChart({
               stroke={toneVar(line.tone)}
               strokeWidth={strokeWidth}
               fill={line.fill ? `url(#${id}-fill-${index})` : "none"}
-              dot={false}
+              dot={dots ? { r: 3.5, strokeWidth: 0, fill: toneVar(line.tone) } : false}
               activeDot={{ r: 4, strokeWidth: 2, stroke: "var(--ve-surface-default)" }}
               animationDuration={900}
             />

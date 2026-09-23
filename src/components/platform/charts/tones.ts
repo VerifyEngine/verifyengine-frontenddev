@@ -14,7 +14,9 @@ export type ChartTone =
   | "warning"
   | "information"
   | "highlight"
-  | "brand1";
+  | "brand1"
+  /** Navy in light mode, white in dark — Brand 1 would vanish on the dark canvas. */
+  | "ink";
 
 export type ChartSeries = {
   label: string;
@@ -30,4 +32,5 @@ export const TONE_VAR: Record<ChartTone, string> = {
   information: "var(--ve-information)",
   highlight: "var(--ve-highlight)",
   brand1: "var(--ve-surface-brand1)",
+  ink: "var(--ve-text-heading)",
 };

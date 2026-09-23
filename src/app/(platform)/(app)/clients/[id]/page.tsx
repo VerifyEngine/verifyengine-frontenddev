@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/platform/PageHeader";
 import { ProfileSummary } from "@/components/platform/client-profile/ProfileSummary";
-import {
-  FieldGrid,
-  ProfileTabs,
-  TabNotDesigned,
-  TabSection,
-} from "@/components/platform/client-profile/ProfileTabs";
+import { AuditTab } from "@/components/platform/client-profile/AuditTab";
+import { BillingTab } from "@/components/platform/client-profile/BillingTab";
+import { ConfigurationTab } from "@/components/platform/client-profile/ConfigurationTab";
+import { ContactsTab } from "@/components/platform/client-profile/ContactsTab";
+import { PortfolioTab } from "@/components/platform/client-profile/PortfolioTab";
+import { PreferencesTab } from "@/components/platform/client-profile/PreferencesTab";
+import { FieldGrid, ProfileTabs, TabSection } from "@/components/platform/client-profile/ProfileTabs";
+import { ScoringTab } from "@/components/platform/client-profile/ScoringTab";
 import {
   CLIENT_PROFILE,
   COMPANY_PROFILE_FIELDS,
@@ -37,7 +39,6 @@ export default async function ClientProfilePage({
   const { id } = await params;
   const { tab } = await searchParams;
   const active = PROFILE_TABS.some((t) => t.slug === tab) ? (tab as string) : "overview";
-  const activeTab = PROFILE_TABS.find((t) => t.slug === active)!;
 
   return (
     <div className="flex flex-col gap-2 pb-2">
@@ -66,7 +67,21 @@ export default async function ClientProfilePage({
       <ProfileSummary />
 
       <ProfileTabs basePath={`/clients/${encodeURIComponent(id)}`} active={active}>
-        {active === "overview" ? (
+        {active === "contacts" ? (
+          <ContactsTab />
+        ) : active === "billing" ? (
+          <BillingTab />
+        ) : active === "configuration" ? (
+          <ConfigurationTab />
+        ) : active === "preferences" ? (
+          <PreferencesTab />
+        ) : active === "scoring" ? (
+          <ScoringTab />
+        ) : active === "audit" ? (
+          <AuditTab />
+        ) : active === "portfolio" ? (
+          <PortfolioTab />
+        ) : (
           <div className="flex flex-col gap-6">
             <TabSection title="Company Profile" first>
               <FieldGrid fields={COMPANY_PROFILE_FIELDS} />
@@ -84,8 +99,6 @@ export default async function ClientProfilePage({
               </ul>
             </TabSection>
           </div>
-        ) : (
-          <TabNotDesigned label={activeTab.label} />
         )}
       </ProfileTabs>
     </div>

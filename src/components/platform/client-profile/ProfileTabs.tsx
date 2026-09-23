@@ -68,10 +68,16 @@ export function TabSection({
   );
 }
 
-/** A label-over-value pair, three to a row on wide screens. */
-export function FieldGrid({ fields }: { fields: readonly { label: string; value: string; wide?: boolean }[] }) {
+/** Label-over-value pairs, three to a row on wide screens (two on Preferences). */
+export function FieldGrid({
+  fields,
+  columns = 3,
+}: {
+  fields: readonly { label: string; value: string; wide?: boolean }[];
+  columns?: 2 | 3;
+}) {
   return (
-    <dl className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+    <dl className={`grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 ${columns === 3 ? "lg:grid-cols-3" : ""}`}>
       {fields.map((field) => (
         <div key={field.label} className={`flex flex-col gap-0.5 ${field.wide ? "lg:col-span-2" : ""}`}>
           <dt className="text-nav-heading tracking-[0.05em] text-app-text-tertiary">{field.label}</dt>
@@ -79,17 +85,5 @@ export function FieldGrid({ fields }: { fields: readonly { label: string; value:
         </div>
       ))}
     </dl>
-  );
-}
-
-/** For the two tabs the design lists but has not drawn yet. */
-export function TabNotDesigned({ label }: { label: string }) {
-  return (
-    <div className="flex min-h-48 flex-col items-center justify-center gap-2 text-center">
-      <p className="text-heading-xs text-app-text">{label}</p>
-      <p className="max-w-md text-body-xs text-app-text-secondary">
-        This section is not available yet.
-      </p>
-    </div>
   );
 }
