@@ -324,16 +324,9 @@ export const VERIFICATION_QUEUE: VerificationRow[] = [
   },
 ];
 
-const ALERT_MESSAGE =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt bibendum enim, a feugiat nunc bibendum in. Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-
-export const LIVE_ALERTS: LiveAlert[] = [
-  { id: "1", message: ALERT_MESSAGE, newCount: "1 New", tag: "No Consent", tone: "success", timeAgo: "1 min ago" },
-  { id: "2", message: ALERT_MESSAGE, newCount: "1 New", tag: "Fraud Flag", tone: "warning", timeAgo: "1 min ago" },
-  { id: "3", message: ALERT_MESSAGE, newCount: "1 New", tag: "High Risk Tenant", tone: "highlight", timeAgo: "1 min ago" },
-  { id: "4", message: ALERT_MESSAGE, newCount: "1 New", tag: "System Failures", tone: "accent", timeAgo: "1 min ago" },
-  { id: "5", message: ALERT_MESSAGE, newCount: "1 New", tag: "Overdue", tone: "neutral", timeAgo: "1 min ago" },
-  { id: "6", message: ALERT_MESSAGE, newCount: "1 New", tag: "No Consent", tone: "success", timeAgo: "1 min ago" },
-  { id: "7", message: ALERT_MESSAGE, newCount: "1 New", tag: "Fraud Flag", tone: "warning", timeAgo: "1 min ago" },
-  { id: "8", message: ALERT_MESSAGE, newCount: "1 New", tag: "High Risk Tenant", tone: "highlight", timeAgo: "1 min ago" },
-];
+/**
+ * The design fills every alert with lorem ipsum — placeholder copy, not an
+ * alert — so the mock carries none and the panel shows its empty state until
+ * the alerts endpoint exists.
+ */
+export const LIVE_ALERTS: LiveAlert[] = [];

@@ -35,7 +35,13 @@ const COLUMNS = [
   { key: "actions", label: "Client Actions", width: 88 },
 ] as const;
 
-const MIN_TABLE_WIDTH = 1624;
+/*
+ * Below this the table scrolls sideways. Not scaled with the type: the fixed
+ * columns already are, and the design's full 1624 at 1.2x overflowed the very
+ * 1920 frame it was drawn for, cutting off the dates and actions. The two
+ * identity columns absorb the difference.
+ */
+const MIN_TABLE_WIDTH = 1280;
 
 const scaled = (px: number) => `calc(${px}px * var(--ve-type-scale))`;
 
@@ -141,7 +147,7 @@ function SortHandle() {
 export function ClientsTable({ rows }: { rows: ClientRow[] }) {
   return (
     <div className="overflow-x-auto">
-      <div style={{ minWidth: scaled(MIN_TABLE_WIDTH) }}>
+      <div style={{ minWidth: MIN_TABLE_WIDTH }}>
         <div className="flex items-center gap-4 rounded-t-app-l bg-app-brand1 px-4 py-3">
           {COLUMNS.map((column) => (
             <div
