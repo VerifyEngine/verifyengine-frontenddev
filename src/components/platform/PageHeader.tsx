@@ -2,20 +2,27 @@
 
 import {
   IconArrowLeft,
+  IconBan,
+  IconBook,
+  IconChevronDown,
+  IconCurrencyDollar,
   IconCheck,
   IconChevronRight,
   IconDownload,
   IconEye,
+  IconFlag,
   IconFileDownload,
   IconFileExport,
   IconFileReport,
   IconFileText,
   IconMail,
   IconPlayerPlay,
+  IconPencil,
   IconPlus,
   IconPrinter,
   IconRefresh,
   IconSearch,
+  IconShield,
   IconTrendingUp,
   IconUsersPlus,
   IconX,
@@ -44,9 +51,14 @@ import { iconProps } from "./icon";
 export type HeaderAction = {
   label: string;
   /** Matches the glyphs the design uses for these buttons. */
-  icon: "users-plus" | "plus" | "cancel" | "check" | "review" | "escalate" | "file-report" | "mail" | "printer" | "file-export";
+  icon: "users-plus" | "plus" | "cancel" | "check" | "review" | "escalate" | "file-report" | "mail" | "printer" | "file-export" | "flag" | "book" | "dollar" | "pencil" | "none";
   /** Navy fill. Figma gives one button per header this treatment. */
   primary?: boolean;
+  /**
+   * A status menu in its functional colour, label first with a chevron after —
+   * Client Profile opens its header with "Active".
+   */
+  status?: "success";
   /** Makes the action a link — Report Creator opens its dialog through the URL. */
   href?: string;
 };
@@ -61,12 +73,17 @@ function ActionIcon({ icon }: { icon: HeaderAction["icon"] }) {
   if (icon === "mail") return <IconMail {...iconProps(20)} />;
   if (icon === "printer") return <IconPrinter {...iconProps(20)} />;
   if (icon === "file-export") return <IconFileExport {...iconProps(20)} />;
+  if (icon === "flag") return <IconFlag {...iconProps(20)} />;
+  if (icon === "book") return <IconBook {...iconProps(20)} />;
+  if (icon === "dollar") return <IconCurrencyDollar {...iconProps(20)} />;
+  if (icon === "pencil") return <IconPencil {...iconProps(20)} />;
+  if (icon === "none") return null;
   return <IconPlus {...iconProps(20)} />;
 }
 
 export type UtilityAction = {
   label: string;
-  icon: "refresh" | "download" | "transcript" | "replay" | "email" | "statement";
+  icon: "refresh" | "download" | "transcript" | "replay" | "email" | "statement" | "ban" | "shield";
 };
 
 function UtilityIcon({ icon }: { icon: UtilityAction["icon"] }) {
@@ -75,6 +92,8 @@ function UtilityIcon({ icon }: { icon: UtilityAction["icon"] }) {
   if (icon === "replay") return <IconPlayerPlay {...iconProps(16)} />;
   if (icon === "email") return <IconMail {...iconProps(16)} />;
   if (icon === "statement") return <IconFileDownload {...iconProps(16)} />;
+  if (icon === "ban") return <IconBan {...iconProps(16)} />;
+  if (icon === "shield") return <IconShield {...iconProps(16)} />;
   return <IconDownload {...iconProps(16)} />;
 }
 
@@ -89,6 +108,7 @@ export function PageHeader({
   backHref,
   title,
   description,
+  meta,
   showSearch = true,
   actions,
   utilities = LIST_UTILITIES,
@@ -100,6 +120,8 @@ export function PageHeader({
   backHref?: string;
   title: string;
   description: string;
+  /** A second, shorter line under the description — Client Profile's "CLNT-9210 • Enterprise". */
+  meta?: string;
   showSearch?: boolean;
   actions?: readonly HeaderAction[];
   /** The quiet row underneath. Defaults to the list screens' Refresh / Export. */
@@ -132,7 +154,15 @@ export function PageHeader({
           ) : null}
           <h1 className="text-heading-s text-app-text">{title}</h1>
         </div>
-        <p className="text-body-xs text-app-text opacity-50">{description}</p>
+        <p className="text-body-xs text-app-text opacity-50">
+          {description}
+          {meta ? (
+            <>
+              <br />
+              <span className="whitespace-pre">{meta}</span>
+            </>
+          ) : null}
+        </p>
       </div>
 
       <div className="flex flex-col justify-center gap-5">
@@ -153,10 +183,17 @@ export function PageHeader({
           ) : null}
 
           {actions?.map((action) => {
-            const className = action.primary
-              ? "flex shrink-0 items-center justify-center gap-3 rounded-app-l bg-app-brand1 px-4 py-3 text-app-text-inverse transition-opacity hover:opacity-90"
-              : "flex shrink-0 items-center justify-center gap-3 rounded-app-l border-w-2xs border-app-line bg-app-fade-40 px-4 py-3 text-app-text transition-colors hover:bg-app-fade-48";
-            const content = (
+            const className = action.status
+              ? "flex shrink-0 items-center justify-center gap-3 rounded-app-l border-w-2xs border-app-line bg-app-success px-4 py-3 text-app-text-inverse transition-opacity hover:opacity-90"
+              : action.primary
+                ? "flex shrink-0 items-center justify-center gap-3 rounded-app-l bg-app-brand1 px-4 py-3 text-app-text-inverse transition-opacity hover:opacity-90"
+                : "flex shrink-0 items-center justify-center gap-3 rounded-app-l border-w-2xs border-app-line bg-app-fade-40 px-4 py-3 text-app-text transition-colors hover:bg-app-fade-48";
+            const content = action.status ? (
+              <>
+                <span className="whitespace-nowrap text-label-xs">{action.label}</span>
+                <IconChevronDown {...iconProps(20)} />
+              </>
+            ) : (
               <>
                 <span className={action.icon === "cancel" ? "text-app-warning" : ""}>
                   <ActionIcon icon={action.icon} />
