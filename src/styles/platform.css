@@ -61,6 +61,7 @@
    */
   --ve-text-emphasis: #233364;
   --ve-text-heading: #233364;
+  --ve-switch-on: #233364;               /* navy switch, on */
 
   /* Page canvas — the frame fill the whole app sits on. */
   --ve-canvas: #fcfcfc;
@@ -96,6 +97,7 @@
 
   --ve-text-emphasis: #a5f3d4;          /* Text/Brand 2/Primary */
   --ve-text-heading: #ffffff;           /* Text/Default/Primary */
+  --ve-switch-on: #01a2ff;               /* navy disappears on the dark canvas; blue reads as on */
 
   --ve-canvas: #071942;
   /*
@@ -179,6 +181,7 @@
   --color-app-nav-active: var(--ve-nav-active-text);
   --color-app-text-emphasis: var(--ve-text-emphasis);
   --color-app-heading: var(--ve-text-heading);
+  --color-app-switch-on: var(--ve-switch-on);
   --color-app-text-brand2: var(--ve-text-brand2);
   --color-app-text-inverse: var(--ve-text-inverse);
 
@@ -305,4 +308,25 @@
   line-height: calc(28px * var(--ve-type-scale));
   font-weight: 700;
   letter-spacing: calc(-0.75px * var(--ve-type-scale));
+}
+
+/* Branding colour picker: the hue slider's handle, a white-ringed dot. */
+.ve-hue-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  border: 3px solid #ffffff;
+  background: transparent;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+  cursor: pointer;
+}
+.ve-hue-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  border: 3px solid #ffffff;
+  background: transparent;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+  cursor: pointer;
 }

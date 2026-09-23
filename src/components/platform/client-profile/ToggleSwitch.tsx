@@ -7,7 +7,16 @@ import { useState } from "react";
  * decision rules. Local state only: nothing is saved until the client
  * endpoint exists, but a switch that does not move would be a picture of one.
  */
-export function ToggleSwitch({ label, defaultOn }: { label: string; defaultOn: boolean }) {
+export function ToggleSwitch({
+  label,
+  defaultOn,
+  tone = "success",
+}: {
+  label: string;
+  defaultOn: boolean;
+  /** Client Profile draws its switches green; the Company tabs draw them navy. */
+  tone?: "success" | "brand1";
+}) {
   const [on, setOn] = useState(defaultOn);
   return (
     <button
@@ -17,7 +26,7 @@ export function ToggleSwitch({ label, defaultOn }: { label: string; defaultOn: b
       aria-label={label}
       onClick={() => setOn((value) => !value)}
       className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors ${
-        on ? "bg-app-success" : "bg-app-brand1-quaternary"
+        on ? (tone === "brand1" ? "bg-app-switch-on" : "bg-app-success") : "bg-app-brand1-quaternary"
       }`}
     >
       <span

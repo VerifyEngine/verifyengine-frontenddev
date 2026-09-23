@@ -119,7 +119,8 @@ export function PageHeader({
   /** Renders a round back button beside the title, as on Order Details. */
   backHref?: string;
   title: string;
-  description: string;
+  /** Optional: the Company frames carry only the second, shorter line. */
+  description?: string;
   /** A second, shorter line under the description — Client Profile's "CLNT-9210 • Enterprise". */
   meta?: string;
   showSearch?: boolean;
@@ -158,7 +159,7 @@ export function PageHeader({
           {description}
           {meta ? (
             <>
-              <br />
+              {description ? <br /> : null}
               <span className="whitespace-pre">{meta}</span>
             </>
           ) : null}
