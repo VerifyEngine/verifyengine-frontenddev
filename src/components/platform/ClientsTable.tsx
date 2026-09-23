@@ -70,7 +70,7 @@ function ClientStatusChip({ status }: { status: ClientStatus }) {
  * from the API, so the mock renders a monogram tile for the company and the
  * one avatar asset the design ships for the person.
  */
-function IdentityCell({
+export function IdentityCell({
   person,
   variant,
 }: {
@@ -131,7 +131,7 @@ function RowActions({ clientId }: { clientId: string }) {
 }
 
 /** Two 4px carets, matching the Sort component used across the platform. */
-function SortHandle() {
+export function SortHandle() {
   return (
     <span aria-hidden className="flex shrink-0 flex-col items-center justify-center gap-0.5">
       <svg viewBox="0 0 6 4" className="h-1 w-1.5" fill="none">

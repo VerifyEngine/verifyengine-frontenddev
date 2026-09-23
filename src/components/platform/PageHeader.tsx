@@ -6,11 +6,13 @@ import {
   IconChevronRight,
   IconDownload,
   IconEye,
+  IconFileDownload,
   IconFileReport,
   IconFileText,
   IconMail,
   IconPlayerPlay,
   IconPlus,
+  IconPrinter,
   IconRefresh,
   IconSearch,
   IconTrendingUp,
@@ -41,7 +43,7 @@ import { iconProps } from "./icon";
 export type HeaderAction = {
   label: string;
   /** Matches the glyphs the design uses for these buttons. */
-  icon: "users-plus" | "plus" | "cancel" | "check" | "review" | "escalate" | "file-report";
+  icon: "users-plus" | "plus" | "cancel" | "check" | "review" | "escalate" | "file-report" | "mail" | "printer";
   /** Navy fill. Figma gives one button per header this treatment. */
   primary?: boolean;
   /** Makes the action a link — Report Creator opens its dialog through the URL. */
@@ -55,12 +57,14 @@ function ActionIcon({ icon }: { icon: HeaderAction["icon"] }) {
   if (icon === "review") return <IconEye {...iconProps(20)} />;
   if (icon === "escalate") return <IconTrendingUp {...iconProps(20)} />;
   if (icon === "file-report") return <IconFileReport {...iconProps(20)} />;
+  if (icon === "mail") return <IconMail {...iconProps(20)} />;
+  if (icon === "printer") return <IconPrinter {...iconProps(20)} />;
   return <IconPlus {...iconProps(20)} />;
 }
 
 export type UtilityAction = {
   label: string;
-  icon: "refresh" | "download" | "transcript" | "replay" | "email";
+  icon: "refresh" | "download" | "transcript" | "replay" | "email" | "statement";
 };
 
 function UtilityIcon({ icon }: { icon: UtilityAction["icon"] }) {
@@ -68,6 +72,7 @@ function UtilityIcon({ icon }: { icon: UtilityAction["icon"] }) {
   if (icon === "transcript") return <IconFileText {...iconProps(16)} />;
   if (icon === "replay") return <IconPlayerPlay {...iconProps(16)} />;
   if (icon === "email") return <IconMail {...iconProps(16)} />;
+  if (icon === "statement") return <IconFileDownload {...iconProps(16)} />;
   return <IconDownload {...iconProps(16)} />;
 }
 
