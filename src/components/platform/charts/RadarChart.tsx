@@ -8,17 +8,21 @@
  * The two callers differ only in what they label: Order Details prints the
  * ring scale up the vertical axis, Escalation Radar prints each point's own
  * value beside it. Both are options here rather than two near-identical charts.
+ * Client Risk Radar (18176:37251) uses both at once and colours each point to
+ * match its legend entry.
  */
 
-export type RadarPoint = { label: string; value: number };
+import { TONE_VAR, type ChartSeries } from "./tones";
+
+export type RadarPoint = { label: string; value: number; tone?: ChartSeries["tone"] };
 
 const SIZE = 320;
 const CENTRE = SIZE / 2;
 const RADIUS = 112;
 
-function toXY(index: number, count: number, ratio: number) {
+function toXY(index: number, count: number, ratio: number, clamp = true) {
   const angle = (-90 + (360 / count) * index) * (Math.PI / 180);
-  const distance = Math.min(Math.max(ratio, 0), 1) * RADIUS;
+  const distance = (clamp ? Math.min(Math.max(ratio, 0), 1) : ratio) * RADIUS;
   return { x: CENTRE + distance * Math.cos(angle), y: CENTRE + distance * Math.sin(angle) };
 }
 
@@ -37,6 +41,8 @@ export function RadarChart({
   showPointValues = false,
   strokeClass = "stroke-app-line-brand2",
   fillClass = "fill-app-brand1-80",
+  shapeOpacityClass = "opacity-70",
+  labelClass = "fill-app-text-tertiary text-body-2xs",
 }: {
   points: readonly RadarPoint[];
   max: number;
@@ -47,6 +53,10 @@ export function RadarChart({
   showPointValues?: boolean;
   strokeClass?: string;
   fillClass?: string;
+  /** Client Risk Radar draws its shape at full strength, the fade is in the fill. */
+  shapeOpacityClass?: string;
+  /** The axis names; Client Risk Radar sets them in Label/2XS, Text/Secondary. */
+  labelClass?: string;
 }) {
   const count = points.length;
   const ratios = Array.from({ length: rings }, (_, index) => (index + 1) / rings);
@@ -60,7 +70,9 @@ export function RadarChart({
   return (
     <svg
       viewBox={`0 0 ${SIZE} ${SIZE}`}
-      className="w-full max-w-96"
+      // Axis names sit outside the outermost ring and are wider than the
+      // viewBox allows at the platform's type scale, so they may overhang it.
+      className="w-full max-w-96 overflow-visible max-sm:w-[68%]"
       role="img"
       aria-label={points.map((p) => `${p.label} ${p.value}`).join(", ")}
     >
@@ -89,15 +101,18 @@ export function RadarChart({
         );
       })}
 
-      <polygon points={shape} strokeWidth="1.2" className={`${fillClass} ${strokeClass} opacity-70`} />
+      <polygon points={shape} strokeWidth="1.2" className={`${fillClass} ${strokeClass} ${shapeOpacityClass}`} />
 
       {showRingScale
         ? [0, ...ratios].map((ratio) => (
             <text
               key={ratio}
-              x={CENTRE}
+              // With point values also shown, the scale steps off the spoke to
+              // its right, as Client Risk Radar draws it, so the two sets of
+              // numbers do not print over each other.
+              x={showPointValues ? CENTRE + 4 : CENTRE}
               y={CENTRE - ratio * RADIUS}
-              textAnchor="middle"
+              textAnchor={showPointValues ? "start" : "middle"}
               dominantBaseline="central"
               className="fill-app-text-tertiary text-body-2xs"
             >
@@ -111,7 +126,13 @@ export function RadarChart({
             const { x, y } = toXY(index, count, point.value / max);
             return (
               <g key={point.label}>
-                <circle cx={x} cy={y} r="3" className="fill-app-neutral" />
+                <circle
+                  cx={x}
+                  cy={y}
+                  r="3"
+                  className={point.tone ? undefined : "fill-app-neutral"}
+                  fill={point.tone ? TONE_VAR[point.tone] : undefined}
+                />
                 <text
                   x={x}
                   y={y - 8}
@@ -126,7 +147,12 @@ export function RadarChart({
         : null}
 
       {points.map((point, index) => {
-        const { x, y } = toXY(index, count, 1.18);
+        // The ratio is clamped to the outer ring, so the names sit on the
+        // vertices — as the existing radars were reviewed. Client Risk Radar,
+        // which prints both the scale and the values, sets them clear of the
+        // shape as its design does, so the top name does not sit on "7000".
+        const outside = showRingScale && showPointValues;
+        const { x, y } = toXY(index, count, outside ? 1.14 : 1.18, !outside);
         return (
           <text
             key={point.label}
@@ -134,7 +160,7 @@ export function RadarChart({
             y={y}
             textAnchor={x > CENTRE + 4 ? "start" : x < CENTRE - 4 ? "end" : "middle"}
             dominantBaseline="central"
-            className="fill-app-text-tertiary text-body-2xs"
+            className={labelClass}
           >
             {point.label}
           </text>

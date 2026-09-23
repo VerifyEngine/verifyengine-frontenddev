@@ -1,4 +1,4 @@
-import { TONE_VAR, type ChartSeries } from "./ChartCard";
+import { TONE_VAR, type ChartSeries } from "./tones";
 
 /*
  * Queue Status Distribution — Figma node 18176:36689.

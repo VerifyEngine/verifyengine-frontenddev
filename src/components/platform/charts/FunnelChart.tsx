@@ -1,4 +1,4 @@
-import { TONE_VAR, type ChartSeries } from "./ChartCard";
+import { TONE_VAR, type ChartSeries } from "./tones";
 
 /*
  * Verification Funnel — Figma node 18176:37194.
@@ -36,11 +36,14 @@ export function FunnelChart({
 
   return (
     <div className="flex h-full flex-col gap-4 p-5">
-      <div className="relative min-h-px flex-1">
+      {/* The plot fills whatever height the row gives it — beside Operational
+          Workload that is the design's 604px block. Sized by its own viewBox it
+          would take its height from the card's width and grow to ~1400px. */}
+      <div className="relative min-h-96 flex-1">
         <svg
           viewBox={`0 0 ${VIEW_W} ${height}`}
           preserveAspectRatio="none"
-          className="size-full"
+          className="absolute inset-0 size-full"
           role="img"
           aria-label={stages.map((s) => `${s.label} ${s.value}`).join(", ")}
         >

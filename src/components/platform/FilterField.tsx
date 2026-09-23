@@ -13,6 +13,10 @@ import { iconProps } from "./icon";
  *
  * The same shape serves all three variants the dashboard uses, which is why
  * this takes a `variant` rather than existing three times.
+ *
+ * Reports (node 18176:36367) draws the control on Surface/Defualt/Primary
+ * instead of the 40% fade, because its filter row sits straight on the page
+ * rather than inside a glass panel — hence `surface`.
  */
 
 type Variant = "select" | "text" | "search";
@@ -21,11 +25,13 @@ export function FilterField({
   label,
   placeholder,
   variant = "select",
+  surface = "fade",
   className = "",
 }: {
   label: string;
   placeholder: string;
   variant?: Variant;
+  surface?: "fade" | "solid";
   className?: string;
 }) {
   const inputId = `filter-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
@@ -37,7 +43,9 @@ export function FilterField({
       </label>
 
       <div className="flex w-full items-center gap-1">
-        <div className="flex min-w-px flex-1 items-center gap-2 rounded-app-l border-w-xs border-app-line bg-app-fade-40 p-3">
+        <div className={`flex min-w-px flex-1 items-center gap-2 rounded-app-l border-w-xs border-app-line p-3 ${
+          surface === "solid" ? "bg-app-surface" : "bg-app-fade-40"
+        }`}>
           {variant === "search" ? (
             <IconSearch {...iconProps(16)} className="shrink-0 text-app-text" />
           ) : null}

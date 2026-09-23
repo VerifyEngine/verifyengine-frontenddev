@@ -1,4 +1,4 @@
-import { TONE_VAR, type ChartSeries } from "./ChartCard";
+import { TONE_VAR, type ChartSeries } from "./tones";
 
 /*
  * The horizontal bar charts on Reports — Figma nodes 18176:36384 (stacked,
@@ -175,10 +175,13 @@ export function ColumnChart({
           ))}
         </div>
 
-        <div className="relative flex h-64 items-end justify-around gap-4">
+        {/* Columns stretch to the plot height so each bar can be a percentage of it;
+            aligned to the end instead, a column has no height to take a share of
+            and every bar collapsed to nothing. */}
+        <div className="relative flex h-64 justify-around gap-4">
           {rows.map((row) => (
             <div key={row.label} className="flex min-w-px flex-1 flex-col items-center gap-2">
-              <div className="flex h-full w-full items-end justify-center gap-1">
+              <div className="flex min-h-px w-full flex-1 items-end justify-center gap-1">
                 {row.values.map((value, index) => (
                   <span
                     key={series[index].label}
