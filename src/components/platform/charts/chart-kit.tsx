@@ -15,7 +15,7 @@ import { TONE_VAR, type ChartTone } from "./tones";
  * chart follows the theme with no JavaScript.
  */
 
-export type ValueFormat = "thousands" | "dollars" | "millions" | "units" | "plain";
+export type ValueFormat = "thousands" | "dollars" | "millions" | "units" | "plain" | "percent" | "hours";
 
 export const FORMATS: Record<ValueFormat, (value: number) => string> = {
   thousands: (v) => (v === 0 ? "0" : `${Math.round(v / 1000)}k`),
@@ -23,6 +23,8 @@ export const FORMATS: Record<ValueFormat, (value: number) => string> = {
   millions: (v) => (v === 0 ? "0" : `${Math.round(v * 10) / 10}m`),
   units: (v) => `${Math.round(v)}u`,
   plain: (v) => v.toLocaleString("en-US"),
+  percent: (v) => `${v}%`,
+  hours: (v) => `${v}h`,
 };
 
 /**
