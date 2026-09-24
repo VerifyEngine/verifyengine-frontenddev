@@ -19,9 +19,15 @@ import { iconProps } from "./icon";
 export function UploadDropzone({
   hint = "Drag and drop a copy of the lease here, or click to browse. PDF, JPG, PNG.",
   label = "Upload Proof (optional)",
+  accept = ".pdf,.jpg,.jpeg,.png",
+  name = "proof",
+  onFile,
 }: {
   hint?: string;
   label?: string;
+  accept?: string;
+  name?: string;
+  onFile?: (file: File | null) => void;
 }) {
   const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,7 +35,9 @@ export function UploadDropzone({
   const [isOver, setIsOver] = useState(false);
 
   function takeFiles(files: FileList | null) {
-    setFileName(files && files.length > 0 ? files[0].name : null);
+    const file = files && files.length > 0 ? files[0] : null;
+    setFileName(file?.name ?? null);
+    onFile?.(file);
   }
 
   return (
@@ -61,8 +69,8 @@ export function UploadDropzone({
         ref={inputRef}
         id={inputId}
         type="file"
-        name="proof"
-        accept=".pdf,.jpg,.jpeg,.png"
+        name={name}
+        accept={accept}
         className="sr-only"
         onChange={(event) => takeFiles(event.target.files)}
       />

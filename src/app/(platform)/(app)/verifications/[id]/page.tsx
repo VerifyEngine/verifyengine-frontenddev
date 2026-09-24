@@ -51,7 +51,7 @@ export default async function VerificationDetailsPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await params;
+  const { id } = await params;
 
   return (
     <div className="flex flex-col gap-2 pb-2">
@@ -71,7 +71,7 @@ export default async function VerificationDetailsPage({
           { label: "View Transcript", icon: "transcript" },
           { label: "Replay Call", icon: "replay" },
           { label: "Email Report", icon: "email" },
-          { label: "Download PDF", icon: "download" },
+          { label: "Download PDF", icon: "download", href: `/verifications/${id}/report` },
         ]}
       />
 

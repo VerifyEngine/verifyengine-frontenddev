@@ -16,7 +16,13 @@ import { iconProps } from "./icon";
  * a default the product should ship — a consent box the user did not tick
  * themselves is worth nothing — so it starts empty here.
  */
-export function ConsentCheckbox({ children }: { children: string }) {
+export function ConsentCheckbox({
+  children,
+  onChange,
+}: {
+  children: string;
+  onChange?: (checked: boolean) => void;
+}) {
   const id = useId();
   const [checked, setChecked] = useState(false);
 
@@ -27,7 +33,10 @@ export function ConsentCheckbox({ children }: { children: string }) {
         type="checkbox"
         name="consent"
         checked={checked}
-        onChange={(event) => setChecked(event.target.checked)}
+        onChange={(event) => {
+          setChecked(event.target.checked);
+          onChange?.(event.target.checked);
+        }}
         className="peer sr-only"
       />
       <label
