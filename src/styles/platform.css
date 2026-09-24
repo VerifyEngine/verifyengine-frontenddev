@@ -28,6 +28,8 @@
   --ve-surface-brand2-tertiary: #e4fbf2;  /* Surface/Brand 2/Tertiary */
   --ve-surface-fade-64: #ffffffa3;        /* Surface/Fade/64% */
   --ve-surface-brand1-quaternary: #e9ebef; /* Surface/Brand 1/Quaternary */
+  --ve-surface-tertiary: #e5e5e5;         /* Surface/Defualt/Tertiary */
+  --ve-surface-brand2-quaternary: #f6fefb; /* Surface/Brand 2/Quaternary */
 
   /* Text */
   --ve-text-primary: #333333;             /* Text/Default/Primary */
@@ -83,6 +85,9 @@
   --ve-surface-brand2-tertiary: #426155;  /* Surface/Brand 2/Tertiary */
   --ve-surface-fade-64: #000000a3;        /* Surface/Fade/64% */
   --ve-surface-brand1-quaternary: #070a14; /* Surface/Brand 1/Quaternary */
+  /* No dark frame draws this token; the switch track falls back to the dark fade. */
+  --ve-surface-tertiary: #00000066;
+  --ve-surface-brand2-quaternary: #a5f3d414; /* not drawn in dark; a faint mint */
 
   --ve-text-primary: #ffffff;
   --ve-text-secondary: #cccccc;
@@ -121,6 +126,10 @@
 /* ---- Shared across both themes ---------------------------------------- */
 [data-ve-theme] {
   --ve-border-brand2: #a5f3d4;            /* Border/Brand 2/Primary */
+  --ve-text-brand1-tertiary: #a7adc1;     /* Text/Brand 1/Tertiary */
+  /* The low-risk dot and muted bars of Analytics Reports — a raw hex in the
+     design (#4F5C83) with no variable behind it. */
+  --ve-slate: #4f5c83;
   --ve-surface-brand2: #a5f3d4;           /* Surface/Brand 2/Primary */
   --ve-surface-brand2-80: #a5f3d4cc;      /* Surface/Fade (Brand 2)/80% */
   --ve-text-brand1-secondary: #7b85a2;    /* Text/Brand 1/Secondary */
@@ -145,6 +154,17 @@
   /* Type scale. 1 reproduces the Figma sizes exactly; the platform ships at
      1.2 because the drawn sizes are too small to read. */
   --ve-type-scale: 1.2;
+}
+
+/*
+ * 3xl — the first width where the 1920 frames fit as drawn: a 1920 viewport
+ * leaves 1656 for content beside the Side Menu. Pixel-exact layouts switch on
+ * here; everything narrower uses fluid grids.
+ */
+@theme {
+  /* 1912px, in rem like Tailwind's own breakpoints — mixing units breaks the
+     order the media blocks are emitted in, and md/lg would override it. */
+  --breakpoint-3xl: 119.5rem;
 }
 
 /* ---- Tailwind bindings ------------------------------------------------- */
@@ -172,6 +192,10 @@
   --color-app-brand2-tertiary: var(--ve-surface-brand2-tertiary);
   --color-app-brand1-80: var(--ve-surface-brand1-80);
   --color-app-brand1-quaternary: var(--ve-surface-brand1-quaternary);
+  --color-app-surface-tertiary: var(--ve-surface-tertiary);
+  --color-app-brand2-quaternary: var(--ve-surface-brand2-quaternary);
+  --color-app-text-brand1-tertiary: var(--ve-text-brand1-tertiary);
+  --color-app-slate: var(--ve-slate);
 
   --color-app-text: var(--ve-text-primary);
   --color-app-text-secondary: var(--ve-text-secondary);

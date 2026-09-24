@@ -19,6 +19,7 @@ import {
   IconPlayerPlay,
   IconPencil,
   IconPlus,
+  IconPresentationAnalytics,
   IconPrinter,
   IconRefresh,
   IconSearch,
@@ -51,7 +52,7 @@ import { iconProps } from "./icon";
 export type HeaderAction = {
   label: string;
   /** Matches the glyphs the design uses for these buttons. */
-  icon: "users-plus" | "plus" | "cancel" | "check" | "review" | "escalate" | "file-report" | "mail" | "printer" | "file-export" | "flag" | "book" | "dollar" | "pencil" | "none";
+  icon: "users-plus" | "plus" | "cancel" | "check" | "review" | "escalate" | "file-report" | "mail" | "printer" | "file-export" | "flag" | "book" | "dollar" | "pencil" | "download" | "present" | "none";
   /** Navy fill. Figma gives one button per header this treatment. */
   primary?: boolean;
   /**
@@ -77,6 +78,8 @@ function ActionIcon({ icon }: { icon: HeaderAction["icon"] }) {
   if (icon === "book") return <IconBook {...iconProps(20)} />;
   if (icon === "dollar") return <IconCurrencyDollar {...iconProps(20)} />;
   if (icon === "pencil") return <IconPencil {...iconProps(20)} />;
+  if (icon === "download") return <IconDownload {...iconProps(20)} />;
+  if (icon === "present") return <IconPresentationAnalytics {...iconProps(20)} />;
   if (icon === "none") return null;
   return <IconPlus {...iconProps(20)} />;
 }
@@ -84,6 +87,7 @@ function ActionIcon({ icon }: { icon: HeaderAction["icon"] }) {
 export type UtilityAction = {
   label: string;
   icon: "refresh" | "download" | "transcript" | "replay" | "email" | "statement" | "ban" | "shield";
+  href?: string;
 };
 
 function UtilityIcon({ icon }: { icon: UtilityAction["icon"] }) {
@@ -222,16 +226,25 @@ export function PageHeader({
                 <span className="whitespace-nowrap text-label-2xs">{note}</span>
               </p>
             ) : null}
-            {utilities.map((utility) => (
-              <button
-                key={utility.label}
-                type="button"
-                className="flex items-center justify-center gap-1 text-app-text-secondary transition-colors hover:text-app-text"
-              >
-                <UtilityIcon icon={utility.icon} />
-                <span className="whitespace-nowrap text-label-2xs">{utility.label}</span>
-              </button>
-            ))}
+            {utilities.map((utility) => {
+              const className =
+                "flex items-center justify-center gap-1 text-app-text-secondary transition-colors hover:text-app-text";
+              const content = (
+                <>
+                  <UtilityIcon icon={utility.icon} />
+                  <span className="whitespace-nowrap text-label-2xs">{utility.label}</span>
+                </>
+              );
+              return utility.href ? (
+                <Link key={utility.label} href={utility.href} className={className}>
+                  {content}
+                </Link>
+              ) : (
+                <button key={utility.label} type="button" className={className}>
+                  {content}
+                </button>
+              );
+            })}
           </div>
         ) : null}
       </div>

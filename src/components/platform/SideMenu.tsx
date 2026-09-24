@@ -10,10 +10,13 @@ import {
   IconFileReport,
   IconMailHeart,
   IconHeadset,
+  IconListCheck,
+  IconMessages,
   IconSquareRoundedPlus,
   IconTablePlus,
   IconTools,
   IconUserDollar,
+  IconUsers,
   IconX,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -41,7 +44,10 @@ const NAV_SECTIONS = [
     heading: "Workspace",
     items: [
       { label: "Dashboard", href: "/dashboard", Icon: IconChartDots3 },
-      { label: "Analytics", href: "/reports", Icon: IconFileAnalytics },
+      { label: "Analytics", href: "/analytics", Icon: IconFileAnalytics },
+      { label: "Verifications", href: "/verifications", Icon: IconListCheck },
+      { label: "Applicants", href: "/applicants", Icon: IconUsers },
+      { label: "User Activity", href: "/user-activity", Icon: IconMessages },
     ],
   },
   {

@@ -12,7 +12,7 @@ import type { LiveAlert } from "@/lib/platform/dashboard";
  */
 export function LiveAlertPanel({ alerts }: { alerts: LiveAlert[] }) {
   return (
-    <section className="flex w-full shrink-0 flex-col gap-4 overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px] xl:w-100">
+    <section className="flex w-full shrink-0 flex-col gap-4 overflow-hidden rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px] 3xl:w-100">
       <h2 className="text-heading-m text-app-heading">Live Alert</h2>
 
       {alerts.length === 0 ? (

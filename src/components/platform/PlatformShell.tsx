@@ -35,21 +35,25 @@ export function PlatformShell({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="ve-canvas font-app relative isolate flex h-screen flex-col gap-2 overflow-hidden p-2">
+    <div className="ve-canvas font-app relative isolate flex h-screen flex-col gap-2 overflow-hidden p-2 print:h-auto print:overflow-visible print:bg-white print:p-0">
       {/* PlatformBackground is deliberately not rendered: the blended layer
           cannot be composed correctly until the frame fill is known, and
           leaving it in washed colour through every translucent panel. The
           component and its assets stay in place for when that is resolved. */}
-      <TopNav
-        organizationName={organizationName}
-        userName={userName}
-        avatarSrc={avatarSrc}
-        onOpenMenu={() => setIsMenuOpen(true)}
-      />
+      <div className="contents print:hidden">
+        <TopNav
+          organizationName={organizationName}
+          userName={userName}
+          avatarSrc={avatarSrc}
+          onOpenMenu={() => setIsMenuOpen(true)}
+        />
+      </div>
 
       <div className="flex min-h-px flex-1 gap-2">
-        <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-        <main className="min-w-px flex-1 overflow-y-auto">{children}</main>
+        <div className="contents print:hidden">
+          <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+        </div>
+        <main className="min-w-px flex-1 overflow-y-auto print:overflow-visible">{children}</main>
       </div>
     </div>
   );
