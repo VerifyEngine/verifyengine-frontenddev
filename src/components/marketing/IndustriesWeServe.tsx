@@ -104,7 +104,7 @@ export function IndustriesWeServe({
                 variant="primary"
                 className={isRow ? "" : "w-full"}
               >
-                Learn More <ArrowRight />
+                Learn More<span className="sr-only"> about Landlord Verification</span> <ArrowRight />
               </Button>
             </div>
           </RevealItem>
@@ -131,7 +131,7 @@ function SupportingCards({ isRow }: { isRow: boolean }) {
       <p className="mt-2 text-base text-slate-600">{card.desc}</p>
       <div className="mt-auto pt-5">
         <Button href={card.href} variant="outline-light" size="md">
-          Learn More <ArrowRight />
+          Learn More<span className="sr-only"> about {card.title}</span> <ArrowRight />
         </Button>
       </div>
     </RevealItem>
