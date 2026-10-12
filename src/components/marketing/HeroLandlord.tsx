@@ -31,7 +31,7 @@ export function HeroLandlord() {
 
       {/* Full-bleed row with matching space on both sides — see <HeroRow>. */}
       <HeroRow className="gap-12 lg:grid-cols-[0.62fr_1fr] lg:gap-16">
-        <Reveal>
+        <Reveal immediate>
           <PillBadge>Landlord Verification</PillBadge>
           <h1 className="mt-5 text-4xl leading-[1.08] font-bold tracking-tight text-white sm:text-5xl">
             Smarter Tenant Screening Starts with{" "}

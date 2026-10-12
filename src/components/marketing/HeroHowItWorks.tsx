@@ -55,7 +55,7 @@ export function HeroHowItWorks() {
 
       <FullBleedContainer>
         <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.68fr_1fr] lg:gap-16">
-          <Reveal>
+          <Reveal immediate>
             <PillBadge>How It Works</PillBadge>
             <h1 className="mt-5 text-4xl leading-[1.08] font-bold tracking-tight text-white sm:text-5xl">
               A Smarter Verification Process from{" "}

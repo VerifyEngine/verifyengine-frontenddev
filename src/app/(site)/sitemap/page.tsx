@@ -24,7 +24,7 @@ export default function SitemapPage() {
 
       <div className="bg-white py-12 sm:py-16">
         <Container>
-          <Reveal>
+          <Reveal immediate>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <h1 className="text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl lg:text-5xl">

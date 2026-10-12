@@ -65,7 +65,7 @@ export default function PricingPage() {
         />
         <Container>
           <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-            <Reveal>
+            <Reveal immediate>
               <PillBadge>Pricing</PillBadge>
               <h1 className="mt-5 text-4xl leading-[1.1] font-bold tracking-tight text-white sm:text-5xl">
                 Simple, Transparent Pricing Built for{" "}

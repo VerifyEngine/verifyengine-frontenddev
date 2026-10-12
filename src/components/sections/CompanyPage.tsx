@@ -66,7 +66,7 @@ export function CompanyPage({
           }}
         />
         <Container>
-          <Reveal>
+          <Reveal immediate>
             <PillBadge>{badge}</PillBadge>
             <h1 className="mt-5 max-w-3xl text-4xl leading-[1.1] font-bold tracking-tight text-white sm:text-5xl">
               {title}

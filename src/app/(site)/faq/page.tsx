@@ -26,7 +26,7 @@ export default function FaqPage() {
         />
         <Container>
           <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-            <Reveal>
+            <Reveal immediate>
               <PillBadge>FAQ</PillBadge>
               <h1 className="mt-5 text-4xl leading-[1.1] font-bold tracking-tight text-white sm:text-5xl">
                 Frequently Asked <span className="text-mint-200">Questions</span>

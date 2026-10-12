@@ -26,7 +26,7 @@ export default function BlogPage() {
         />
         <Container>
           <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.9fr_1fr]">
-            <Reveal>
+            <Reveal immediate>
               <PillBadge>Blog</PillBadge>
               {/* The break is explicit: the design sets "Insights, Trends," and
                   "and Best Practices" on their own lines, which natural wrapping

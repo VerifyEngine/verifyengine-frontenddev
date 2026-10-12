@@ -43,7 +43,7 @@ export default function CaseStudiesPage() {
           </div>
 
           <div className="relative mt-8 grid grid-cols-1 items-center gap-10 lg:grid-cols-[0.8fr_1fr]">
-            <Reveal>
+            <Reveal immediate>
               <PillBadge>Case Studies</PillBadge>
               <h1 className="mt-5 text-4xl leading-[1.1] font-bold tracking-tight text-white sm:text-5xl">
                 Real Results. <span className="text-mint-200">Proven Impact.</span>

@@ -21,12 +21,32 @@ export function Reveal({
   delay = 0,
   className = "",
   as = "div",
+  immediate = false,
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
   as?: "div" | "span";
+  /**
+   * For the hero block that holds the page's <h1>. The same rise and fade,
+   * but run by CSS from the first paint instead of waiting for JavaScript to
+   * load and hydrate — on a phone that wait held the headline invisible for
+   * about three seconds and was most of the page's Largest Contentful Paint.
+   */
+  immediate?: boolean;
 }) {
+  if (immediate) {
+    const Tag = as;
+    return (
+      <Tag
+        className={`ve-reveal-immediate ${className}`}
+        style={delay ? { animationDelay: `${delay}s` } : undefined}
+      >
+        {children}
+      </Tag>
+    );
+  }
+
   const MotionTag = as === "span" ? motion.span : motion.div;
   return (
     <MotionTag

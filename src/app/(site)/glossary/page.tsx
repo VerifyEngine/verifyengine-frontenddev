@@ -25,7 +25,7 @@ export default function GlossaryPage() {
         />
         <Container>
           <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.9fr_1fr]">
-            <Reveal>
+            <Reveal immediate>
               <PillBadge>Glossary</PillBadge>
               <h1 className="mt-5 text-4xl leading-[1.1] font-bold tracking-tight text-white sm:text-5xl">
                 Clear Terms. <span className="text-mint-200">Confident Decisions.</span>

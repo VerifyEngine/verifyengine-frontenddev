@@ -45,7 +45,7 @@ export function SplitFormHero({
           columns apart.
         */}
         <div className="relative mx-auto grid max-w-[1400px] grid-cols-1 items-start gap-12 lg:grid-cols-[1fr_0.72fr] lg:gap-16">
-          <Reveal className="lg:pt-6">
+          <Reveal immediate className="lg:pt-6">
             <PillBadge>{badge}</PillBadge>
             <h1 className="mt-5 text-4xl leading-[1.1] font-bold tracking-tight text-white sm:text-5xl">
               {title}
