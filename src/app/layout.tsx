@@ -44,6 +44,17 @@ export const metadata: Metadata = {
   },
   description:
     "Verify Engine is the AI-powered verification platform transforming landlord verification while powering verification workflows across multiple industries.",
+  // No title or description here: Next fills both from each page's own, so a
+  // shared /pricing link previews as Pricing, not as the home page. The image
+  // comes from opengraph-image.tsx next to this file.
+  openGraph: {
+    type: "website",
+    siteName: "Verify Engine",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
