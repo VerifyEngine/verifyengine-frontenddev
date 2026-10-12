@@ -91,7 +91,7 @@ export const siteMapColumns: SiteMapColumn[] = [
     title: "Legal",
     links: [
       { label: "Privacy Policy", href: "/legal/privacy" },
-      { label: "Terms of Use", href: "/legal/terms" },
+      { label: "Terms of Service", href: "/legal/terms" },
       { label: "Security", href: "/legal/security" },
       { label: "Accessibility", href: "/legal/accessibility" },
       { label: "Sitemap", href: "/sitemap" },
