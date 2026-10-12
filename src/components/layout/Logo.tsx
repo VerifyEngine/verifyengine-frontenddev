@@ -32,8 +32,11 @@ export function Logo({ className = "" }: { className?: string }) {
       <Image
         src="/images/verifyengine-wordmark-dark.png"
         alt="Verify Engine"
-        width={684}
-        height={128}
+        // The rendered size (h-8 at most, so 171 × 32), not the source's
+        // 684 × 128: Next builds the 1x/2x candidates from these, and the
+        // source size made phones download a 1920px-wide logo.
+        width={171}
+        height={32}
         priority
         className="h-7 w-auto sm:h-8"
       />
