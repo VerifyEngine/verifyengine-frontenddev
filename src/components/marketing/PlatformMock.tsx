@@ -265,14 +265,17 @@ export function MockCheck({
   caption,
   value,
   className = "",
+  as: Tag = "li",
 }: {
   label: string;
   caption?: string;
   value?: string;
   className?: string;
+  /** "div" when the caller already wraps the row in its own <li>. */
+  as?: "li" | "div";
 }) {
   return (
-    <li className={`flex items-center gap-2.5 ${className}`}>
+    <Tag className={`flex items-center gap-2.5 ${className}`}>
       <MockTick />
       <span className="min-w-px flex-1">
         <span className="block text-label-2xs text-app-text">{label}</span>
@@ -285,7 +288,7 @@ export function MockCheck({
       {value ? (
         <span className="shrink-0 text-body-2xs text-app-success">{value}</span>
       ) : null}
-    </li>
+    </Tag>
   );
 }
 

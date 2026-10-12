@@ -226,9 +226,9 @@ export function WorkflowShowcase() {
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1.1fr_1fr]">
                 {/* workflow steps */}
                 <section className="flex flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px]">
-                  <h3 className="text-label-xs text-app-text-brand1">
+                  <p className="text-label-xs text-app-text-brand1">
                     Landlord Verification Workflow
-                  </h3>
+                  </p>
 
                   <div className="relative">
                     <div className="absolute top-1 bottom-1 left-[13px] w-px bg-app-line" />
@@ -293,7 +293,7 @@ export function WorkflowShowcase() {
                 {/* verification report */}
                 <section className="hidden flex-col gap-3 rounded-app-xl border-w-2xs border-app-line-brand2 bg-app-brand2-16 p-4 backdrop-blur-[12px] sm:flex">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="text-label-xs text-app-text-brand1">Verification Report</h3>
+                    <p className="text-label-xs text-app-text-brand1">Verification Report</p>
                     <motion.span
                       key={delivered ? "verified" : "progress"}
                       initial={{ opacity: 0, y: -4 }}

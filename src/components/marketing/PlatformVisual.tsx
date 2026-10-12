@@ -59,17 +59,19 @@ function Region({
   target,
   active,
   className = "",
+  as: Tag = "div",
   children,
 }: {
   target: PlatformTarget;
   active: PlatformTarget | null;
   className?: string;
+  as?: "div" | "li";
   children: ReactNode;
 }) {
   const engaged = active === target;
   const dimmed = active !== null && !engaged;
   return (
-    <div
+    <Tag
       data-platform-target={target}
       className={`relative transition-all duration-200 motion-reduce:transition-none ${
         engaged
@@ -78,7 +80,7 @@ function Region({
       } ${dimmed ? "opacity-60 lg:opacity-40" : "opacity-100"} ${className}`}
     >
       {children}
-    </div>
+    </Tag>
   );
 }
 
@@ -146,21 +148,22 @@ export function PlatformVisual({
                         key={check.label}
                         target={check.target}
                         active={active}
+                        as="li"
                         className="-mx-1.5 rounded-app-m px-1.5 py-0.5"
                       >
-                        <MockCheck label={check.label} />
+                        <MockCheck as="div" label={check.label} />
                       </Region>
                     ) : (
                       /* The same box as an engaged row minus the ring, so
                          every check in the list keeps one left edge: the
                          padding a highlight needs is pulled back out by the
                          negative margin either way. */
-                      <div
+                      <li
                         key={check.label}
                         className={`-mx-1.5 px-1.5 py-0.5 ${faded(active)}`}
                       >
-                        <MockCheck label={check.label} />
-                      </div>
+                        <MockCheck as="div" label={check.label} />
+                      </li>
                     ),
                   )}
                 </ul>
