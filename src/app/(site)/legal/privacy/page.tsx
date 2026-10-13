@@ -105,8 +105,16 @@ const sections: LegalSection[] = [
   {
     heading: "SMS Messaging and Mobile Communications",
     content: [
-      { subheading: "A. Scope of SMS Communications" },
-      "Verify Engine LLC may send non-marketing, verification-related SMS messages to employers, landlords, property managers, and other verification contacts who have expressly opted in. Messages may include secure verification links, reminders, and coordination notices. These operational communications may occur outside the public Website; this section applies to the SMS program even where separate platform agreements govern the underlying verification services.",
+      // A as the client sent it on 2026-10-13 for the SMS campaign; B–G are
+      // kept, as their message asked.
+      { subheading: "A. SMS Communications" },
+      "Verify Engine LLC operates a non-marketing SMS messaging program supporting rental history, employment, and income verification services.",
+      "SMS communications may be sent to landlords, property managers, employers, payroll representatives, and other authorized verification contacts who have expressly consented to receive text messages.",
+      "Messages may include verification requests, verification coordination, follow-up reminders, and service-related notifications.",
+      "Verify Engine obtains and documents appropriate SMS consent before sending messages. Message frequency varies, up to 25 SMS messages per verification request. Message and data rates may apply.",
+      "Recipients may reply STOP to unsubscribe or HELP for assistance.",
+      "We do not sell or share your SMS opt-in data or personal information with third parties for marketing purposes.",
+      "Additional information about our SMS practices is available in our Terms of Service at https://verifyengine.ai/legal/terms.",
       { subheading: "B. Consent and Message Frequency" },
       "Before sending program SMS messages, Verify Engine obtains and documents the recipient’s affirmative consent through an appropriate opt-in method, including verbal consent during a verification call. An applicant’s authorization for screening, a client’s provision of a third party’s telephone number, or consent to receive AI-generated calls does not, by itself, constitute SMS consent by that third party. Message frequency varies by verification request; recipients may receive up to 25 messages per verification request. Message and data rates may apply.",
       { subheading: "C. SMS Information Collected and Uses" },
