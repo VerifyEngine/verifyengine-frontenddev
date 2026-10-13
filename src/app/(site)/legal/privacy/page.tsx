@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "How Verify Engine collects, uses, discloses, and protects personal information collected through its public website.",
 };
 
-// Text from the client's "VE_Privacy Policy_Website" document. Its bracketed
+// Text from the client's "Verify_Engine_Privacy_Policy_Updated_SMS" document. Its bracketed
 // drafting notes ("Before publication, confirm…") are instructions to the
 // client, not policy text, and are left out.
 const sections: LegalSection[] = [
@@ -100,6 +100,31 @@ const sections: LegalSection[] = [
       "Where applicable, we will provide required disclosures and obtain legally required consent for automated calls, recordings, and transcription.",
       "We may use authorized service providers to support these technologies, subject to applicable contractual and privacy requirements.",
       "We will not use Website demonstration information to train general-purpose AI models without an appropriate lawful basis and required authorization.",
+    ],
+  },
+  {
+    heading: "SMS Messaging and Mobile Communications",
+    content: [
+      { subheading: "A. Scope of SMS Communications" },
+      "Verify Engine LLC may send non-marketing, verification-related SMS messages to employers, landlords, property managers, and other verification contacts who have expressly opted in. Messages may include secure verification links, reminders, and coordination notices. These operational communications may occur outside the public Website; this section applies to the SMS program even where separate platform agreements govern the underlying verification services.",
+      { subheading: "B. Consent and Message Frequency" },
+      "Before sending program SMS messages, Verify Engine obtains and documents the recipient’s affirmative consent through an appropriate opt-in method, including verbal consent during a verification call. An applicant’s authorization for screening, a client’s provision of a third party’s telephone number, or consent to receive AI-generated calls does not, by itself, constitute SMS consent by that third party. Message frequency varies by verification request; recipients may receive up to 25 messages per verification request. Message and data rates may apply.",
+      { subheading: "C. SMS Information Collected and Uses" },
+      "We may process mobile telephone numbers, consent and opt-out records, consent timestamps and script versions, message content, delivery status, support requests, and associated verification request identifiers. We use this information to deliver requested messages, document consent, manage preferences, respond to support requests, maintain security, and comply with applicable obligations.",
+      { subheading: "D. Mobile Information Sharing" },
+      "Verify Engine LLC respects the privacy of individuals participating in our SMS messaging program.",
+      {
+        term: "We do not sell or share your SMS opt-in data or personal information with third parties for marketing purposes.",
+        text: "",
+      },
+      "We do not sell, rent, or share mobile telephone numbers or SMS consent information with third parties or affiliates for their own marketing or promotional purposes.",
+      "Authorized service providers, including messaging and infrastructure providers, may process information solely to deliver and support Verify Engine’s SMS services, subject to appropriate confidentiality, security, and contractual protections.",
+      { subheading: "E. Opt-Out and Help" },
+      "Recipients can reply STOP to opt out of the applicable SMS program and HELP for assistance, or contact support@verifyengine.ai. After an opt-out, we may send one confirmation message and will not send further program messages unless the recipient subsequently provides valid consent. SMS consent is voluntary; alternative verification channels may be available.",
+      { subheading: "F. SMS Security and Sensitive Information" },
+      "We seek to avoid transmitting Social Security numbers, financial account credentials, confidential consumer reports, or other sensitive verification records in ordinary SMS. Where appropriate, messages direct recipients to secure verification channels. SMS delivery may involve wireless carriers and service providers.",
+      { subheading: "G. Related Terms" },
+      "For program terms, see https://verifyengine.ai/legal/terms. For SMS support, contact support@verifyengine.ai.",
     ],
   },
   {

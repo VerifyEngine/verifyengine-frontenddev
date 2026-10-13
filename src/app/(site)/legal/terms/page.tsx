@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "The terms governing your access to and use of the Verify Engine website, including its content, demonstrations, and contact forms.",
 };
 
-// Text from the client's "VE_Terms of Service_Website" document.
+// Text from the client's "Verify_Engine_Terms_of_Service_Updated_SMS" document.
 const sections: LegalSection[] = [
   {
     heading: "Purpose of the Website",
@@ -64,6 +64,25 @@ const sections: LegalSection[] = [
       "Where required by applicable law, Verify Engine will obtain appropriate consent before initiating automated or AI-generated calls, recording conversations, or processing call transcripts.",
       "A request for a product demonstration does not automatically constitute consent to receive unrelated telemarketing calls or text messages.",
       "Any optional marketing communications will be subject to applicable consent requirements and opt-out rights.",
+    ],
+  },
+  {
+    heading: "SMS Messaging Terms and Conditions",
+    content: [
+      { subheading: "A. Program Name and Description" },
+      "Verify Engine Verification Notifications is a non-marketing SMS program for employers, landlords, property managers, and other authorized verification contacts who have expressly opted in. Messages may include secure verification links, verification reminders, and related coordination notices. This section governs these SMS communications even when the underlying verification services are subject to separate customer agreements.",
+      { subheading: "B. Consent" },
+      "By expressly opting in, you agree to receive verification-related text messages from Verify Engine LLC at the mobile number for which you provided consent. Consent may be obtained verbally during a call or by another documented opt-in method. Consent to receive SMS is voluntary and is not a condition of purchasing services. Consent to screening or to AI calls alone does not establish consent to SMS.",
+      { subheading: "C. Message Frequency and Charges" },
+      "Message frequency varies by verification request, up to 25 messages per verification request. Message and data rates may apply according to your wireless carrier and plan.",
+      { subheading: "D. Opt-Out" },
+      "Reply STOP to any program text to opt out. You may receive one final opt-out confirmation message. No further program texts will be sent unless you provide valid new consent.",
+      { subheading: "E. Help and Support" },
+      "Reply HELP for assistance or email support@verifyengine.ai. Verify Engine LLC, 2872 Ygnacio Valley Road #173, Walnut Creek, CA 94598.",
+      { subheading: "F. Delivery and Privacy" },
+      "Carriers are not liable for delayed or undelivered messages. Message delivery is not guaranteed. We do not sell or share mobile numbers or SMS opt-in or consent information with third parties or affiliates for their own marketing or promotional purposes. Our Privacy Policy is available at https://verifyengine.ai/legal/privacy.",
+      { subheading: "G. Program Changes" },
+      "We may modify or discontinue the program in accordance with applicable law. Where changes require renewed consent, we will obtain it before sending affected messages.",
     ],
   },
   {
